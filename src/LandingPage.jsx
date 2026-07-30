@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import {
@@ -26,10 +26,22 @@ import trailerImg from "./assets/trailer-rain.png";
 import driverPortraitImg from "./assets/driver-portrait.png";
 import review1Img from "./assets/review 1.png";
 import review2Img from "./assets/review 2.png";
+import routeVideo from "./assets/route-drone.mp4";
 
 const LandingPage = () => {
   const navigate = useNavigate();
   const reduceMotion = useReducedMotion();
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      if (reduceMotion) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play().catch(() => {});
+      }
+    }
+  }, [reduceMotion]);
 
   const fadeUpContainer = {
     hidden: {},
@@ -464,12 +476,31 @@ const LandingPage = () => {
 
             <motion.div
               variants={fadeUpItem}
-              style={{ position: "relative", width: "180px", margin: "20px 0 22px" }}
+              style={{
+                width: "100%",
+                maxWidth: "480px",
+                margin: "20px 0 22px",
+                borderRadius: "12px",
+                overflow: "hidden",
+                boxShadow: "0 6px 20px rgba(15,41,87,.14)",
+                border: "1px solid rgba(20,184,166,0.3)"
+              }}
             >
-              <div className="route-line" />
-              <span className="route-line-marker">
-                <Truck size={18} />
-              </span>
+              <video
+                ref={videoRef}
+                src={routeVideo}
+                poster={fleetImg}
+                autoPlay={!reduceMotion}
+                muted
+                loop
+                playsInline
+                style={{
+                  width: "100%",
+                  height: "52px",
+                  objectFit: "cover",
+                  display: "block"
+                }}
+              />
             </motion.div>
 
             <motion.p
