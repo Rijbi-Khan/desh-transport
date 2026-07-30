@@ -445,14 +445,14 @@ const LandingPage = () => {
         </div>
       </header>
 
-      {/* HERO SECTION - STACKED LAYOUT (Banner Image Placed UNDERNEATH) */}
+      {/* HERO SECTION - STACKED LAYOUT */}
       <motion.section
         variants={fadeUpContainer}
         initial="hidden"
         animate="show"
         className="hero-section"
         style={{
-          padding: "40px 24px 70px",
+          padding: "32px 20px 45px",
           display: "flex",
           justifyContent: "center",
           background: "linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(241,245,249,0.6) 100%)",
@@ -465,7 +465,7 @@ const LandingPage = () => {
             width: "100%",
             display: "flex",
             flexDirection: "column",
-            gap: "40px",
+            gap: "28px",
             alignItems: "center"
           }}
         >
@@ -665,10 +665,8 @@ const LandingPage = () => {
         </div>
       </motion.section>
 
-      <div style={{ height: "45px" }} />
-
       {/* TRUST BAR */}
-      <section style={{ background: "#0f2957", padding: "32px 20px" }}>
+      <section style={{ background: "#0f2957", padding: "22px 20px" }}>
         <div
           className="trust-grid"
           style={{
@@ -721,13 +719,13 @@ const LandingPage = () => {
       </section>
 
       {/* VALUE PROPOSITIONS */}
-      <section style={{ padding: "60px 20px 40px", maxWidth: "1100px", margin: "0 auto" }}>
+      <section style={{ padding: "36px 20px 20px", maxWidth: "1100px", margin: "0 auto" }}>
         <div
           className="cards-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: "24px"
+            gap: "20px"
           }}
         >
           {valueProps.map((prop) => {
@@ -738,30 +736,30 @@ const LandingPage = () => {
                 className="card-animate"
                 style={{
                   background: "white",
-                  padding: "32px 28px",
-                  borderRadius: "20px",
+                  padding: "24px 22px",
+                  borderRadius: "18px",
                   boxShadow: "0 10px 30px rgba(15,41,87,.08)",
                   border: "1px solid #f1f5f9"
                 }}
               >
                 <div
                   style={{
-                    width: "52px",
-                    height: "52px",
-                    borderRadius: "14px",
+                    width: "48px",
+                    height: "48px",
+                    borderRadius: "12px",
                     background: "#e0f2fe",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    marginBottom: "18px"
+                    marginBottom: "14px"
                   }}
                 >
-                  <Icon size={26} color="#0f2957" />
+                  <Icon size={24} color="#0f2957" />
                 </div>
-                <h3 style={{ margin: "0 0 10px", color: "#0f2957", fontSize: "19px" }}>
+                <h3 style={{ margin: "0 0 8px", color: "#0f2957", fontSize: "18px" }}>
                   {prop.title}
                 </h3>
-                <p style={{ margin: 0, color: "#64748b", lineHeight: "1.7", fontSize: "15px" }}>
+                <p style={{ margin: 0, color: "#64748b", lineHeight: "1.65", fontSize: "14px" }}>
                   {prop.desc}
                 </p>
               </div>
@@ -771,24 +769,24 @@ const LandingPage = () => {
       </section>
 
       {/* VEHICLE SERVICES - SWIPE CAROUSEL */}
-      <section style={{ padding: "50px 20px 60px", maxWidth: "1160px", margin: "0 auto" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "30px", flexWrap: "wrap", gap: "16px" }}>
+      <section style={{ padding: "36px 20px 30px", maxWidth: "1160px", margin: "0 auto" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "20px", flexWrap: "wrap", gap: "14px" }}>
           <div>
-            <h2 style={{ color: "#0f2957", fontSize: "30px", margin: "0 0 8px" }}>
+            <h2 style={{ color: "#0f2957", fontSize: "28px", margin: "0 0 6px" }}>
               আমাদের যানবাহনের ধরণ সমূহ
             </h2>
-            <p style={{ color: "#64748b", margin: 0, fontSize: "15px" }}>
+            <p style={{ color: "#64748b", margin: 0, fontSize: "14.5px" }}>
               আপনার মালামালের সুরক্ষায় আমাদের সুসজ্জিত ও আধুনিক যানবাহনের বহর (পাশে সোয়াইপ করুন ➔)
             </p>
           </div>
 
           {/* Slider Arrow Controls */}
-          <div style={{ display: "flex", gap: "10px" }}>
+          <div style={{ display: "flex", gap: "8px" }}>
             <button
               onClick={() => scrollLeft(vehicleScrollRef)}
               style={{
-                width: "42px",
-                height: "42px",
+                width: "38px",
+                height: "38px",
                 borderRadius: "50%",
                 border: "1px solid #cbd5e1",
                 background: "white",
@@ -802,13 +800,13 @@ const LandingPage = () => {
               }}
               aria-label="Scroll Left"
             >
-              <ChevronLeft size={22} />
+              <ChevronLeft size={20} />
             </button>
             <button
               onClick={() => scrollRight(vehicleScrollRef)}
               style={{
-                width: "42px",
-                height: "42px",
+                width: "38px",
+                height: "38px",
                 borderRadius: "50%",
                 border: "none",
                 background: "#0f2957",
@@ -822,7 +820,7 @@ const LandingPage = () => {
               }}
               aria-label="Scroll Right"
             >
-              <ChevronRight size={22} />
+              <ChevronRight size={20} />
             </button>
           </div>
         </div>
@@ -870,9 +868,9 @@ const LandingPage = () => {
       </section>
 
       {/* HOW IT WORKS */}
-      <section style={{ background: "white", padding: "65px 20px" }}>
+      <section style={{ background: "white", padding: "40px 20px" }}>
         <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-          <h2 style={{ textAlign: "center", color: "#0f2957", fontSize: "30px", margin: "0 0 45px" }}>
+          <h2 style={{ textAlign: "center", color: "#0f2957", fontSize: "28px", margin: "0 0 28px" }}>
             কীভাবে কাজ করে
           </h2>
           <div
@@ -880,7 +878,7 @@ const LandingPage = () => {
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-              gap: "30px"
+              gap: "24px"
             }}
           >
             {steps.map((step) => (
@@ -891,13 +889,13 @@ const LandingPage = () => {
                     fontFamily: "'Inter', sans-serif",
                     fontWeight: "800",
                     fontSize: "16px",
-                    marginBottom: "10px"
+                    marginBottom: "8px"
                   }}
                 >
                   {step.number}
                 </div>
-                <h3 style={{ color: "#0f2957", margin: "0 0 10px", fontSize: "20px" }}>{step.title}</h3>
-                <p style={{ color: "#64748b", margin: 0, lineHeight: "1.7", fontSize: "14px" }}>{step.desc}</p>
+                <h3 style={{ color: "#0f2957", margin: "0 0 8px", fontSize: "19px" }}>{step.title}</h3>
+                <p style={{ color: "#64748b", margin: 0, lineHeight: "1.65", fontSize: "14px" }}>{step.desc}</p>
               </div>
             ))}
           </div>
@@ -905,24 +903,24 @@ const LandingPage = () => {
       </section>
 
       {/* DRIVER REVIEWS - SWIPE CAROUSEL */}
-      <section style={{ padding: "65px 20px 75px", maxWidth: "1160px", margin: "0 auto" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "35px", flexWrap: "wrap", gap: "16px" }}>
+      <section style={{ padding: "40px 20px 45px", maxWidth: "1160px", margin: "0 auto" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "24px", flexWrap: "wrap", gap: "14px" }}>
           <div>
-            <h2 style={{ color: "#0f2957", fontSize: "32px", margin: "0 0 8px" }}>
+            <h2 style={{ color: "#0f2957", fontSize: "28px", margin: "0 0 6px" }}>
               আমাদের চালকদের মতামত
             </h2>
-            <p style={{ color: "#64748b", fontSize: "16px", margin: 0 }}>
+            <p style={{ color: "#64748b", fontSize: "15px", margin: 0 }}>
               অভিজ্ঞ চালকদের বাস্তব অভিজ্ঞতা ও দেশ ট্রান্সপোর্টের প্রতি তাদের আস্থা (পাশে সোয়াইপ করুন ➔)
             </p>
           </div>
 
           {/* Slider Arrow Controls */}
-          <div style={{ display: "flex", gap: "10px" }}>
+          <div style={{ display: "flex", gap: "8px" }}>
             <button
               onClick={() => scrollLeft(reviewScrollRef)}
               style={{
-                width: "42px",
-                height: "42px",
+                width: "38px",
+                height: "38px",
                 borderRadius: "50%",
                 border: "1px solid #cbd5e1",
                 background: "white",
@@ -936,13 +934,13 @@ const LandingPage = () => {
               }}
               aria-label="Scroll Left"
             >
-              <ChevronLeft size={22} />
+              <ChevronLeft size={20} />
             </button>
             <button
               onClick={() => scrollRight(reviewScrollRef)}
               style={{
-                width: "42px",
-                height: "42px",
+                width: "38px",
+                height: "38px",
                 borderRadius: "50%",
                 border: "none",
                 background: "#0f2957",
@@ -956,7 +954,7 @@ const LandingPage = () => {
               }}
               aria-label="Scroll Right"
             >
-              <ChevronRight size={22} />
+              <ChevronRight size={20} />
             </button>
           </div>
         </div>
@@ -1060,20 +1058,20 @@ const LandingPage = () => {
       </section>
 
       {/* CTA BANNER */}
-      <section style={{ padding: "0 20px 70px" }}>
+      <section style={{ padding: "0 20px 45px" }}>
         <div
           style={{
             maxWidth: "1100px",
             margin: "0 auto",
             background: "linear-gradient(135deg, #0f2957 0%, #1e3a8a 100%)",
-            borderRadius: "24px",
-            padding: "45px 35px",
+            borderRadius: "20px",
+            padding: "32px 24px",
             display: "flex",
             flexWrap: "wrap",
             justifyContent: "space-between",
             alignItems: "center",
-            gap: "24px",
-            boxShadow: "0 20px 45px rgba(15,41,87,.22)"
+            gap: "20px",
+            boxShadow: "0 18px 40px rgba(15,41,87,.2)"
           }}
         >
           <div>
