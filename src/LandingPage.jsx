@@ -301,8 +301,12 @@ const LandingPage = () => {
           .nav-btn-compact { padding: 8px 10px !important; font-size: 13px !important; }
           .hero-section { padding: 24px 16px 45px !important; }
           .hero-title { font-size: 24px !important; }
-          .hero-cta-group { flex-direction: column !important; width: 100% !important; }
-          .hero-cta-group a, .hero-cta-group button { width: 100% !important; justify-content: center !important; }
+          .hero-cta-group { display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap; }
+          .hero-cta-subgroup { display: flex; gap: 12px; }
+          .hero-cta-group { flex-direction: column !important; width: 100% !important; gap: 10px !important; }
+          .cta-btn-main { width: 100% !important; justify-content: center !important; padding: 0.85rem 1rem !important; }
+          .hero-cta-subgroup { width: 100% !important; display: flex !important; gap: 10px !important; }
+          .cta-btn-sub { flex: 1 1 calc(50% - 5px) !important; width: 50% !important; justify-content: center !important; padding: 0.85rem 0.5rem !important; font-size: 0.88rem !important; white-space: nowrap !important; }
           .stat-badges-strip { bottom: -18px !important; padding: 10px 12px !important; }
           .stat-badge-val { font-size: 16px !important; }
           .stat-badge-lbl { font-size: 11px !important; }
@@ -556,30 +560,35 @@ const LandingPage = () => {
             <motion.div
               variants={fadeUpItem}
               className="hero-cta-group"
-              style={{ display: "flex", gap: "14px", justifyContent: "center", flexWrap: "wrap" }}
+              style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap", width: "100%" }}
             >
               <button
                 onClick={() => navigate("/trips")}
+                className="cta-btn-main"
                 style={{ ...buttonStyle, background: "#0f2957", color: "white" }}
               >
-                <Truck size={18} /> লাইভ ট্রিপস ড্যাশবোর্ড
+                <Truck size={18} /> <span>লাইভ ট্রিপস ড্যাশবোর্ড</span>
               </button>
 
-              <a
-                href="tel:01719228840"
-                style={{ ...buttonStyle, background: "#ef4444", color: "white" }}
-              >
-                <Phone size={18} /> সরাসরি কল করুন
-              </a>
+              <div className="hero-cta-subgroup">
+                <a
+                  href="tel:01719228840"
+                  className="cta-btn-sub"
+                  style={{ ...buttonStyle, background: "#ef4444", color: "white" }}
+                >
+                  <Phone size={18} /> <span>সরাসরি কল</span>
+                </a>
 
-              <a
-                href={whatsappHref}
-                target="_blank"
-                rel="noreferrer"
-                style={{ ...buttonStyle, background: "#25d366", color: "white" }}
-              >
-                <MessageCircle size={18} /> WhatsApp করুন
-              </a>
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="cta-btn-sub"
+                  style={{ ...buttonStyle, background: "#25d366", color: "white" }}
+                >
+                  <MessageCircle size={18} /> <span>WhatsApp</span>
+                </a>
+              </div>
             </motion.div>
           </div>
 
