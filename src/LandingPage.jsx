@@ -24,6 +24,8 @@ import fleetImg from "./assets/fleet-highway.png";
 import openTruckImg from "./assets/open-truck-loading.png";
 import trailerImg from "./assets/trailer-rain.png";
 import driverPortraitImg from "./assets/driver-portrait.png";
+import review1Img from "./assets/review 1.png";
+import review2Img from "./assets/review 2.png";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -128,14 +130,14 @@ const LandingPage = () => {
       name: "আলমগীর হোসেন",
       role: "খোলা ট্রাক চালক",
       text: "ভাড়া নির্ধারিত থাকে এবং সময়মতো পেমেন্ট পাওয়া যায়। মালামালও অত্যন্ত নিরাপদে গন্তব্যে পৌঁছায়।",
-      photo: openTruckImg,
+      photo: review1Img,
       rating: 5
     },
     {
       name: "সাজ্জাদ আলী",
       role: "ট্রেইলার চালক",
       text: "বড় কোম্পানির ভালো ট্রিপ পাওয়া এখন অনেক সহজ হয়েছে। দেশ ট্রান্সপোর্টের সাপোর্ট টিম ২৪/৭ পাশে থাকে।",
-      photo: trailerImg,
+      photo: review2Img,
       rating: 5
     }
   ];
