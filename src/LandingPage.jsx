@@ -438,54 +438,22 @@ const LandingPage = () => {
             alignItems: "center"
           }}
         >
-          {/* Left Column: Text & Call to Action */}
+          {/* Left Column: Large Video Hero Card with Text Overlay & Call to Action */}
           <div>
-            <motion.p
-              variants={fadeUpItem}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "8px",
-                color: "#0f6e56",
-                background: "#e1f5ee",
-                padding: "6px 14px",
-                borderRadius: "999px",
-                fontWeight: "700",
-                fontSize: "13px",
-                margin: "0 0 18px"
-              }}
-            >
-              <span className="live-pulse" /> লাইভ ট্রিপ ট্র্যাকিং চালু আছে
-            </motion.p>
-
-            <motion.h1
-              variants={fadeUpItem}
-              className="hero-title"
-              style={{
-                color: "#0f2957",
-                fontSize: "clamp(26px, 4vw, 42px)",
-                lineHeight: "1.25",
-                fontWeight: "700",
-                margin: 0
-              }}
-            >
-              দেশ ট্রান্সপোর্ট থাকলে পরিবহন নিয়ে
-              <br />
-              আর কোনো দুশ্চিন্তা নেই!
-            </motion.h1>
-
             <motion.div
               variants={fadeUpItem}
               style={{
+                position: "relative",
                 width: "100%",
-                maxWidth: "480px",
-                margin: "20px 0 22px",
-                borderRadius: "12px",
+                minHeight: "220px",
+                borderRadius: "20px",
                 overflow: "hidden",
-                boxShadow: "0 6px 20px rgba(15,41,87,.14)",
+                boxShadow: "0 16px 36px rgba(15,41,87,.2)",
+                margin: "0 0 24px",
                 border: "1px solid rgba(20,184,166,0.3)"
               }}
             >
+              {/* Looped Background Drone Video */}
               <video
                 ref={videoRef}
                 src={routeVideo}
@@ -496,11 +464,72 @@ const LandingPage = () => {
                 playsInline
                 style={{
                   width: "100%",
-                  height: "52px",
+                  height: "100%",
                   objectFit: "cover",
-                  display: "block"
+                  position: "absolute",
+                  inset: 0
                 }}
               />
+
+              {/* Dark Gradient Overlay for Crisp Text Contrast */}
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background:
+                    "linear-gradient(135deg, rgba(15,30,66,0.92) 0%, rgba(15,30,66,0.72) 60%, rgba(15,30,66,0.35) 100%)"
+                }}
+              />
+
+              {/* Text Content Directly Overlaid ON TOP OF THE VIDEO */}
+              <div
+                style={{
+                  position: "relative",
+                  zIndex: 2,
+                  padding: "24px 22px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  height: "100%",
+                  minHeight: "220px"
+                }}
+              >
+                <div style={{ marginBottom: "12px" }}>
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      color: "#2dd4bf",
+                      background: "rgba(20, 184, 166, 0.22)",
+                      backdropFilter: "blur(6px)",
+                      border: "1px solid rgba(20, 184, 166, 0.4)",
+                      padding: "5px 12px",
+                      borderRadius: "999px",
+                      fontWeight: "700",
+                      fontSize: "12px"
+                    }}
+                  >
+                    <span className="live-pulse" /> লাইভ ট্রিপ ট্র্যাকিং চালু আছে
+                  </span>
+                </div>
+
+                <h1
+                  className="hero-title"
+                  style={{
+                    color: "#ffffff",
+                    fontSize: "clamp(22px, 3.2vw, 36px)",
+                    lineHeight: "1.3",
+                    fontWeight: "700",
+                    margin: 0,
+                    textShadow: "0 2px 12px rgba(0,0,0,0.6)"
+                  }}
+                >
+                  দেশ ট্রান্সপোর্ট থাকলে পরিবহন নিয়ে
+                  <br />
+                  আর কোনো দুশ্চিন্তা নেই!
+                </h1>
+              </div>
             </motion.div>
 
             <motion.p
@@ -704,65 +733,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* LIVE TRACKING DEMO PREVIEW */}
-      <section style={{ padding: "20px 20px 60px", maxWidth: "1100px", margin: "0 auto" }}>
-        <div
-          className="card-animate"
-          style={{
-            background: "linear-gradient(135deg, #0f2957 0%, #1e3a8a 100%)",
-            borderRadius: "24px",
-            padding: "36px",
-            color: "white",
-            boxShadow: "0 20px 40px rgba(15,41,87,.25)"
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
-            <Radio size={20} color="#14b8a6" className="live-pulse" />
-            <span style={{ color: "#14b8a6", fontWeight: "700", fontSize: "14px", letterSpacing: "0.5px" }}>
-              লাইভ ট্রিপ ট্র্যাকিং ডেমো
-            </span>
-          </div>
 
-          <h3 style={{ margin: "0 0 8px", fontSize: "24px", color: "white" }}>
-            ট্রিপ নম্বর: #DT-2026-8941
-          </h3>
-          <p style={{ margin: "0 0 24px", color: "#cbd5e1" }}>
-            নরসিংদী (ঘোড়াশাল) ➔ ঢাকা (তেজগাঁও) — কভার্ড ভ্যান (১৫ টন)
-          </p>
-
-          {/* Simulated progress bar */}
-          <div style={{ background: "rgba(255,255,255,.15)", borderRadius: "999px", height: "10px", overflow: "hidden", marginBottom: "20px" }}>
-            <div
-              className="tracking-progress-fill"
-              style={{
-                height: "100%",
-                background: "linear-gradient(90deg, #14b8a6, #2dd4bf)",
-                borderRadius: "999px"
-              }}
-            />
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              fontSize: "14px",
-              color: "#e2e8f0",
-              flexWrap: "wrap",
-              gap: "12px"
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <MapPin size={16} color="#14b8a6" />
-              <span>বর্তমান অবস্থান: <strong>কাঁচপুর ব্রিজ সংলগ্ন</strong></span>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <Clock size={16} color="#14b8a6" />
-              <span>আনুমানিক পৌঁছানোর সময়: <strong>৪০ মিনিট</strong></span>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* VEHICLE SERVICES */}
       <section style={{ padding: "50px 20px 60px", maxWidth: "1100px", margin: "0 auto" }}>
