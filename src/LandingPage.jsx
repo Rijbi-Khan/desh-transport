@@ -313,7 +313,28 @@ const LandingPage = () => {
           .trust-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 14px !important; }
           .slider-item-vehicle { flex: 0 0 86% !important; }
           .slider-item-review { flex: 0 0 88% !important; height: 340px !important; }
-          .footer-flex { flex-direction: column !important; gap: 24px !important; text-align: left !important; }
+          .footer-container { padding: 28px 18px 20px !important; }
+          .footer-grid-top { grid-template-columns: 1fr !important; gap: 18px !important; text-align: left !important; }
+          .footer-subgrid-mobile { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 14px !important; }
+        }
+
+        .footer-container {
+          background: #0f2957;
+          color: #cbd5e1;
+          padding: 45px 25px 25px;
+          width: 100%;
+        }
+
+        .footer-grid-top {
+          max-width: 1100px;
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: 1.2fr 1fr 1fr;
+          gap: 36px;
+        }
+
+        .footer-subgrid-mobile {
+          display: contents;
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -1084,61 +1105,84 @@ const LandingPage = () => {
       </section>
 
       {/* FOOTER */}
-      <footer
-        style={{
-          background: "#0f2957",
-          color: "#cbd5e1",
-          padding: "55px 25px 25px"
-        }}
-      >
-        <div
-          className="footer-flex"
-          style={{
-            maxWidth: "1100px",
-            margin: "0 auto",
-            display: "flex",
-            justifyContent: "space-between",
-            gap: "40px",
-            flexWrap: "wrap"
-          }}
-        >
-          <div style={{ flex: "1 1 280px" }}>
-            <h2 style={{ color: "white", margin: "0 0 12px", fontSize: "20px" }}>
+      <footer className="footer-container">
+        <div className="footer-grid-top">
+          {/* Company Intro */}
+          <div>
+            <h2 style={{ color: "white", margin: "0 0 8px", fontSize: "19px", fontWeight: "700" }}>
               মেসার্স দেশ ট্রান্সপোর্ট এজেন্সি
             </h2>
-            <p style={{ lineHeight: "1.7", fontSize: "14px" }}>
+            <p style={{ lineHeight: "1.6", fontSize: "13.5px", color: "#cbd5e1", margin: 0 }}>
               নিরাপদ পরিবহন, আপনার বিশ্বাসের সঙ্গী। আমরা আধুনিক প্রযুক্তির মাধ্যমে সারাদেশে ট্রাক ও পিকআপ সার্ভিস দিয়ে থাকি।
             </p>
           </div>
 
-          <div style={{ flex: "1 1 220px" }}>
-            <h3 style={{ color: "white", margin: "0 0 12px", fontSize: "16px" }}>প্রধান কার্যালয়</h3>
-            <p style={{ fontSize: "14px", lineHeight: "1.7" }}>
-              প্রাণ-আর.এফ.এল. গ্রুপ ৪নং গেইট সংলগ্ন,<br />
-              বাগপাড়া, ঘোড়াশাল,<br />
-              পলাশ, নরসিংদী।
-            </p>
-          </div>
+          {/* Subgrid for Address & Hotline (Side by Side on Mobile!) */}
+          <div className="footer-subgrid-mobile">
+            {/* Address */}
+            <div>
+              <h3 style={{ color: "white", margin: "0 0 8px", fontSize: "15px", fontWeight: "600" }}>
+                📍 প্রধান কার্যালয়
+              </h3>
+              <p style={{ fontSize: "13px", lineHeight: "1.5", color: "#94a3b8", margin: 0 }}>
+                প্রাণ-আর.এফ.এল. গ্রুপ ৪নং গেইট সংলগ্ন,<br />
+                বাগপাড়া, ঘোড়াশাল,<br />
+                পলাশ, নরসিংদী।
+              </p>
+            </div>
 
-          <div style={{ flex: "1 1 200px" }}>
-            <h3 style={{ color: "white", margin: "0 0 12px", fontSize: "16px" }}>হটলাইন হেল্পলাইন</h3>
-            <h3 style={{ color: "#14b8a6", margin: "0 0 6px", fontSize: "20px" }}>01719-228840</h3>
-            <h3 style={{ color: "#14b8a6", margin: 0, fontSize: "20px" }}>01933-503060</h3>
+            {/* Hotline */}
+            <div>
+              <h3 style={{ color: "white", margin: "0 0 8px", fontSize: "15px", fontWeight: "600" }}>
+                📞 হটলাইন হেল্পলাইন
+              </h3>
+              <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                <a
+                  href="tel:01719228840"
+                  style={{
+                    color: "#2dd4bf",
+                    fontWeight: "700",
+                    fontSize: "15px",
+                    textDecoration: "none",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "5px"
+                  }}
+                >
+                  01719-228840
+                </a>
+                <a
+                  href="tel:01933503060"
+                  style={{
+                    color: "#2dd4bf",
+                    fontWeight: "700",
+                    fontSize: "15px",
+                    textDecoration: "none",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "5px"
+                  }}
+                >
+                  01933-503060
+                </a>
+              </div>
+            </div>
           </div>
         </div>
 
         <div
           style={{
+            maxWidth: "1100px",
+            margin: "24px auto 0",
             borderTop: "1px solid rgba(255,255,255,0.12)",
-            marginTop: "40px",
-            paddingTop: "20px",
+            paddingTop: "18px",
             textAlign: "center"
           }}
         >
-          <p style={{ fontSize: "14px", margin: "0 0 8px" }}>
+          <p style={{ fontSize: "13px", margin: "0 0 6px", color: "#94a3b8" }}>
             © {new Date().getFullYear()} দেশ ট্রান্সপোর্ট এজেন্সি. সর্বস্বত্ব সংরক্ষিত।
           </p>
-          <p style={{ fontSize: "14px", margin: "0 0 14px" }}>
+          <p style={{ fontSize: "13px", margin: "0 0 12px", color: "#cbd5e1" }}>
             Developed by <span style={{ color: "#14b8a6", fontWeight: "700" }}>Engr: Rijbi Khan</span>
           </p>
 
@@ -1154,11 +1198,11 @@ const LandingPage = () => {
             style={{
               background: "#14b8a6",
               color: "#0f2957",
-              padding: "8px 16px",
+              padding: "7px 14px",
               borderRadius: "8px",
               textDecoration: "none",
               fontWeight: "bold",
-              fontSize: "13px",
+              fontSize: "12.5px",
               display: "inline-flex",
               alignItems: "center",
               gap: "6px",
