@@ -15,7 +15,9 @@ import {
   Navigation,
   ArrowRight,
   Radio,
-  CheckCircle2
+  CheckCircle2,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 
 import logoImg from "./desh logo.jpeg";
@@ -31,7 +33,10 @@ import routeVideo from "./assets/route-drone.mp4";
 const LandingPage = () => {
   const navigate = useNavigate();
   const reduceMotion = useReducedMotion();
+  
   const videoRef = useRef(null);
+  const vehicleScrollRef = useRef(null);
+  const reviewScrollRef = useRef(null);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -42,6 +47,18 @@ const LandingPage = () => {
       }
     }
   }, [reduceMotion]);
+
+  const scrollLeft = (ref) => {
+    if (ref.current) {
+      ref.current.scrollBy({ left: -340, behavior: "smooth" });
+    }
+  };
+
+  const scrollRight = (ref) => {
+    if (ref.current) {
+      ref.current.scrollBy({ left: 340, behavior: "smooth" });
+    }
+  };
 
   const fadeUpContainer = {
     hidden: {},
@@ -187,7 +204,7 @@ const LandingPage = () => {
         width: "100%"
       }}
     >
-      {/* Embedded CSS for Animations & 100% Mobile Responsiveness */}
+      {/* Embedded CSS for Animations, Swipe Carousels & Mobile Responsiveness */}
       <style>{`
         * { box-sizing: border-box; }
         
@@ -200,6 +217,42 @@ const LandingPage = () => {
         .card-animate:hover {
           transform: translateY(-6px) scale(1.01);
           box-shadow: 0 20px 40px rgba(15,41,87,.16) !important;
+        }
+
+        /* Swipe Carousel Styles */
+        .horizontal-slider {
+          display: flex;
+          gap: 20px;
+          overflow-x: auto;
+          scroll-snap-type: x mandatory;
+          -webkit-overflow-scrolling: touch;
+          padding: 10px 4px 25px;
+          scrollbar-width: thin;
+          scrollbar-color: #14b8a6 #cbd5e1;
+        }
+
+        .horizontal-slider::-webkit-scrollbar {
+          height: 6px;
+        }
+        .horizontal-slider::-webkit-scrollbar-track {
+          background: #e2e8f0;
+          border-radius: 10px;
+        }
+        .horizontal-slider::-webkit-scrollbar-thumb {
+          background: #14b8a6;
+          border-radius: 10px;
+        }
+
+        .slider-item-vehicle {
+          flex: 0 0 340px;
+          min-width: 290px;
+          scroll-snap-align: start;
+        }
+
+        .slider-item-review {
+          flex: 0 0 350px;
+          min-width: 300px;
+          scroll-snap-align: start;
         }
 
         .review-card-container {
@@ -225,26 +278,6 @@ const LandingPage = () => {
           transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        .route-line {
-          position: relative;
-          height: 3px;
-          border-radius: 2px;
-          background: repeating-linear-gradient(
-            90deg, #14b8a6 0px, #14b8a6 14px, transparent 14px, transparent 24px
-          );
-          background-size: 200% 100%;
-          animation: route-travel 3.2s linear infinite;
-        }
-
-        .route-line-marker {
-          position: absolute;
-          top: 50%;
-          left: 0;
-          transform: translate(-50%, -50%);
-          color: #0f2957;
-          animation: route-marker 3.2s linear infinite;
-        }
-
         .stat-value { font-family: 'Inter', 'Hind Siliguri', sans-serif; }
 
         .live-pulse {
@@ -256,57 +289,31 @@ const LandingPage = () => {
           animation: pulse 1.6s ease-in-out infinite;
         }
 
-        .tracking-progress-fill { animation: fill-progress 2.4s ease forwards; }
-
         @keyframes pulse {
           0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(20,184,166,.4); }
           50% { opacity: .6; box-shadow: 0 0 0 6px rgba(20,184,166,0); }
         }
 
-        @keyframes route-travel {
-          from { background-position: 0 0; }
-          to { background-position: -200% 0; }
-        }
-
-        @keyframes route-marker {
-          from { left: 0%; }
-          to { left: 100%; }
-        }
-
-        @keyframes fill-progress {
-          from { width: 0%; }
-          to { width: 68%; }
-        }
-
         /* Responsive Breakpoints */
-        @media (max-width: 900px) {
-          .hero-grid { grid-template-columns: 1fr !important; gap: 36px !important; }
-          .tracking-grid { grid-template-columns: 1fr !important; }
-        }
-
         @media (max-width: 640px) {
           .header-inner { padding: 0 14px !important; height: 62px !important; }
           .header-logo { height: 38px !important; }
-          .nav-btn-text { display: none; }
           .nav-btn-compact { padding: 8px 10px !important; font-size: 13px !important; }
           .hero-section { padding: 24px 16px 45px !important; }
-          .hero-title { font-size: 26px !important; }
+          .hero-title { font-size: 24px !important; }
           .hero-cta-group { flex-direction: column !important; width: 100% !important; }
           .hero-cta-group a, .hero-cta-group button { width: 100% !important; justify-content: center !important; }
           .stat-badges-strip { bottom: -18px !important; padding: 10px 12px !important; }
           .stat-badge-val { font-size: 16px !important; }
           .stat-badge-lbl { font-size: 11px !important; }
           .trust-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 14px !important; }
-          .cards-grid { grid-template-columns: 1fr !important; }
-          .review-card-container { height: 340px !important; }
+          .slider-item-vehicle { flex: 0 0 86% !important; }
+          .slider-item-review { flex: 0 0 88% !important; height: 340px !important; }
           .footer-flex { flex-direction: column !important; gap: 24px !important; text-align: left !important; }
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .route-line { animation: none; background: #14b8a6; }
-          .route-line-marker { animation: none; left: 100%; }
           .live-pulse { animation: none; }
-          .tracking-progress-fill { animation: none; width: 68%; }
           .review-bg-img { transition: none; }
         }
       `}</style>
@@ -413,42 +420,41 @@ const LandingPage = () => {
         </div>
       </header>
 
-      {/* HERO SECTION */}
+      {/* HERO SECTION - STACKED LAYOUT (Banner Image Placed UNDERNEATH) */}
       <motion.section
         variants={fadeUpContainer}
         initial="hidden"
         animate="show"
         className="hero-section"
         style={{
-          padding: "45px 24px 60px",
+          padding: "40px 24px 70px",
           display: "flex",
           justifyContent: "center",
-          background: "linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(241,245,249,0.5) 100%)",
+          background: "linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(241,245,249,0.6) 100%)",
           width: "100%"
         }}
       >
         <div
-          className="hero-grid"
           style={{
-            maxWidth: "1180px",
+            maxWidth: "980px",
             width: "100%",
-            display: "grid",
-            gridTemplateColumns: "1.05fr 0.95fr",
-            gap: "48px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "40px",
             alignItems: "center"
           }}
         >
-          {/* Left Column: Large Video Hero Card with Text Overlay & Call to Action */}
-          <div>
+          {/* Top Section: Large Video Hero Card with Text Overlay & Action Buttons */}
+          <div style={{ width: "100%", textAlign: "center" }}>
             <motion.div
               variants={fadeUpItem}
               style={{
                 position: "relative",
                 width: "100%",
-                minHeight: "220px",
-                borderRadius: "20px",
+                minHeight: "240px",
+                borderRadius: "22px",
                 overflow: "hidden",
-                boxShadow: "0 16px 36px rgba(15,41,87,.2)",
+                boxShadow: "0 18px 40px rgba(15,41,87,.22)",
                 margin: "0 0 24px",
                 border: "1px solid rgba(20,184,166,0.3)"
               }}
@@ -477,7 +483,7 @@ const LandingPage = () => {
                   position: "absolute",
                   inset: 0,
                   background:
-                    "linear-gradient(135deg, rgba(15,30,66,0.92) 0%, rgba(15,30,66,0.72) 60%, rgba(15,30,66,0.35) 100%)"
+                    "linear-gradient(135deg, rgba(15,30,66,0.94) 0%, rgba(15,30,66,0.75) 60%, rgba(15,30,66,0.4) 100%)"
                 }}
               />
 
@@ -486,15 +492,16 @@ const LandingPage = () => {
                 style={{
                   position: "relative",
                   zIndex: 2,
-                  padding: "24px 22px",
+                  padding: "28px 24px",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
+                  alignItems: "center",
                   height: "100%",
-                  minHeight: "220px"
+                  minHeight: "240px"
                 }}
               >
-                <div style={{ marginBottom: "12px" }}>
+                <div style={{ marginBottom: "14px" }}>
                   <span
                     style={{
                       display: "inline-flex",
@@ -504,10 +511,10 @@ const LandingPage = () => {
                       background: "rgba(20, 184, 166, 0.22)",
                       backdropFilter: "blur(6px)",
                       border: "1px solid rgba(20, 184, 166, 0.4)",
-                      padding: "5px 12px",
+                      padding: "6px 14px",
                       borderRadius: "999px",
                       fontWeight: "700",
-                      fontSize: "12px"
+                      fontSize: "13px"
                     }}
                   >
                     <span className="live-pulse" /> লাইভ ট্রিপ ট্র্যাকিং চালু আছে
@@ -518,11 +525,11 @@ const LandingPage = () => {
                   className="hero-title"
                   style={{
                     color: "#ffffff",
-                    fontSize: "clamp(22px, 3.2vw, 36px)",
+                    fontSize: "clamp(24px, 4vw, 40px)",
                     lineHeight: "1.3",
                     fontWeight: "700",
                     margin: 0,
-                    textShadow: "0 2px 12px rgba(0,0,0,0.6)"
+                    textShadow: "0 2px 14px rgba(0,0,0,0.75)"
                   }}
                 >
                   দেশ ট্রান্সপোর্ট থাকলে পরিবহন নিয়ে
@@ -538,8 +545,8 @@ const LandingPage = () => {
                 color: "#475569",
                 fontSize: "16px",
                 lineHeight: "1.75",
-                maxWidth: "490px",
-                margin: "0 0 30px"
+                maxWidth: "620px",
+                margin: "0 auto 28px"
               }}
             >
               সারাদেশে কভার্ড ভ্যান, খোলা ট্রাক ও ট্রেইলার সার্ভিস — নির্ধারিত ভাড়া,
@@ -549,7 +556,7 @@ const LandingPage = () => {
             <motion.div
               variants={fadeUpItem}
               className="hero-cta-group"
-              style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}
+              style={{ display: "flex", gap: "14px", justifyContent: "center", flexWrap: "wrap" }}
             >
               <button
                 onClick={() => navigate("/trips")}
@@ -576,8 +583,8 @@ const LandingPage = () => {
             </motion.div>
           </div>
 
-          {/* Right Column: Hero Banner Image (`bannerImg`) & Floating Stat Badges */}
-          <motion.div variants={fadeUpItem} style={{ position: "relative" }}>
+          {/* Bottom Section: Hero Banner Image (`bannerImg`) Placed UNDERNEATH */}
+          <motion.div variants={fadeUpItem} style={{ position: "relative", width: "100%", maxWidth: "880px" }}>
             <img
               src={bannerImg}
               alt="দেশ ট্রান্সপোর্ট এজেন্সি ব্যানার"
@@ -599,7 +606,7 @@ const LandingPage = () => {
                 bottom: "-24px",
                 transform: "translateX(-50%)",
                 width: "calc(100% - 32px)",
-                background: "rgba(255,255,255,.92)",
+                background: "rgba(255,255,255,.94)",
                 backdropFilter: "blur(12px)",
                 borderRadius: "18px",
                 boxShadow: "0 15px 35px rgba(15,41,87,.16)",
@@ -733,31 +740,74 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* VEHICLE SERVICES - SWIPE CAROUSEL */}
+      <section style={{ padding: "50px 20px 60px", maxWidth: "1160px", margin: "0 auto" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "30px", flexWrap: "wrap", gap: "16px" }}>
+          <div>
+            <h2 style={{ color: "#0f2957", fontSize: "30px", margin: "0 0 8px" }}>
+              আমাদের যানবাহনের ধরণ সমূহ
+            </h2>
+            <p style={{ color: "#64748b", margin: 0, fontSize: "15px" }}>
+              আপনার মালামালের সুরক্ষায় আমাদের সুসজ্জিত ও আধুনিক যানবাহনের বহর (পাশে সোয়াইপ করুন ➔)
+            </p>
+          </div>
 
+          {/* Slider Arrow Controls */}
+          <div style={{ display: "flex", gap: "10px" }}>
+            <button
+              onClick={() => scrollLeft(vehicleScrollRef)}
+              style={{
+                width: "42px",
+                height: "42px",
+                borderRadius: "50%",
+                border: "1px solid #cbd5e1",
+                background: "white",
+                color: "#0f2957",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
+                transition: "all 0.3s ease"
+              }}
+              aria-label="Scroll Left"
+            >
+              <ChevronLeft size={22} />
+            </button>
+            <button
+              onClick={() => scrollRight(vehicleScrollRef)}
+              style={{
+                width: "42px",
+                height: "42px",
+                borderRadius: "50%",
+                border: "none",
+                background: "#0f2957",
+                color: "white",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                boxShadow: "0 4px 12px rgba(15,41,87,0.2)",
+                transition: "all 0.3s ease"
+              }}
+              aria-label="Scroll Right"
+            >
+              <ChevronRight size={22} />
+            </button>
+          </div>
+        </div>
 
-      {/* VEHICLE SERVICES */}
-      <section style={{ padding: "50px 20px 60px", maxWidth: "1100px", margin: "0 auto" }}>
-        <h2 style={{ textAlign: "center", color: "#0f2957", fontSize: "30px", margin: "0 0 10px" }}>
-          আমাদের যানবাহনের ধরণ সমূহ
-        </h2>
-        <p style={{ textAlign: "center", color: "#64748b", marginBottom: "40px" }}>
-          আপনার মালামালের সুরক্ষায় আমাদের সুসজ্জিত ও আধুনিক যানবাহনের বহর।
-        </p>
-
+        {/* Swipe Carousel Slider */}
         <div
-          className="cards-grid"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: "24px"
-          }}
+          ref={vehicleScrollRef}
+          className="horizontal-slider"
         >
           {vehicles.map((v) => {
             const Icon = v.icon;
             return (
               <div
                 key={v.name}
-                className="card-animate"
+                className="card-animate slider-item-vehicle"
                 style={{
                   background: "white",
                   borderRadius: "20px",
@@ -771,12 +821,12 @@ const LandingPage = () => {
                   alt={v.name}
                   style={{
                     width: "100%",
-                    height: "190px",
+                    height: "195px",
                     objectFit: "cover",
                     display: "block"
                   }}
                 />
-                <div style={{ padding: "26px 24px 30px" }}>
+                <div style={{ padding: "24px 22px 28px" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
                     <Icon size={24} color="#0f2957" />
                     <h3 style={{ margin: 0, color: "#0f2957", fontSize: "20px" }}>{v.name}</h3>
@@ -824,27 +874,70 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* DRIVER REVIEWS - LARGE OVERLAY IMAGE CARDS */}
-      <section style={{ padding: "75px 20px", maxWidth: "1160px", margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: "45px" }}>
-          <h2 style={{ color: "#0f2957", fontSize: "32px", margin: "0 0 10px" }}>
-            আমাদের চালকদের মতামত
-          </h2>
-          <p style={{ color: "#64748b", fontSize: "16px", margin: 0 }}>
-            অভিজ্ঞ চালকদের বাস্তব অভিজ্ঞতা ও দেশ ট্রান্সপোর্টের প্রতি তাদের আস্থা
-          </p>
+      {/* DRIVER REVIEWS - SWIPE CAROUSEL */}
+      <section style={{ padding: "65px 20px 75px", maxWidth: "1160px", margin: "0 auto" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "35px", flexWrap: "wrap", gap: "16px" }}>
+          <div>
+            <h2 style={{ color: "#0f2957", fontSize: "32px", margin: "0 0 8px" }}>
+              আমাদের চালকদের মতামত
+            </h2>
+            <p style={{ color: "#64748b", fontSize: "16px", margin: 0 }}>
+              অভিজ্ঞ চালকদের বাস্তব অভিজ্ঞতা ও দেশ ট্রান্সপোর্টের প্রতি তাদের আস্থা (পাশে সোয়াইপ করুন ➔)
+            </p>
+          </div>
+
+          {/* Slider Arrow Controls */}
+          <div style={{ display: "flex", gap: "10px" }}>
+            <button
+              onClick={() => scrollLeft(reviewScrollRef)}
+              style={{
+                width: "42px",
+                height: "42px",
+                borderRadius: "50%",
+                border: "1px solid #cbd5e1",
+                background: "white",
+                color: "#0f2957",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
+                transition: "all 0.3s ease"
+              }}
+              aria-label="Scroll Left"
+            >
+              <ChevronLeft size={22} />
+            </button>
+            <button
+              onClick={() => scrollRight(reviewScrollRef)}
+              style={{
+                width: "42px",
+                height: "42px",
+                borderRadius: "50%",
+                border: "none",
+                background: "#0f2957",
+                color: "white",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                boxShadow: "0 4px 12px rgba(15,41,87,0.2)",
+                transition: "all 0.3s ease"
+              }}
+              aria-label="Scroll Right"
+            >
+              <ChevronRight size={22} />
+            </button>
+          </div>
         </div>
 
+        {/* Swipe Carousel Slider */}
         <div
-          className="cards-grid"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-            gap: "28px"
-          }}
+          ref={reviewScrollRef}
+          className="horizontal-slider"
         >
           {reviews.map((r) => (
-            <div key={r.name} className="review-card-container">
+            <div key={r.name} className="review-card-container slider-item-review">
               {/* Full Card Background Image */}
               <img src={r.photo} alt={r.name} className="review-bg-img" />
 
