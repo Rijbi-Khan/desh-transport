@@ -1051,144 +1051,192 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* CTA BANNER - SLEEK FLOATING GLASS CARD */}
-      <section style={{ padding: "24px 12px 16px", maxWidth: "1180px", margin: "0 auto" }}>
+      {/* CTA BANNER - EXECUTIVE GLASS ACTION CARD */}
+      <section style={{ padding: "20px 10px 15px", maxWidth: "1280px", margin: "0 auto" }}>
         <div
           style={{
-            background: "linear-gradient(135deg, rgba(15,41,87,0.95) 0%, rgba(30,58,138,0.92) 100%)",
-            backdropFilter: "blur(16px)",
-            WebkitBackdropFilter: "blur(16px)",
-            borderRadius: "24px",
-            padding: "26px 24px",
+            background: "linear-gradient(135deg, #0f2957 0%, #1e3a8a 50%, #0d9488 100%)",
+            borderRadius: "20px",
+            padding: "26px 22px",
             display: "flex",
             flexWrap: "wrap",
             justifyContent: "space-between",
             alignItems: "center",
             gap: "16px",
-            boxShadow: "0 20px 45px rgba(15,41,87,0.25)",
-            border: "1px solid rgba(255,255,255,0.18)"
+            boxShadow: "0 18px 40px rgba(15,41,87,0.28)",
+            border: "1px solid rgba(255,255,255,0.2)"
           }}
         >
           <div>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "rgba(255,255,255,0.15)", padding: "4px 12px", borderRadius: "20px", color: "#5eead4", fontSize: "12px", fontWeight: "600", marginBottom: "8px" }}>
+              <ShieldCheck size={14} /> দ্রুততম ট্রাক বুকিং সার্ভিস
+            </div>
             <h2 style={{ color: "white", margin: "0 0 6px", fontSize: "22px", fontWeight: "700" }}>
-              আজই আপনার গাড়ি বুক করুন
+              আজই আপনার প্রয়োজনীয় গাড়ি বুক করুন
             </h2>
-            <p style={{ color: "#cbd5e1", margin: 0, fontSize: "14px", lineHeight: "1.5" }}>
-              হটলাইনে কল করুন অথবা WhatsApp-এ মেসেজ পাঠান — কয়েক মিনিটেই নিশ্চিত হবে।
+            <p style={{ color: "rgba(255,255,255,0.85)", margin: 0, fontSize: "13.5px", lineHeight: "1.5" }}>
+              সরাসরি কল করুন অথবা WhatsApp-এ মেসেজ পাঠান — কয়েক মিনিটেই নিশ্চিত হবে আপনার ট্রিপ।
             </p>
           </div>
-          <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-            <a href="tel:01719228840" style={{ ...buttonStyle, background: "#ef4444", color: "white", padding: "10px 18px", fontSize: "14px" }}>
-              <Phone size={16} /> কল করুন
+          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+            <a href="tel:01719228840" style={{ ...buttonStyle, background: "#ef4444", color: "white", padding: "10px 18px", fontSize: "14px", borderRadius: "12px" }}>
+              <Phone size={16} /> সরাসরি কল করুন
             </a>
             <a
               href={whatsappHref}
               target="_blank"
               rel="noreferrer"
-              style={{ ...buttonStyle, background: "#25d366", color: "white", padding: "10px 18px", fontSize: "14px" }}
+              style={{ ...buttonStyle, background: "#25d366", color: "white", padding: "10px 18px", fontSize: "14px", borderRadius: "12px" }}
             >
-              <MessageCircle size={16} /> WhatsApp
+              <MessageCircle size={16} /> WhatsApp বুকিং
             </a>
           </div>
         </div>
       </section>
 
-      {/* FOOTER - COMPACT & GLASSMORPHIC */}
-      <footer className="mobile-footer-compact" style={{ padding: "10px 12px 25px", maxWidth: "1180px", margin: "0 auto" }}>
-        <div
-          style={{
-            background: "rgba(15, 41, 87, 0.92)",
-            backdropFilter: "blur(16px)",
-            WebkitBackdropFilter: "blur(16px)",
-            borderRadius: "24px",
-            padding: "28px 24px 18px",
-            boxShadow: "0 20px 40px rgba(15, 41, 87, 0.2)",
-            border: "1px solid rgba(255, 255, 255, 0.12)",
-            color: "#cbd5e1"
-          }}
-        >
+      {/* EXECUTIVE PROFESSIONAL FOOTER */}
+      <footer
+        style={{
+          background: "linear-gradient(180deg, #0b192e 0%, #060e1a 100%)",
+          color: "#cbd5e1",
+          borderTop: "1px solid rgba(20,184,166,0.25)",
+          padding: "45px 12px 25px",
+          marginTop: "20px"
+        }}
+      >
+        <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+          {/* Main 4-Column Grid */}
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-              gap: "20px",
-              marginBottom: "20px"
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: "28px",
+              marginBottom: "32px"
             }}
           >
+            {/* Col 1: Brand Info */}
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
                 <img
                   src={logoImg}
                   alt="দেশ ট্রান্সপোর্ট"
-                  style={{ width: "34px", height: "34px", borderRadius: "50%", objectFit: "cover" }}
+                  style={{ width: "40px", height: "40px", borderRadius: "50%", objectFit: "cover", border: "2px solid #14b8a6" }}
                 />
-                <h3 style={{ color: "white", margin: 0, fontSize: "17px" }}>মেসার্স দেশ ট্রান্সপোর্ট এজেন্সি</h3>
+                <div>
+                  <h3 style={{ color: "white", margin: 0, fontSize: "17px", fontWeight: "700" }}>মেসার্স দেশ ট্রান্সপোর্ট এজেন্সি</h3>
+                  <p style={{ margin: 0, color: "#14b8a6", fontSize: "12px", fontWeight: "600" }}>নিরাপদ পরিবহন, আপনার বিশ্বাসের সঙ্গী</p>
+                </div>
               </div>
-              <p style={{ margin: 0, fontSize: "13px", lineHeight: "1.6", color: "#94a3b8" }}>
-                নিরাপদ পরিবহন, আপনার বিশ্বাসের সঙ্গী। আমরা আধুনিক প্রযুক্তির মাধ্যমে সারাদেশের সুসজ্জিত যানবাহনের মাধ্যমে কাঙ্ক্ষিত সেবা দিয়ে থাকি।
+              <p style={{ margin: "0 0 14px", fontSize: "13px", lineHeight: "1.65", color: "#94a3b8" }}>
+                আমরা আধুনিক প্রযুক্তি ও দেশের শীর্ষ যাচাইকৃত চালকদের মাধ্যমে সারাদেশে বিশ্বস্ত ট্রাক, পিকআপ ও ট্রেইলার লজিস্টিক সার্ভিস প্রদান করে আসছি।
               </p>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "rgba(20,184,166,0.12)", color: "#2dd4bf", border: "1px solid rgba(20,184,166,0.3)", borderRadius: "20px", padding: "4px 12px", fontSize: "12px", fontWeight: "600" }}>
+                <ShieldCheck size={14} /> নিবন্ধিত ও অনুমোদিত এজেন্সি
+              </div>
             </div>
 
+            {/* Col 2: Services */}
             <div>
-              <h4 style={{ color: "white", margin: "0 0 8px", fontSize: "15px" }}>প্রধান কার্যালয়</h4>
-              <p style={{ margin: 0, fontSize: "13px", lineHeight: "1.6", color: "#94a3b8" }}>
-                প্রাণ-আর.এফ.এল. গ্রুপ ৪নং গেইট সংলগ্ন,<br />
-                বাগপাড়া, ঘোড়াশাল, পলাশ, নরসিংদী।
-              </p>
+              <h4 style={{ color: "white", margin: "0 0 14px", fontSize: "16px", fontWeight: "700", borderLeft: "3px solid #14b8a6", paddingLeft: "10px" }}>
+                প্রধান সেবাসমূহ
+              </h4>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, fontSize: "13.5px", display: "flex", flexDirection: "column", gap: "9px", color: "#94a3b8" }}>
+                <li style={{ display: "flex", alignItems: "center", gap: "8px" }}><Truck size={15} color="#14b8a6" /> কভার্ড ভ্যান (৭ - ২৩ ফিট)</li>
+                <li style={{ display: "flex", alignItems: "center", gap: "8px" }}><Truck size={15} color="#14b8a6" /> খোলা ট্রাক ও পিকআপ সার্ভিস</li>
+                <li style={{ display: "flex", alignItems: "center", gap: "8px" }}><Truck size={15} color="#14b8a6" /> হেভি ডিউটি ট্রেইলার ও লরি</li>
+                <li style={{ display: "flex", alignItems: "center", gap: "8px" }}><MapPin size={15} color="#14b8a6" /> রিয়েল-টাইম জিপিএস ট্র্যাকিং</li>
+              </ul>
             </div>
 
+            {/* Col 3: Head Office */}
             <div>
-              <h4 style={{ color: "white", margin: "0 0 8px", fontSize: "15px" }}>হটলাইন সাপোর্ট</h4>
-              <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+              <h4 style={{ color: "white", margin: "0 0 14px", fontSize: "16px", fontWeight: "700", borderLeft: "3px solid #14b8a6", paddingLeft: "10px" }}>
+                প্রধান কার্যালয়
+              </h4>
+              <p style={{ margin: "0 0 12px", fontSize: "13.5px", lineHeight: "1.65", color: "#94a3b8", display: "flex", gap: "8px" }}>
+                <MapPin size={18} color="#ef4444" style={{ flexShrink: 0, marginTop: "2px" }} />
+                <span>
+                  প্রাণ-আর.এফ.এল. গ্রুপ ৪নং গেইট সংলগ্ন,<br />
+                  বাগপাড়া, ঘোড়াশাল, পলাশ, নরসিংদী।
+                </span>
+              </p>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", padding: "6px 12px", borderRadius: "8px", color: "#e2e8f0", fontSize: "12.5px" }}>
+                <Clock size={14} color="#14b8a6" /> ২৪ ঘণ্টা সার্ভিস খোলা
+              </div>
+            </div>
+
+            {/* Col 4: Hotline Cards */}
+            <div>
+              <h4 style={{ color: "white", margin: "0 0 14px", fontSize: "16px", fontWeight: "700", borderLeft: "3px solid #14b8a6", paddingLeft: "10px" }}>
+                জরুরি হটলাইন
+              </h4>
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                 <a
                   href="tel:01719228840"
                   style={{
+                    background: "rgba(20,184,166,0.1)",
+                    border: "1px solid rgba(20,184,166,0.25)",
+                    borderRadius: "10px",
+                    padding: "10px 14px",
                     color: "#2dd4bf",
                     textDecoration: "none",
-                    fontWeight: "600",
-                    fontSize: "14.5px",
-                    display: "inline-flex",
+                    fontWeight: "700",
+                    fontSize: "15px",
+                    display: "flex",
                     alignItems: "center",
-                    gap: "8px"
+                    justifyContent: "space-between",
+                    transition: "all .3s ease"
                   }}
                 >
-                  <Phone size={15} /> 01719-228840
+                  <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <Phone size={16} /> 01719-228840
+                  </span>
+                  <span style={{ fontSize: "11px", background: "#14b8a6", color: "#0f2957", padding: "2px 8px", borderRadius: "4px", fontWeight: "700" }}>কল করুন</span>
                 </a>
                 <a
                   href="tel:01933503060"
                   style={{
+                    background: "rgba(20,184,166,0.1)",
+                    border: "1px solid rgba(20,184,166,0.25)",
+                    borderRadius: "10px",
+                    padding: "10px 14px",
                     color: "#2dd4bf",
                     textDecoration: "none",
-                    fontWeight: "600",
-                    fontSize: "14.5px",
-                    display: "inline-flex",
+                    fontWeight: "700",
+                    fontSize: "15px",
+                    display: "flex",
                     alignItems: "center",
-                    gap: "8px"
+                    justifyContent: "space-between",
+                    transition: "all .3s ease"
                   }}
                 >
-                  <Phone size={15} /> 01933-503060
+                  <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <Phone size={16} /> 01933-503060
+                  </span>
+                  <span style={{ fontSize: "11px", background: "#14b8a6", color: "#0f2957", padding: "2px 8px", borderRadius: "4px", fontWeight: "700" }}>কল করুন</span>
                 </a>
               </div>
             </div>
           </div>
 
+          {/* Bottom Copyright & Credit Bar */}
           <div
             style={{
-              borderTop: "1px solid rgba(255, 255, 255, 0.12)",
-              paddingTop: "14px",
+              borderTop: "1px solid rgba(255,255,255,0.1)",
+              paddingTop: "18px",
               display: "flex",
               flexWrap: "wrap",
               justifyContent: "space-between",
               alignItems: "center",
-              gap: "10px",
+              gap: "12px",
               fontSize: "12.5px"
             }}
           >
-            <p style={{ margin: 0, color: "#94a3b8" }}>
-              © {new Date().getFullYear()} দেশ ট্রান্সপোর্ট এজেন্সি. সর্বস্বত্ব সংরক্ষিত।
+            <p style={{ margin: 0, color: "#64748b" }}>
+              © {new Date().getFullYear()} মেসার্স দেশ ট্রান্সপোর্ট এজেন্সি. সর্বস্বত্ব সংরক্ষিত।
             </p>
 
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <span style={{ color: "#94a3b8" }}>
                 Developed by <span style={{ color: "#2dd4bf", fontWeight: "700" }}>Engr: Rijbi Khan</span>
               </span>
@@ -1202,13 +1250,14 @@ const LandingPage = () => {
                 target="_blank"
                 rel="noreferrer"
                 style={{
-                  background: "#14b8a6",
-                  color: "#0f2957",
-                  padding: "5px 11px",
+                  background: "linear-gradient(135deg, #14b8a6 0%, #0d9488 100%)",
+                  color: "#ffffff",
+                  padding: "5px 12px",
                   borderRadius: "6px",
                   textDecoration: "none",
                   fontWeight: "700",
-                  fontSize: "11.5px"
+                  fontSize: "11.5px",
+                  boxShadow: "0 4px 12px rgba(20,184,166,0.2)"
                 }}
               >
                 Contact Developer
