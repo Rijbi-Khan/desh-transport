@@ -29,6 +29,7 @@ import driverPortraitImg from "./assets/driver-portrait.png";
 import review1Img from "./assets/review 1.png";
 import review2Img from "./assets/review 2.png";
 import routeVideo from "./assets/route-drone.mp4";
+import CoverageMap from "./CoverageMap";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -716,6 +717,11 @@ const LandingPage = () => {
             );
           })}
         </div>
+      </section>
+
+      {/* COVERAGE MAP */}
+      <section style={{ padding: "40px 0 20px" }}>
+        <CoverageMap />
       </section>
 
       {/* VALUE PROPOSITIONS */}
