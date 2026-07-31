@@ -38,14 +38,12 @@ const MapWatermark = () => {
     >
       <svg
         viewBox="0 0 435 600"
-        preserveAspectRatio="xMidYMid slice"
+        preserveAspectRatio="xMidYMid meet"
         style={{
           position: "absolute",
-          top: "50%",
-          left: "50%",
-          width: "min(155vh, 1500px)",
-          height: "auto",
-          transform: "translate(-50%, -50%)"
+          inset: 0,
+          width: "100%",
+          height: "100%"
         }}
       >
         {/* colourful land divisions */}
