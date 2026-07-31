@@ -1094,17 +1094,26 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* EXECUTIVE PROFESSIONAL FOOTER */}
+      {/* EXECUTIVE CURVED BRAND NAVY FOOTER */}
       <footer
         style={{
-          background: "linear-gradient(180deg, #0b192e 0%, #060e1a 100%)",
-          color: "#cbd5e1",
-          borderTop: "1px solid rgba(20,184,166,0.25)",
-          padding: "45px 12px 25px",
-          marginTop: "20px"
+          maxWidth: "1280px",
+          margin: "10px auto 25px",
+          padding: "0 10px"
         }}
       >
-        <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+        <div
+          style={{
+            background: "linear-gradient(180deg, rgba(15, 41, 87, 0.95) 0%, rgba(10, 28, 61, 0.97) 100%)",
+            backdropFilter: "blur(16px)",
+            WebkitBackdropFilter: "blur(16px)",
+            borderRadius: "28px",
+            border: "1px solid rgba(255, 255, 255, 0.15)",
+            boxShadow: "0 20px 45px rgba(15, 41, 87, 0.25)",
+            padding: "36px 24px 20px",
+            color: "#cbd5e1"
+          }}
+        >
           {/* Main 4-Column Grid */}
           <div
             style={{
