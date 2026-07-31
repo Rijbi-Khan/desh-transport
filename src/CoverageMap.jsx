@@ -3,6 +3,7 @@ import {
   motion,
   useMotionValue,
   useSpring,
+  useTransform,
   useReducedMotion
 } from "framer-motion";
 
@@ -45,9 +46,9 @@ export const DIVISIONS = [
 ];
 
 // Approximate marker positions within the 435x600 viewBox (stylised, not surveyed GIS points)
-const HUB = { id: "narsingdi", name: "নরসিংদী (হাব)", trips: "প্রধান হাব", x: 178, y: 150 };
+export const HUB = { id: "narsingdi", name: "নরসিংদী (হাব)", trips: "প্রধান হাব", x: 178, y: 150 };
 
-const CITIES = [
+export const CITIES = [
   { id: "dhaka", name: "ঢাকা", trips: "৪২০+ ট্রিপ", x: 148, y: 168 },
   { id: "chittagong", name: "চট্টগ্রাম", trips: "২১০+ ট্রিপ", x: 228, y: 300 },
   { id: "sylhet", name: "সিলেট", trips: "৯৫+ ট্রিপ", x: 222, y: 128 },
@@ -58,7 +59,7 @@ const CITIES = [
 
 // Quadratic-curve control points for each route, hand-tuned so the arcs
 // don't overlap the division outlines awkwardly.
-const ROUTE_CONTROL = {
+export const ROUTE_CONTROL = {
   dhaka: { cx: 172, cy: 158 },
   chittagong: { cx: 245, cy: 220 },
   sylhet: { cx: 230, cy: 135 },
@@ -67,7 +68,7 @@ const ROUTE_CONTROL = {
   rangpur: { cx: 90, cy: 90 }
 };
 
-function routePath(city) {
+export function routePath(city) {
   const c = ROUTE_CONTROL[city.id];
   return `M${HUB.x},${HUB.y} Q${c.cx},${c.cy} ${city.x},${city.y}`;
 }
@@ -123,7 +124,8 @@ const CoverageMap = () => {
           onMouseLeave={handleMouseLeave}
           style={{
             position: "relative",
-            background: "linear-gradient(180deg, #f8fafc, #eef2f7)",
+            background: "linear-gradient(180deg, rgba(248,250,252,0.92), rgba(238,242,247,0.92))",
+            backdropFilter: "blur(8px)",
             borderRadius: "24px",
             boxShadow: "0 30px 60px rgba(15,41,87,.18)",
             padding: "30px",
