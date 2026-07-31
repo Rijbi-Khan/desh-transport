@@ -312,7 +312,7 @@ const LandingPage = () => {
           padding: 30px 20px 10px;
           max-width: 900px;
           margin: 0 auto;
-          perspective: 1000px;
+          perspective: 1200px;
         }
         .banner-3d-card {
           width: 100%;
@@ -321,17 +321,11 @@ const LandingPage = () => {
           border-radius: 20px;
           display: block;
           box-shadow: 0 20px 45px rgba(15, 41, 87, 0.22), 0 0 25px rgba(20, 184, 166, 0.18);
-          transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s ease;
-          animation: float3d 5s ease-in-out infinite;
+          transition: box-shadow 0.5s ease;
           transform-style: preserve-3d;
         }
         .banner-3d-card:hover {
-          transform: perspective(1000px) rotateX(3deg) rotateY(-2deg) scale(1.025);
           box-shadow: 0 30px 60px rgba(15, 41, 87, 0.32), 0 0 35px rgba(20, 184, 166, 0.35);
-        }
-        @keyframes float3d {
-          0%, 100% { transform: translateY(0px) rotateX(0deg); }
-          50% { transform: translateY(-8px) rotateX(1.5deg); }
         }
 
         @media (max-width: 768px) {
@@ -699,13 +693,13 @@ const LandingPage = () => {
         </div>
       </motion.section>
 
-      {/* PROMOTIONAL BANNER - DYNAMIC CONTINUOUS SCROLL ANIMATION (UP & DOWN) */}
+      {/* PROMOTIONAL BANNER - BI-DIRECTIONAL 3D SCROLL ANIMATION (UP & DOWN) */}
       <motion.section
         className="banner-container-wrapper"
-        initial={{ opacity: 0, x: 90, rotateY: 15, scale: 0.94 }}
+        initial={{ opacity: 0, x: 120, rotateY: 18, scale: 0.92 }}
         whileInView={{ opacity: 1, x: 0, rotateY: 0, scale: 1 }}
-        viewport={{ once: false, amount: 0.12 }}
-        transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+        viewport={{ once: false, amount: 0.15, margin: "-30px 0px -30px 0px" }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
       >
         <img
           src={bannerImg}
@@ -1245,9 +1239,9 @@ const LandingPage = () => {
               © {new Date().getFullYear()} মেসার্স দেশ ট্রান্সপোর্ট এজেন্সি. সর্বস্বত্ব সংরক্ষিত।
             </p>
 
-            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-              <span style={{ color: "#94a3b8" }}>
-                Developed by <span style={{ color: "#2dd4bf", fontWeight: "700" }}>Engr: Rijbi Khan</span>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
+              <span style={{ color: "#94a3b8", whiteSpace: "nowrap", display: "inline-block" }}>
+                Developed by <span style={{ color: "#2dd4bf", fontWeight: "700", whiteSpace: "nowrap" }}>Engr: Rijbi Khan</span>
               </span>
               <a
                 href={
@@ -1266,7 +1260,9 @@ const LandingPage = () => {
                   textDecoration: "none",
                   fontWeight: "700",
                   fontSize: "11.5px",
-                  boxShadow: "0 4px 12px rgba(20,184,166,0.2)"
+                  boxShadow: "0 4px 12px rgba(20,184,166,0.2)",
+                  whiteSpace: "nowrap",
+                  flexShrink: 0
                 }}
               >
                 Contact Developer
