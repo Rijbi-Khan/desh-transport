@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import MapWatermark from "./MapWatermark";
 import { useNavigate } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
@@ -24,12 +24,23 @@ import fleetImg from "./assets/fleet-highway.jpg";
 import openTruckImg from "./assets/open-truck-loading.jpg";
 import trailerImg from "./assets/trailer-rain.jpg";
 import driverPortraitImg from "./assets/driver-portrait.jpg";
-import routeVideo from "./assets/route-drone.mp4";
+import routeVideo from "./assets/Same_shot_as_above_but_framed.mp4";
 
 const LandingPage = () => {
   const navigate = useNavigate();
   const reduceMotion = useReducedMotion();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      if (reduceMotion) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play().catch(() => {});
+      }
+    }
+  }, [reduceMotion]);
 
   const fadeUpContainer = {
     hidden: {},
@@ -48,14 +59,14 @@ const LandingPage = () => {
   };
 
   const statBadges = [
-    { label: "কভার্ড ভ্যান", value: "৫০০+" },
+    { label: "কভার্ড ভ্যান", value: "৫০+" },
     { label: "সফল ট্রিপ", value: "১০০০+" },
     { label: "সাপোর্ট", value: "২৪/৭" }
   ];
 
   const trustStats = [
     { icon: Clock, value: "২০১৮", label: "থেকে সেবায়" },
-    { icon: Truck, value: "৫০০+", label: "গাড়ির বহর" },
+    { icon: Truck, value: "৫০+", label: "গাড়ির বহর" },
     { icon: Package, value: "১০০০+", label: "সফল ডেলিভারি" },
     { icon: ShieldCheck, value: "২৪/৭", label: "সাপোর্ট টিম" }
   ];
@@ -127,12 +138,14 @@ const LandingPage = () => {
     {
       name: "আলমগীর হোসেন",
       role: "খোলা ট্রাক চালক",
-      text: "ভাড়া নির্ধারিত থাকে এবং সময়মতো পেমেন্ট পাওয়া যায়।"
+      text: "ভাড়া নির্ধারিত থাকে এবং সময়মতো পেমেন্ট পাওয়া যায়।",
+      photo: openTruckImg
     },
     {
       name: "সাজ্জাদ আলী",
       role: "ট্রেইলার চালক",
-      text: "বড় কোম্পানির ভালো ট্রিপ পাওয়া সহজ হয়েছে।"
+      text: "বড় কোম্পানির ভালো ট্রিপ পাওয়া সহজ হয়েছে।",
+      photo: trailerImg
     }
   ];
 
@@ -355,7 +368,6 @@ const LandingPage = () => {
           </button>
         </div>
 
-        {/* Mobile-only hamburger toggle */}
         <button
           className="hamburger-btn"
           onClick={() => setMobileMenuOpen((v) => !v)}
@@ -373,7 +385,6 @@ const LandingPage = () => {
         </button>
       </header>
 
-      {/* Mobile dropdown menu */}
       {mobileMenuOpen && (
         <div
           className="mobile-menu-panel"
@@ -452,192 +463,179 @@ const LandingPage = () => {
         </div>
       )}
 
-      {/* HERO */}
+      {/* HERO — full-width video banner with the headline overlaid on top */}
       <motion.section
         variants={fadeUpContainer}
         initial="hidden"
         animate="show"
         style={{
-          padding: "50px 35px 65px",
+          position: "relative",
+          minHeight: "560px",
           display: "flex",
+          alignItems: "center",
           justifyContent: "center",
-          background: "transparent"
+          overflow: "hidden",
+          margin: "20px 20px 0",
+          borderRadius: "28px"
         }}
       >
-        <div
-          className="hero-grid"
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={fleetImg}
           style={{
-            maxWidth: "1180px",
+            position: "absolute",
+            inset: 0,
             width: "100%",
-            display: "grid",
-            gridTemplateColumns: "1.05fr 0.95fr",
-            gap: "48px",
+            height: "100%",
+            objectFit: "cover"
+          }}
+        >
+          <source src={routeVideo} type="video/mp4" />
+        </video>
+
+        {/* dark scrim so the white headline stays readable over the footage */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(180deg, rgba(15,41,87,.55) 0%, rgba(15,41,87,.72) 60%, rgba(15,41,87,.88) 100%)"
+          }}
+        />
+
+        <div
+          style={{
+            position: "relative",
+            zIndex: 2,
+            maxWidth: "760px",
+            width: "100%",
+            padding: "70px 30px 110px",
+            textAlign: "center",
+            display: "flex",
+            flexDirection: "column",
             alignItems: "center"
           }}
         >
-          <div>
-            <motion.p
-              variants={fadeUpItem}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "8px",
-                color: "#0f6e56",
-                background: "#e1f5ee",
-                padding: "6px 14px",
-                borderRadius: "999px",
-                fontWeight: "700",
-                fontSize: "13px",
-                margin: "0 0 18px"
-              }}
-            >
-              <span className="live-pulse" /> লাইভ ট্রিপ ট্র্যাকিং চালু আছে
-            </motion.p>
+          <motion.p
+            variants={fadeUpItem}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              color: "#5eead4",
+              background: "rgba(255,255,255,.12)",
+              border: "1px solid rgba(255,255,255,.25)",
+              padding: "6px 14px",
+              borderRadius: "999px",
+              fontWeight: "700",
+              fontSize: "13px",
+              margin: "0 0 18px"
+            }}
+          >
+            <span className="live-pulse" /> লাইভ ট্রিপ ট্র্যাকিং চালু আছে
+          </motion.p>
 
-            <motion.h1
-              variants={fadeUpItem}
-              style={{
-                color: "#0f2957",
-                fontSize: "clamp(28px, 4vw, 42px)",
-                lineHeight: "1.25",
-                fontWeight: "700",
-                margin: 0
-              }}
-            >
-              দেশ ট্রান্সপোর্ট থাকলে পরিবহন নিয়ে
-              <br />
-              আর কোনো দুশ্চিন্তা নেই!
-            </motion.h1>
+          <motion.h1
+            variants={fadeUpItem}
+            style={{
+              color: "white",
+              fontSize: "clamp(28px, 4.5vw, 46px)",
+              lineHeight: "1.25",
+              fontWeight: "700",
+              margin: 0,
+              textShadow: "0 2px 20px rgba(0,0,0,.35)"
+            }}
+          >
+            দেশ ট্রান্সপোর্ট থাকলে পরিবহন নিয়ে
+            <br />
+            আর কোনো দুশ্চিন্তা নেই!
+          </motion.h1>
 
-            <motion.div
-              variants={fadeUpItem}
-              style={{
-                position: "relative",
-                width: "100%",
-                height: "54px",
-                borderRadius: "10px",
-                overflow: "hidden",
-                margin: "20px 0 24px",
-                boxShadow: "0 8px 20px rgba(15,41,87,0.15)"
-              }}
-            >
-              <video
-                src={routeVideo}
-                autoPlay
-                muted
-                loop
-                playsInline
-                poster={fleetImg}
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              />
-              <div
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  background: "rgba(15, 41, 87, 0.45)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "0 12px"
-                }}
-              >
-                <span
-                  style={{
-                    color: "#ffffff",
-                    fontSize: "13.5px",
-                    fontWeight: "700",
-                    textAlign: "center",
-                    textShadow: "0 2px 4px rgba(0,0,0,0.4)"
-                  }}
-                >
-                  দেশ ট্রান্সপোর্ট থাকলে পরিবহন নিয়ে আর কোনো দুশ্চিন্তা নেই!
-                </span>
-              </div>
-            </motion.div>
-
-            <motion.p
-              variants={fadeUpItem}
-              style={{
-                color: "#475569",
-                fontSize: "16px",
-                lineHeight: "1.8",
-                maxWidth: "480px",
-                margin: "0 0 32px"
-              }}
-            >
-              সারাদেশে কভার্ড ভ্যান, খোলা ট্রাক ও ট্রেইলার সার্ভিস — নির্ধারিত ভাড়া,
-              যাচাইকৃত চালক ও রিয়েল-টাইম ট্রিপ আপডেট সহ।
-            </motion.p>
-
-            <motion.div
-              variants={fadeUpItem}
-              style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}
-            >
-              <button
-                onClick={() => navigate("/trips")}
-                style={{ ...buttonStyle, background: "#0f2957", color: "white" }}
-              >
-                <Truck size={18} /> লাইভ ট্রিপস ড্যাশবোর্ড
-              </button>
-              <a
-                href="tel:01719228840"
-                style={{ ...buttonStyle, background: "#ef4444", color: "white" }}
-              >
-                <Phone size={18} /> সরাসরি কল করুন
-              </a>
-              <a
-                href={whatsappHref}
-                target="_blank"
-                rel="noreferrer"
-                style={{ ...buttonStyle, background: "#25d366", color: "white" }}
-              >
-                <MessageCircle size={18} /> WhatsApp করুন
-              </a>
-            </motion.div>
-          </div>
-
-          <motion.div variants={fadeUpItem} style={{ position: "relative" }}>
-            <img
-              src={fleetImg}
-              alt="দেশ ট্রান্সপোর্টের কভার্ড ভ্যান বহর নরসিংদীর একটি গ্রামীণ সড়কে"
-              style={{
-                width: "100%",
-                borderRadius: "24px",
-                boxShadow: "0 25px 50px rgba(15,41,87,.18)",
-                display: "block"
-              }}
-            />
-
-            <div
-              style={{
-                position: "absolute",
-                left: "50%",
-                bottom: "-26px",
-                transform: "translateX(-50%)",
-                width: "calc(100% - 32px)",
-                background: "rgba(255,255,255,.85)",
-                backdropFilter: "blur(10px)",
-                borderRadius: "16px",
-                boxShadow: "0 15px 35px rgba(15,41,87,.16)",
-                padding: "16px 20px",
-                display: "flex",
-                justifyContent: "space-between",
-                gap: "12px"
-              }}
-            >
-              {statBadges.map((stat) => (
-                <div key={stat.label} style={{ textAlign: "center", flex: 1 }}>
-                  <div
-                    className="stat-value"
-                    style={{ color: "#0f2957", fontSize: "20px", fontWeight: "600" }}
-                  >
-                    {stat.value}
-                  </div>
-                  <div style={{ color: "#334155", fontSize: "12px" }}>{stat.label}</div>
-                </div>
-              ))}
-            </div>
+          <motion.div
+            variants={fadeUpItem}
+            style={{ position: "relative", width: "180px", margin: "22px 0 24px" }}
+          >
+            <div className="route-line" />
+            <span className="route-line-marker">
+              <Truck size={18} />
+            </span>
           </motion.div>
+
+          <motion.p
+            variants={fadeUpItem}
+            style={{
+              color: "rgba(255,255,255,.85)",
+              fontSize: "16px",
+              lineHeight: "1.8",
+              maxWidth: "520px",
+              margin: "0 0 32px"
+            }}
+          >
+            সারাদেশে কভার্ড ভ্যান, খোলা ট্রাক ও ট্রেইলার সার্ভিস — নির্ধারিত ভাড়া,
+            যাচাইকৃত চালক ও রিয়েল-টাইম ট্রিপ আপডেট সহ।
+          </motion.p>
+
+          <motion.div
+            variants={fadeUpItem}
+            style={{ display: "flex", gap: "16px", flexWrap: "wrap", justifyContent: "center" }}
+          >
+            <button
+              onClick={() => navigate("/trips")}
+              style={{ ...buttonStyle, background: "#14b8a6", color: "white" }}
+            >
+              <Truck size={18} /> লাইভ ট্রিপস ড্যাশবোর্ড
+            </button>
+            <a
+              href="tel:01719228840"
+              style={{ ...buttonStyle, background: "#ef4444", color: "white" }}
+            >
+              <Phone size={18} /> সরাসরি কল করুন
+            </a>
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noreferrer"
+              style={{ ...buttonStyle, background: "#25d366", color: "white" }}
+            >
+              <MessageCircle size={18} /> WhatsApp করুন
+            </a>
+          </motion.div>
+        </div>
+
+        {/* floating stat card, overlapping the bottom edge of the video */}
+        <div
+          style={{
+            position: "absolute",
+            left: "50%",
+            bottom: "-26px",
+            transform: "translateX(-50%)",
+            width: "min(700px, calc(100% - 32px))",
+            background: "rgba(255,255,255,.92)",
+            backdropFilter: "blur(10px)",
+            borderRadius: "16px",
+            boxShadow: "0 15px 35px rgba(15,41,87,.25)",
+            padding: "16px 20px",
+            display: "flex",
+            justifyContent: "space-between",
+            gap: "12px",
+            zIndex: 3
+          }}
+        >
+          {statBadges.map((stat) => (
+            <div key={stat.label} style={{ textAlign: "center", flex: 1 }}>
+              <div
+                className="stat-value"
+                style={{ color: "#0f2957", fontSize: "20px", fontWeight: "600" }}
+              >
+                {stat.value}
+              </div>
+              <div style={{ color: "#334155", fontSize: "12px" }}>{stat.label}</div>
+            </div>
+          ))}
         </div>
       </motion.section>
 
@@ -945,44 +943,50 @@ const LandingPage = () => {
           }}
         >
           {reviews.map((r) => (
-            <div key={r.name} className="card-animate" style={cardStyle}>
-              <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "10px" }}>
-                <div
-                  style={{
-                    width: "44px",
-                    height: "44px",
-                    borderRadius: "50%",
-                    background: "#0f2957",
-                    color: "white",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontWeight: "700",
-                    overflow: "hidden",
-                    flexShrink: 0
-                  }}
-                >
-                  {r.photo ? (
-                    <img
-                      src={r.photo}
-                      alt={r.name}
-                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                    />
-                  ) : (
-                    r.name.charAt(0)
-                  )}
+            <div
+              key={r.name}
+              className="card-animate"
+              style={{
+                position: "relative",
+                borderRadius: "18px",
+                overflow: "hidden",
+                minHeight: "320px",
+                display: "flex",
+                alignItems: "flex-end",
+                cursor: "pointer",
+                boxShadow: "0 12px 35px rgba(0,0,0,.18)"
+              }}
+            >
+              <img
+                src={r.photo}
+                alt={r.name}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover"
+                }}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background: "linear-gradient(180deg, rgba(15,41,87,0) 35%, rgba(15,41,87,.92) 100%)"
+                }}
+              />
+              <div style={{ position: "relative", padding: "24px", color: "white", width: "100%" }}>
+                <h3 style={{ margin: "0 0 2px", fontSize: "17px" }}>{r.name}</h3>
+                <p style={{ margin: "0 0 8px", color: "#5eead4", fontSize: "13px" }}>{r.role}</p>
+                <div style={{ display: "flex", gap: "2px", marginBottom: "10px" }}>
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={14} color="#f59e0b" fill="#f59e0b" />
+                  ))}
                 </div>
-                <div>
-                  <h3 style={{ margin: 0, fontSize: "15px" }}>{r.name}</h3>
-                  <p style={{ margin: 0, color: "#14b8a6", fontSize: "13px" }}>{r.role}</p>
-                </div>
+                <p style={{ margin: 0, color: "rgba(255,255,255,.9)", fontSize: "14px" }}>
+                  &ldquo;{r.text}&rdquo;
+                </p>
               </div>
-              <div style={{ display: "flex", gap: "2px", marginBottom: "8px" }}>
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={14} color="#f59e0b" fill="#f59e0b" />
-                ))}
-              </div>
-              <p style={{ margin: 0, color: "#475569" }}>&ldquo;{r.text}&rdquo;</p>
             </div>
           ))}
         </div>
@@ -992,8 +996,7 @@ const LandingPage = () => {
       <section
         style={{
           background: "rgba(15,41,87,.9)",
-          padding: "50px 20px",
-          marginTop: "30px"
+          padding: "50px 20px"
         }}
       >
         <div
