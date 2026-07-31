@@ -1,4 +1,5 @@
-import React, { useRef, useEffect } from "react";
+import React, { useState } from "react";
+import MapWatermark from "./MapWatermark";
 import { useNavigate } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import {
@@ -15,51 +16,20 @@ import {
   Navigation,
   ArrowRight,
   Radio,
-  CheckCircle2,
-  ChevronLeft,
-  ChevronRight
+  Menu,
+  X
 } from "lucide-react";
-
 import logoImg from "./desh logo.jpeg";
-import bannerImg from "./banner.jpeg";
-import fleetImg from "./assets/fleet-highway.png";
-import openTruckImg from "./assets/open-truck-loading.png";
-import trailerImg from "./assets/trailer-rain.png";
-import driverPortraitImg from "./assets/driver-portrait.png";
-import review1Img from "./assets/review 1.png";
-import review2Img from "./assets/review 2.png";
+import fleetImg from "./assets/fleet-highway.jpg";
+import openTruckImg from "./assets/open-truck-loading.jpg";
+import trailerImg from "./assets/trailer-rain.jpg";
+import driverPortraitImg from "./assets/driver-portrait.jpg";
 import routeVideo from "./assets/route-drone.mp4";
-import MapWatermark from "./MapWatermark";
 
 const LandingPage = () => {
   const navigate = useNavigate();
   const reduceMotion = useReducedMotion();
-  
-  const videoRef = useRef(null);
-  const vehicleScrollRef = useRef(null);
-  const reviewScrollRef = useRef(null);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      if (reduceMotion) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play().catch(() => {});
-      }
-    }
-  }, [reduceMotion]);
-
-  const scrollLeft = (ref) => {
-    if (ref.current) {
-      ref.current.scrollBy({ left: -340, behavior: "smooth" });
-    }
-  };
-
-  const scrollRight = (ref) => {
-    if (ref.current) {
-      ref.current.scrollBy({ left: 340, behavior: "smooth" });
-    }
-  };
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const fadeUpContainer = {
     hidden: {},
@@ -147,35 +117,29 @@ const LandingPage = () => {
     }
   ];
 
-  // 3 Reviews with Large Full-Card Overlay Images
   const reviews = [
     {
       name: "মো: রফিকুল ইসলাম",
       role: "কভার্ড ভ্যান চালক",
-      text: "আগে ট্রিপের জন্য অপেক্ষা করতে হতো। এখন দেশ ট্রান্সপোর্ট থেকে নিয়মিত ট্রিপ পাচ্ছি। সময়মতো ভাড়া পাওয়ায় আমি খুব সন্তুষ্ট।",
-      photo: driverPortraitImg,
-      rating: 5
+      text: "আগে ট্রিপের জন্য অপেক্ষা করতে হতো। এখন দেশ ট্রান্সপোর্ট থেকে নিয়মিত ট্রিপ পাচ্ছি।",
+      photo: driverPortraitImg
     },
     {
       name: "আলমগীর হোসেন",
       role: "খোলা ট্রাক চালক",
-      text: "ভাড়া নির্ধারিত থাকে এবং সময়মতো পেমেন্ট পাওয়া যায়। মালামালও অত্যন্ত নিরাপদে গন্তব্যে পৌঁছায়।",
-      photo: review1Img,
-      rating: 5
+      text: "ভাড়া নির্ধারিত থাকে এবং সময়মতো পেমেন্ট পাওয়া যায়।"
     },
     {
       name: "সাজ্জাদ আলী",
       role: "ট্রেইলার চালক",
-      text: "বড় কোম্পানির ভালো ট্রিপ পাওয়া এখন অনেক সহজ হয়েছে। দেশ ট্রান্সপোর্টের সাপোর্ট টিম ২৪/৭ পাশে থাকে।",
-      photo: review2Img,
-      rating: 5
+      text: "বড় কোম্পানির ভালো ট্রিপ পাওয়া সহজ হয়েছে।"
     }
   ];
 
   const buttonStyle = {
     fontWeight: "700",
-    fontSize: "0.95rem",
-    padding: "0.9rem 1.8rem",
+    fontSize: "1rem",
+    padding: "1rem 2.2rem",
     borderRadius: "14px",
     border: "none",
     cursor: "pointer",
@@ -184,8 +148,16 @@ const LandingPage = () => {
     boxShadow: "0 10px 25px rgba(0,0,0,.18)",
     display: "inline-flex",
     alignItems: "center",
-    justifyContent: "center",
     gap: "8px"
+  };
+
+  const cardStyle = {
+    background: "transparent",
+    padding: "35px",
+    borderRadius: "18px",
+    boxShadow: "none",
+    transition: "all .3s ease",
+    cursor: "pointer"
   };
 
   const whatsappHref =
@@ -198,87 +170,54 @@ const LandingPage = () => {
     <div
       style={{
         minHeight: "100vh",
-        fontFamily: "'Hind Siliguri', 'Segoe UI', system-ui, sans-serif",
+        fontFamily: "'Hind Siliguri', 'Segoe UI', sans-serif",
         background: "transparent",
-        color: "#1e293b",
         position: "relative",
-        overflowX: "hidden",
-        width: "100%"
+        zIndex: 0,
+        overflowX: "hidden"
       }}
     >
       <MapWatermark />
-      {/* Embedded CSS for Animations, Swipe Carousels & Mobile Responsiveness */}
+      {/* Global CSS Style Block */}
       <style>{`
-        * { box-sizing: border-box; }
-        
+        @keyframes fade {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate { animation: fade .8s ease; }
+
         button:hover, a:hover {
-          transform: translateY(-3px) scale(1.02);
+          transform: translateY(-4px) scale(1.03);
           filter: brightness(1.08);
         }
 
         .card-animate { transition: all .3s ease !important; }
+
         .card-animate:hover {
-          transform: translateY(-6px) scale(1.01);
-          box-shadow: 0 20px 40px rgba(15,41,87,.16) !important;
+          transform: translateY(-8px) scale(1.02);
+          background: rgba(255,255,255,.9) !important;
+          box-shadow: 0 20px 40px rgba(0,0,0,.15) !important;
         }
 
-        /* Swipe Carousel Styles */
-        .horizontal-slider {
-          display: flex;
-          gap: 20px;
-          overflow-x: auto;
-          scroll-snap-type: x mandatory;
-          -webkit-overflow-scrolling: touch;
-          padding: 10px 4px 25px;
-          scrollbar-width: thin;
-          scrollbar-color: #14b8a6 #cbd5e1;
-        }
-
-        .horizontal-slider::-webkit-scrollbar {
-          height: 6px;
-        }
-        .horizontal-slider::-webkit-scrollbar-track {
-          background: #e2e8f0;
-          border-radius: 10px;
-        }
-        .horizontal-slider::-webkit-scrollbar-thumb {
-          background: #14b8a6;
-          border-radius: 10px;
-        }
-
-        .slider-item-vehicle {
-          flex: 0 0 340px;
-          min-width: 290px;
-          scroll-snap-align: start;
-        }
-
-        .slider-item-review {
-          flex: 0 0 350px;
-          min-width: 300px;
-          scroll-snap-align: start;
-        }
-
-        .review-card-container {
+        .route-line {
           position: relative;
-          height: 380px;
-          border-radius: 22px;
-          overflow: hidden;
-          box-shadow: 0 16px 36px rgba(15,41,87,.2);
-          transition: all 0.4s ease;
-          cursor: pointer;
+          height: 3px;
+          border-radius: 2px;
+          background: repeating-linear-gradient(
+            90deg, #14b8a6 0px, #14b8a6 14px, transparent 14px, transparent 24px
+          );
+          background-size: 200% 100%;
+          animation: route-travel 3.2s linear infinite;
         }
 
-        .review-card-container:hover .review-bg-img {
-          transform: scale(1.08);
-        }
-
-        .review-bg-img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
+        .route-line-marker {
           position: absolute;
-          inset: 0;
-          transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+          top: 50%;
+          left: 0;
+          transform: translate(-50%, -50%);
+          color: #0f2957;
+          animation: route-marker 3.2s linear infinite;
         }
 
         .stat-value { font-family: 'Inter', 'Hind Siliguri', sans-serif; }
@@ -292,57 +231,45 @@ const LandingPage = () => {
           animation: pulse 1.6s ease-in-out infinite;
         }
 
+        .tracking-progress-fill {
+          animation: fill-progress 2.4s ease forwards;
+        }
+
         @keyframes pulse {
           0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(20,184,166,.4); }
           50% { opacity: .6; box-shadow: 0 0 0 6px rgba(20,184,166,0); }
         }
 
-        /* Responsive Breakpoints */
-        @media (max-width: 640px) {
-          .header-inner { padding: 0 14px !important; height: 62px !important; }
-          .header-logo { height: 38px !important; }
-          .nav-btn-compact { padding: 8px 10px !important; font-size: 13px !important; }
-          .hero-section { padding: 24px 16px 45px !important; }
-          .hero-title { font-size: 24px !important; }
-          .hero-cta-group { display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap; }
-          .hero-cta-subgroup { display: flex; gap: 12px; }
-          .hero-cta-group { flex-direction: column !important; width: 100% !important; gap: 10px !important; }
-          .cta-btn-main { width: 100% !important; justify-content: center !important; padding: 0.85rem 1rem !important; }
-          .hero-cta-subgroup { width: 100% !important; display: flex !important; gap: 10px !important; }
-          .cta-btn-sub { flex: 1 1 calc(50% - 5px) !important; width: 50% !important; justify-content: center !important; padding: 0.85rem 0.5rem !important; font-size: 0.88rem !important; white-space: nowrap !important; }
-          .stat-badges-strip { bottom: -18px !important; padding: 10px 12px !important; }
-          .stat-badge-val { font-size: 16px !important; }
-          .stat-badge-lbl { font-size: 11px !important; }
-          .trust-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 14px !important; }
-          .slider-item-vehicle { flex: 0 0 86% !important; }
-          .slider-item-review { flex: 0 0 88% !important; height: 340px !important; }
-          .footer-container { padding: 28px 18px 20px !important; }
-          .footer-grid-top { grid-template-columns: 1fr !important; gap: 18px !important; text-align: left !important; }
-          .footer-subgrid-mobile { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 14px !important; }
+        @keyframes route-travel {
+          from { background-position: 0 0; }
+          to { background-position: -200% 0; }
         }
 
-        .footer-container {
-          background: #0f2957;
-          color: #cbd5e1;
-          padding: 45px 25px 25px;
-          width: 100%;
+        @keyframes route-marker {
+          from { left: 0%; }
+          to { left: 100%; }
         }
 
-        .footer-grid-top {
-          max-width: 1100px;
-          margin: 0 auto;
-          display: grid;
-          grid-template-columns: 1.2fr 1fr 1fr;
-          gap: 36px;
+        @keyframes fill-progress {
+          from { width: 0%; }
+          to { width: 68%; }
         }
 
-        .footer-subgrid-mobile {
-          display: contents;
+        @media (max-width: 860px) {
+          .hero-grid, .tracking-grid { grid-template-columns: 1fr !important; }
+        }
+
+        @media (max-width: 768px) {
+          .desktop-nav-buttons { display: none !important; }
+          .hamburger-btn { display: flex !important; align-items: center; }
         }
 
         @media (prefers-reduced-motion: reduce) {
+          .route-line { animation: none; background: #14b8a6; }
+          .route-line-marker { animation: none; left: 100%; }
           .live-pulse { animation: none; }
-          .review-bg-img { transition: none; }
+          .tracking-progress-fill { animation: none; width: 68%; }
+          .animate { animation: none; }
         }
       `}</style>
 
@@ -350,220 +277,281 @@ const LandingPage = () => {
       <header
         style={{
           height: "70px",
-          background: "rgba(255,255,255,.96)",
-          backdropFilter: "blur(12px)",
-          boxShadow: "0 4px 20px rgba(15,41,87,.08)",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "0 25px",
+          background: "rgba(255,255,255,.95)",
+          boxShadow: "0 5px 25px rgba(0,0,0,.06)",
           position: "sticky",
           top: 0,
-          zIndex: 100,
-          width: "100%"
+          zIndex: 100
         }}
       >
-        <div
-          className="header-inner"
+        <img
+          src={logoImg}
+          alt="দেশ ট্রান্সপোর্ট"
           style={{
-            maxWidth: "1200px",
-            height: "100%",
-            margin: "0 auto",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: "0 24px"
+            width: "48px",
+            height: "48px",
+            objectFit: "cover",
+            borderRadius: "50%",
+            border: "2px solid #e2e8f0"
+          }}
+        />
+
+        <div className="desktop-nav-buttons" style={{ display: "flex", gap: "15px", alignItems: "center" }}>
+          <button
+            onClick={() => navigate("/trips")}
+            style={{
+              background: "none",
+              border: "none",
+              fontWeight: "700",
+              color: "#0f2957",
+              cursor: "pointer",
+              transition: "all .3s ease",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "6px"
+            }}
+          >
+            <Truck size={18} /> লাইভ ট্রিপস
+          </button>
+          <button
+            onClick={() => navigate("/login")}
+            style={{
+              background: "#14b8a6",
+              color: "white",
+              padding: "10px 16px",
+              borderRadius: "8px",
+              border: "none",
+              fontWeight: "bold",
+              cursor: "pointer",
+              transition: "all .3s ease",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "6px"
+            }}
+          >
+            <Truck size={16} /> ড্রাইভার লগইন
+          </button>
+          <button
+            onClick={() => navigate("/admin-login")}
+            style={{
+              background: "#ef4444",
+              color: "white",
+              padding: "10px 16px",
+              borderRadius: "8px",
+              border: "none",
+              fontWeight: "bold",
+              cursor: "pointer",
+              transition: "all .3s ease",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "6px"
+            }}
+          >
+            <Lock size={16} /> এডমিন
+          </button>
+        </div>
+
+        {/* Mobile-only hamburger toggle */}
+        <button
+          className="hamburger-btn"
+          onClick={() => setMobileMenuOpen((v) => !v)}
+          aria-label="মেনু খুলুন"
+          style={{
+            display: "none",
+            background: "none",
+            border: "none",
+            color: "#0f2957",
+            cursor: "pointer",
+            padding: "6px"
           }}
         >
-          <img
-            src={logoImg}
-            alt="দেশ ট্রান্সপোর্ট"
-            className="header-logo"
-            style={{ height: "46px", objectFit: "contain", cursor: "pointer" }}
-            onClick={() => navigate("/")}
-          />
-
-          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-            <button
-              onClick={() => navigate("/trips")}
-              className="nav-btn-compact"
-              style={{
-                background: "none",
-                border: "none",
-                fontWeight: "700",
-                color: "#0f2957",
-                cursor: "pointer",
-                padding: "8px 14px",
-                borderRadius: "8px",
-                transition: "all .3s ease",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "6px"
-              }}
-            >
-              <Truck size={18} />
-              <span>লাইভ ট্রিপস</span>
-            </button>
-
-            <button
-              onClick={() => navigate("/login")}
-              className="nav-btn-compact"
-              style={{
-                background: "#14b8a6",
-                color: "white",
-                padding: "9px 16px",
-                borderRadius: "999px",
-                border: "none",
-                fontWeight: "700",
-                fontSize: "13px",
-                cursor: "pointer",
-                transition: "all .3s ease",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "6px"
-              }}
-            >
-              <Truck size={16} />
-              <span>লগইন</span>
-            </button>
-
-            <button
-              onClick={() => navigate("/admin-login")}
-              className="nav-btn-compact"
-              style={{
-                background: "#ef4444",
-                color: "white",
-                padding: "9px 16px",
-                borderRadius: "999px",
-                border: "none",
-                fontWeight: "700",
-                fontSize: "13px",
-                cursor: "pointer",
-                transition: "all .3s ease",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "6px"
-              }}
-            >
-              <Lock size={15} />
-              <span>এডমিন</span>
-            </button>
-          </div>
-        </div>
+          {mobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
+        </button>
       </header>
 
-      {/* HERO SECTION - STACKED LAYOUT */}
+      {/* Mobile dropdown menu */}
+      {mobileMenuOpen && (
+        <div
+          className="mobile-menu-panel"
+          style={{
+            position: "sticky",
+            top: "70px",
+            zIndex: 99,
+            background: "rgba(255,255,255,.98)",
+            boxShadow: "0 10px 25px rgba(0,0,0,.1)",
+            padding: "16px 20px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "12px"
+          }}
+        >
+          <button
+            onClick={() => {
+              navigate("/trips");
+              setMobileMenuOpen(false);
+            }}
+            style={{
+              background: "none",
+              border: "none",
+              fontWeight: "700",
+              color: "#0f2957",
+              cursor: "pointer",
+              textAlign: "left",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              padding: "8px 0"
+            }}
+          >
+            <Truck size={18} /> লাইভ ট্রিপস
+          </button>
+          <button
+            onClick={() => {
+              navigate("/login");
+              setMobileMenuOpen(false);
+            }}
+            style={{
+              background: "#14b8a6",
+              color: "white",
+              padding: "12px 16px",
+              borderRadius: "8px",
+              border: "none",
+              fontWeight: "bold",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px"
+            }}
+          >
+            <Truck size={16} /> ড্রাইভার লগইন
+          </button>
+          <button
+            onClick={() => {
+              navigate("/admin-login");
+              setMobileMenuOpen(false);
+            }}
+            style={{
+              background: "#ef4444",
+              color: "white",
+              padding: "12px 16px",
+              borderRadius: "8px",
+              border: "none",
+              fontWeight: "bold",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px"
+            }}
+          >
+            <Lock size={16} /> এডমিন
+          </button>
+        </div>
+      )}
+
+      {/* HERO */}
       <motion.section
         variants={fadeUpContainer}
         initial="hidden"
         animate="show"
-        className="hero-section"
         style={{
-          padding: "32px 20px 45px",
+          padding: "50px 35px 65px",
           display: "flex",
           justifyContent: "center",
-          background: "linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(241,245,249,0.6) 100%)",
-          width: "100%"
+          background: "transparent"
         }}
       >
         <div
+          className="hero-grid"
           style={{
-            maxWidth: "980px",
+            maxWidth: "1180px",
             width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            gap: "28px",
+            display: "grid",
+            gridTemplateColumns: "1.05fr 0.95fr",
+            gap: "48px",
             alignItems: "center"
           }}
         >
-          {/* Top Section: Large Video Hero Card with Text Overlay & Action Buttons */}
-          <div style={{ width: "100%", textAlign: "center" }}>
+          <div>
+            <motion.p
+              variants={fadeUpItem}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                color: "#0f6e56",
+                background: "#e1f5ee",
+                padding: "6px 14px",
+                borderRadius: "999px",
+                fontWeight: "700",
+                fontSize: "13px",
+                margin: "0 0 18px"
+              }}
+            >
+              <span className="live-pulse" /> লাইভ ট্রিপ ট্র্যাকিং চালু আছে
+            </motion.p>
+
+            <motion.h1
+              variants={fadeUpItem}
+              style={{
+                color: "#0f2957",
+                fontSize: "clamp(28px, 4vw, 42px)",
+                lineHeight: "1.25",
+                fontWeight: "700",
+                margin: 0
+              }}
+            >
+              দেশ ট্রান্সপোর্ট থাকলে পরিবহন নিয়ে
+              <br />
+              আর কোনো দুশ্চিন্তা নেই!
+            </motion.h1>
+
             <motion.div
               variants={fadeUpItem}
               style={{
                 position: "relative",
                 width: "100%",
-                minHeight: "240px",
-                borderRadius: "22px",
+                height: "54px",
+                borderRadius: "10px",
                 overflow: "hidden",
-                boxShadow: "0 18px 40px rgba(15,41,87,.22)",
-                margin: "0 0 24px",
-                border: "1px solid rgba(20,184,166,0.3)"
+                margin: "20px 0 24px",
+                boxShadow: "0 8px 20px rgba(15,41,87,0.15)"
               }}
             >
-              {/* Looped Background Drone Video */}
               <video
-                ref={videoRef}
                 src={routeVideo}
-                poster={fleetImg}
-                autoPlay={!reduceMotion}
+                autoPlay
                 muted
                 loop
                 playsInline
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  position: "absolute",
-                  inset: 0
-                }}
+                poster={fleetImg}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
-
-              {/* Dark Gradient Overlay for Crisp Text Contrast */}
               <div
                 style={{
                   position: "absolute",
                   inset: 0,
-                  background:
-                    "linear-gradient(135deg, rgba(15,30,66,0.94) 0%, rgba(15,30,66,0.75) 60%, rgba(15,30,66,0.4) 100%)"
-                }}
-              />
-
-              {/* Text Content Directly Overlaid ON TOP OF THE VIDEO */}
-              <div
-                style={{
-                  position: "relative",
-                  zIndex: 2,
-                  padding: "28px 24px",
+                  background: "rgba(15, 41, 87, 0.45)",
                   display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
                   alignItems: "center",
-                  height: "100%",
-                  minHeight: "240px"
+                  justifyContent: "center",
+                  padding: "0 12px"
                 }}
               >
-                <div style={{ marginBottom: "14px" }}>
-                  <span
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "8px",
-                      color: "#2dd4bf",
-                      background: "rgba(20, 184, 166, 0.22)",
-                      backdropFilter: "blur(6px)",
-                      border: "1px solid rgba(20, 184, 166, 0.4)",
-                      padding: "6px 14px",
-                      borderRadius: "999px",
-                      fontWeight: "700",
-                      fontSize: "13px"
-                    }}
-                  >
-                    <span className="live-pulse" /> লাইভ ট্রিপ ট্র্যাকিং চালু আছে
-                  </span>
-                </div>
-
-                <h1
-                  className="hero-title"
+                <span
                   style={{
                     color: "#ffffff",
-                    fontSize: "clamp(24px, 4vw, 40px)",
-                    lineHeight: "1.3",
+                    fontSize: "13.5px",
                     fontWeight: "700",
-                    margin: 0,
-                    textShadow: "0 2px 14px rgba(0,0,0,0.75)"
+                    textAlign: "center",
+                    textShadow: "0 2px 4px rgba(0,0,0,0.4)"
                   }}
                 >
-                  দেশ ট্রান্সপোর্ট থাকলে পরিবহন নিয়ে
-                  <br />
-                  আর কোনো দুশ্চিন্তা নেই!
-                </h1>
+                  দেশ ট্রান্সপোর্ট থাকলে পরিবহন নিয়ে আর কোনো দুশ্চিন্তা নেই!
+                </span>
               </div>
             </motion.div>
 
@@ -572,9 +560,9 @@ const LandingPage = () => {
               style={{
                 color: "#475569",
                 fontSize: "16px",
-                lineHeight: "1.75",
-                maxWidth: "620px",
-                margin: "0 auto 28px"
+                lineHeight: "1.8",
+                maxWidth: "480px",
+                margin: "0 0 32px"
               }}
             >
               সারাদেশে কভার্ড ভ্যান, খোলা ট্রাক ও ট্রেইলার সার্ভিস — নির্ধারিত ভাড়া,
@@ -583,84 +571,69 @@ const LandingPage = () => {
 
             <motion.div
               variants={fadeUpItem}
-              className="hero-cta-group"
-              style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap", width: "100%" }}
+              style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}
             >
               <button
                 onClick={() => navigate("/trips")}
-                className="cta-btn-main"
                 style={{ ...buttonStyle, background: "#0f2957", color: "white" }}
               >
-                <Truck size={18} /> <span>লাইভ ট্রিপস ড্যাশবোর্ড</span>
+                <Truck size={18} /> লাইভ ট্রিপস ড্যাশবোর্ড
               </button>
-
-              <div className="hero-cta-subgroup">
-                <a
-                  href="tel:01719228840"
-                  className="cta-btn-sub"
-                  style={{ ...buttonStyle, background: "#ef4444", color: "white" }}
-                >
-                  <Phone size={18} /> <span>সরাসরি কল</span>
-                </a>
-
-                <a
-                  href={whatsappHref}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="cta-btn-sub"
-                  style={{ ...buttonStyle, background: "#25d366", color: "white" }}
-                >
-                  <MessageCircle size={18} /> <span>WhatsApp</span>
-                </a>
-              </div>
+              <a
+                href="tel:01719228840"
+                style={{ ...buttonStyle, background: "#ef4444", color: "white" }}
+              >
+                <Phone size={18} /> সরাসরি কল করুন
+              </a>
+              <a
+                href={whatsappHref}
+                target="_blank"
+                rel="noreferrer"
+                style={{ ...buttonStyle, background: "#25d366", color: "white" }}
+              >
+                <MessageCircle size={18} /> WhatsApp করুন
+              </a>
             </motion.div>
           </div>
 
-          {/* Bottom Section: Hero Banner Image (`bannerImg`) Placed UNDERNEATH */}
-          <motion.div variants={fadeUpItem} style={{ position: "relative", width: "100%", maxWidth: "880px" }}>
+          <motion.div variants={fadeUpItem} style={{ position: "relative" }}>
             <img
-              src={bannerImg}
-              alt="দেশ ট্রান্সপোর্ট এজেন্সি ব্যানার"
+              src={fleetImg}
+              alt="দেশ ট্রান্সপোর্টের কভার্ড ভ্যান বহর নরসিংদীর একটি গ্রামীণ সড়কে"
               style={{
                 width: "100%",
                 borderRadius: "24px",
-                boxShadow: "0 25px 50px rgba(15,41,87,.2)",
-                display: "block",
-                objectFit: "cover"
+                boxShadow: "0 25px 50px rgba(15,41,87,.18)",
+                display: "block"
               }}
             />
 
-            {/* Floating Stat Badge Strip overlaying bottom of hero banner */}
             <div
-              className="stat-badges-strip"
               style={{
                 position: "absolute",
                 left: "50%",
-                bottom: "-24px",
+                bottom: "-26px",
                 transform: "translateX(-50%)",
                 width: "calc(100% - 32px)",
-                background: "rgba(255,255,255,.94)",
-                backdropFilter: "blur(12px)",
-                borderRadius: "18px",
+                background: "rgba(255,255,255,.85)",
+                backdropFilter: "blur(10px)",
+                borderRadius: "16px",
                 boxShadow: "0 15px 35px rgba(15,41,87,.16)",
-                padding: "14px 20px",
+                padding: "16px 20px",
                 display: "flex",
                 justifyContent: "space-between",
-                gap: "12px",
-                border: "1px solid rgba(255,255,255,0.6)"
+                gap: "12px"
               }}
             >
               {statBadges.map((stat) => (
                 <div key={stat.label} style={{ textAlign: "center", flex: 1 }}>
                   <div
-                    className="stat-value stat-badge-val"
-                    style={{ color: "#0f2957", fontSize: "20px", fontWeight: "700" }}
+                    className="stat-value"
+                    style={{ color: "#0f2957", fontSize: "20px", fontWeight: "600" }}
                   >
                     {stat.value}
                   </div>
-                  <div className="stat-badge-lbl" style={{ color: "#64748b", fontSize: "12px", fontWeight: "500" }}>
-                    {stat.label}
-                  </div>
+                  <div style={{ color: "#334155", fontSize: "12px" }}>{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -668,185 +641,239 @@ const LandingPage = () => {
         </div>
       </motion.section>
 
+      <div style={{ height: "40px" }} />
+
       {/* TRUST BAR */}
-      <section style={{ background: "#0f2957", padding: "22px 20px" }}>
+      <section style={{ background: "rgba(15,41,87,.9)", padding: "30px 20px" }}>
         <div
-          className="trust-grid"
           style={{
             maxWidth: "1100px",
             margin: "0 auto",
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-            gap: "24px"
-          }}
-        >
-          {trustStats.map((item) => {
-            const Icon = item.icon;
-            return (
-              <div
-                key={item.label}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "14px",
-                  color: "white"
-                }}
-              >
-                <div
-                  style={{
-                    width: "48px",
-                    height: "48px",
-                    borderRadius: "12px",
-                    background: "rgba(255,255,255,.1)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0
-                  }}
-                >
-                  <Icon size={24} color="#14b8a6" />
-                </div>
-                <div>
-                  <div
-                    className="stat-value"
-                    style={{ fontSize: "22px", fontWeight: "700", lineHeight: "1.2" }}
-                  >
-                    {item.value}
-                  </div>
-                  <div style={{ fontSize: "13px", color: "#cbd5e1" }}>{item.label}</div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* VALUE PROPOSITIONS */}
-      <section style={{ padding: "36px 20px 20px", maxWidth: "1100px", margin: "0 auto" }}>
-        <div
-          className="cards-grid"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit,minmax(160px,1fr))",
             gap: "20px"
           }}
         >
-          {valueProps.map((prop) => {
-            const Icon = prop.icon;
+          {trustStats.map((stat) => {
+            const Icon = stat.icon;
             return (
               <div
-                key={prop.title}
-                className="card-animate"
-                style={{
-                  background: "rgba(255, 255, 255, 0.88)",
-                  backdropFilter: "blur(12px)",
-                  WebkitBackdropFilter: "blur(12px)",
-                  padding: "24px 22px",
-                  borderRadius: "20px",
-                  boxShadow: "0 15px 35px rgba(15,41,87,.09)",
-                  border: "1px solid rgba(255, 255, 255, 0.9)"
-                }}
+                key={stat.label}
+                style={{ display: "flex", alignItems: "center", gap: "12px" }}
               >
-                <div
-                  style={{
-                    width: "48px",
-                    height: "48px",
-                    borderRadius: "12px",
-                    background: "#e0f2fe",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginBottom: "14px"
-                  }}
-                >
-                  <Icon size={24} color="#0f2957" />
+                <Icon size={26} color="#14b8a6" style={{ flexShrink: 0 }} />
+                <div>
+                  <div style={{ color: "white", fontSize: "20px", fontWeight: "700" }}>
+                    {stat.value}
+                  </div>
+                  <div style={{ color: "#94a3b8", fontSize: "12px" }}>{stat.label}</div>
                 </div>
-                <h3 style={{ margin: "0 0 8px", color: "#0f2957", fontSize: "18px" }}>
-                  {prop.title}
-                </h3>
-                <p style={{ margin: 0, color: "#64748b", lineHeight: "1.65", fontSize: "14px" }}>
-                  {prop.desc}
-                </p>
               </div>
             );
           })}
         </div>
       </section>
 
-      {/* VEHICLE SERVICES - SWIPE CAROUSEL */}
-      <section style={{ padding: "36px 20px 30px", maxWidth: "1160px", margin: "0 auto" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "20px", flexWrap: "wrap", gap: "14px" }}>
+      {/* VALUE PROPS */}
+      <section style={{ padding: "70px 20px", maxWidth: "1100px", margin: "0 auto" }}>
+        <h2 style={{ textAlign: "center", color: "#0f2957", fontSize: "30px", margin: "0 0 45px" }}>
+          কেন দেশ ট্রান্সপোর্ট বেছে নেবেন
+        </h2>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))",
+            gap: "25px"
+          }}
+        >
+          {valueProps.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div key={item.title} className="card-animate" style={cardStyle}>
+                <div
+                  style={{
+                    width: "56px",
+                    height: "56px",
+                    borderRadius: "14px",
+                    background: "#e1f5ee",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginBottom: "18px"
+                  }}
+                >
+                  <Icon size={28} color="#0f6e56" />
+                </div>
+                <h3 style={{ color: "#0f2957", margin: "0 0 8px" }}>{item.title}</h3>
+                <p style={{ color: "#334155", margin: 0, lineHeight: "1.7" }}>{item.desc}</p>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* LIVE TRACKING PREVIEW */}
+      <section style={{ background: "transparent", padding: "70px 20px" }}>
+        <div
+          className="tracking-grid"
+          style={{
+            maxWidth: "1100px",
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "48px",
+            alignItems: "center"
+          }}
+        >
           <div>
-            <h2 style={{ color: "#0f2957", fontSize: "28px", margin: "0 0 6px" }}>
-              আমাদের যানবাহনের ধরণ সমূহ
+            <h2 style={{ color: "#0f2957", fontSize: "28px", margin: "0 0 16px" }}>
+              আপনার মালামাল কোথায় আছে, সবসময় জানুন
             </h2>
-            <p style={{ color: "#64748b", margin: 0, fontSize: "14.5px" }}>
-              আপনার মালামালের সুরক্ষায় আমাদের সুসজ্জিত ও আধুনিক যানবাহনের বহর (পাশে সোয়াইপ করুন ➔)
+            <p style={{ color: "#334155", lineHeight: "1.8", marginBottom: "28px" }}>
+              প্রতিটি ট্রিপ লাইভ ড্যাশবোর্ডে দেখা যায় — গাড়ি, চালক ও গন্তব্যের বর্তমান
+              অবস্থাসহ। কোনো ফোন কল ছাড়াই আপডেট পান।
             </p>
+            <button
+              onClick={() => navigate("/trips")}
+              style={{ ...buttonStyle, background: "#0f2957", color: "white" }}
+            >
+              ড্যাশবোর্ড দেখুন <ArrowRight size={18} />
+            </button>
           </div>
 
-          {/* Slider Arrow Controls */}
-          <div style={{ display: "flex", gap: "8px" }}>
-            <button
-              onClick={() => scrollLeft(vehicleScrollRef)}
+          <div
+            style={{
+              background: "#f1f5f9",
+              borderRadius: "20px",
+              padding: "24px",
+              boxShadow: "0 15px 35px rgba(15,41,87,.1)"
+            }}
+          >
+            <div
               style={{
-                width: "38px",
-                height: "38px",
-                borderRadius: "50%",
-                border: "1px solid #cbd5e1",
-                background: "white",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: "18px"
+              }}
+            >
+              <span
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  color: "#0f6e56",
+                  fontWeight: "700",
+                  fontSize: "13px"
+                }}
+              >
+                <Radio size={14} /> ট্রিপ #DT-2291 চলমান
+              </span>
+              <span style={{ color: "#94a3b8", fontSize: "12px" }}>ইটিএ ৪৫ মিনিট</span>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                fontSize: "13px",
                 color: "#0f2957",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
-                transition: "all 0.3s ease"
+                fontWeight: "600",
+                marginBottom: "8px"
               }}
-              aria-label="Scroll Left"
             >
-              <ChevronLeft size={20} />
-            </button>
-            <button
-              onClick={() => scrollRight(vehicleScrollRef)}
+              <span>ঘোড়াশাল, নরসিংদী</span>
+              <span>ঢাকা</span>
+            </div>
+
+            <div
               style={{
-                width: "38px",
-                height: "38px",
-                borderRadius: "50%",
-                border: "none",
-                background: "#0f2957",
-                color: "white",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-                boxShadow: "0 4px 12px rgba(15,41,87,0.2)",
-                transition: "all 0.3s ease"
+                height: "8px",
+                background: "#e2e8f0",
+                borderRadius: "4px",
+                overflow: "hidden",
+                marginBottom: "20px"
               }}
-              aria-label="Scroll Right"
             >
-              <ChevronRight size={20} />
-            </button>
+              <div
+                className="tracking-progress-fill"
+                style={{ height: "100%", background: "#14b8a6", borderRadius: "4px" }}
+              />
+            </div>
+
+            <div style={{ display: "flex", gap: "16px" }}>
+              <div
+                style={{
+                  background: "white",
+                  borderRadius: "12px",
+                  padding: "12px 16px",
+                  flex: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px"
+                }}
+              >
+                <Truck size={20} color="#0f2957" />
+                <div>
+                  <div style={{ fontSize: "12px", color: "#94a3b8" }}>গাড়ি</div>
+                  <div style={{ fontSize: "13px", fontWeight: "600", color: "#0f2957" }}>
+                    কভার্ড ভ্যান
+                  </div>
+                </div>
+              </div>
+              <div
+                style={{
+                  background: "white",
+                  borderRadius: "12px",
+                  padding: "12px 16px",
+                  flex: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px"
+                }}
+              >
+                <MapPin size={20} color="#0f2957" />
+                <div>
+                  <div style={{ fontSize: "12px", color: "#94a3b8" }}>চালক</div>
+                  <div style={{ fontSize: "13px", fontWeight: "600", color: "#0f2957" }}>
+                    রফিকুল ইসলাম
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* Swipe Carousel Slider */}
+      {/* VEHICLE / SERVICES */}
+      <section style={{ padding: "70px 20px", maxWidth: "1100px", margin: "0 auto" }}>
+        <h2 style={{ textAlign: "center", color: "#0f2957", fontSize: "30px" }}>
+          আমাদের যানবাহনের ধরণ সমূহ
+        </h2>
+        <p style={{ textAlign: "center", color: "#334155", marginBottom: "45px" }}>
+          Your cargo's safety is our priority with our modern fleet.
+        </p>
+
         <div
-          ref={vehicleScrollRef}
-          className="horizontal-slider"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
+            gap: "25px"
+          }}
         >
           {vehicles.map((v) => {
             const Icon = v.icon;
             return (
               <div
                 key={v.name}
-                className="card-animate slider-item-vehicle"
+                className="card-animate"
                 style={{
-                  background: "white",
-                  borderRadius: "20px",
-                  boxShadow: "0 12px 35px rgba(0,0,0,.08)",
-                  overflow: "hidden",
-                  border: "1px solid #f1f5f9"
+                  background: "transparent",
+                  borderRadius: "18px",
+                  boxShadow: "none",
+                  transition: "all .3s ease",
+                  cursor: "pointer",
+                  overflow: "hidden"
                 }}
               >
                 <img
@@ -854,17 +881,15 @@ const LandingPage = () => {
                   alt={v.name}
                   style={{
                     width: "100%",
-                    height: "195px",
+                    height: "170px",
                     objectFit: "cover",
                     display: "block"
                   }}
                 />
-                <div style={{ padding: "24px 22px 28px" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
-                    <Icon size={24} color="#0f2957" />
-                    <h3 style={{ margin: 0, color: "#0f2957", fontSize: "20px" }}>{v.name}</h3>
-                  </div>
-                  <p style={{ margin: 0, color: "#64748b", lineHeight: "1.6", fontSize: "14px" }}>{v.desc}</p>
+                <div style={{ padding: "28px 35px 35px" }}>
+                  <Icon size={36} color="#0f2957" style={{ marginBottom: "10px" }} />
+                  <h3 style={{ margin: "0 0 8px", color: "#0f2957" }}>{v.name}</h3>
+                  <p style={{ margin: 0, color: "#334155" }}>{v.desc}</p>
                 </div>
               </div>
             );
@@ -873,244 +898,126 @@ const LandingPage = () => {
       </section>
 
       {/* HOW IT WORKS */}
-      <section style={{ background: "transparent", padding: "40px 20px" }}>
-        <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-          <h2 style={{ textAlign: "center", color: "#0f2957", fontSize: "28px", margin: "0 0 28px" }}>
-            কীভাবে কাজ করে
-          </h2>
-          <div
-            className="cards-grid"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-              gap: "24px"
-            }}
-          >
-            {steps.map((step) => (
+      <section style={{ background: "transparent", padding: "70px 20px" }}>
+        <h2 style={{ textAlign: "center", color: "#0f2957", fontSize: "30px", margin: "0 0 45px" }}>
+          কীভাবে কাজ করে
+        </h2>
+        <div
+          style={{
+            maxWidth: "1100px",
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
+            gap: "30px"
+          }}
+        >
+          {steps.map((step) => (
+            <div key={step.number} style={{ textAlign: "center" }}>
               <div
-                key={step.number}
-                className="card-animate"
                 style={{
-                  textAlign: "center",
-                  padding: "26px 20px",
-                  background: "rgba(255, 255, 255, 0.88)",
-                  backdropFilter: "blur(12px)",
-                  WebkitBackdropFilter: "blur(12px)",
-                  borderRadius: "20px",
-                  boxShadow: "0 15px 35px rgba(15,41,87,.08)",
-                  border: "1px solid rgba(255, 255, 255, 0.9)"
+                  color: "#14b8a6",
+                  fontFamily: "'Inter', sans-serif",
+                  fontWeight: "700",
+                  fontSize: "14px",
+                  marginBottom: "10px"
                 }}
               >
-                <div
-                  style={{
-                    color: "#14b8a6",
-                    fontFamily: "'Inter', sans-serif",
-                    fontWeight: "800",
-                    fontSize: "16px",
-                    marginBottom: "8px"
-                  }}
-                >
-                  {step.number}
-                </div>
-                <h3 style={{ color: "#0f2957", margin: "0 0 8px", fontSize: "19px" }}>{step.title}</h3>
-                <p style={{ color: "#64748b", margin: 0, lineHeight: "1.65", fontSize: "14px" }}>{step.desc}</p>
+                {step.number}
               </div>
-            ))}
-          </div>
+              <h3 style={{ color: "#0f2957", margin: "0 0 8px" }}>{step.title}</h3>
+              <p style={{ color: "#334155", margin: 0, lineHeight: "1.7" }}>{step.desc}</p>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* DRIVER REVIEWS - SWIPE CAROUSEL */}
-      <section style={{ padding: "40px 20px 45px", maxWidth: "1160px", margin: "0 auto" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "24px", flexWrap: "wrap", gap: "14px" }}>
-          <div>
-            <h2 style={{ color: "#0f2957", fontSize: "28px", margin: "0 0 6px" }}>
-              আমাদের চালকদের মতামত
-            </h2>
-            <p style={{ color: "#64748b", fontSize: "15px", margin: 0 }}>
-              অভিজ্ঞ চালকদের বাস্তব অভিজ্ঞতা ও দেশ ট্রান্সপোর্টের প্রতি তাদের আস্থা (পাশে সোয়াইপ করুন ➔)
-            </p>
-          </div>
+      {/* DRIVER REVIEWS */}
+      <section style={{ padding: "70px 20px" }}>
+        <h2 style={{ textAlign: "center", color: "#0f2957" }}>আমাদের চালকদের মতামত</h2>
 
-          {/* Slider Arrow Controls */}
-          <div style={{ display: "flex", gap: "8px" }}>
-            <button
-              onClick={() => scrollLeft(reviewScrollRef)}
-              style={{
-                width: "38px",
-                height: "38px",
-                borderRadius: "50%",
-                border: "1px solid #cbd5e1",
-                background: "white",
-                color: "#0f2957",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
-                transition: "all 0.3s ease"
-              }}
-              aria-label="Scroll Left"
-            >
-              <ChevronLeft size={20} />
-            </button>
-            <button
-              onClick={() => scrollRight(reviewScrollRef)}
-              style={{
-                width: "38px",
-                height: "38px",
-                borderRadius: "50%",
-                border: "none",
-                background: "#0f2957",
-                color: "white",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-                boxShadow: "0 4px 12px rgba(15,41,87,0.2)",
-                transition: "all 0.3s ease"
-              }}
-              aria-label="Scroll Right"
-            >
-              <ChevronRight size={20} />
-            </button>
-          </div>
-        </div>
-
-        {/* Swipe Carousel Slider */}
         <div
-          ref={reviewScrollRef}
-          className="horizontal-slider"
+          style={{
+            maxWidth: "1100px",
+            margin: "40px auto",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
+            gap: "25px"
+          }}
         >
           {reviews.map((r) => (
-            <div key={r.name} className="review-card-container slider-item-review">
-              {/* Full Card Background Image */}
-              <img src={r.photo} alt={r.name} className="review-bg-img" />
-
-              {/* Dark Gradient Overlay for Text Readability */}
-              <div
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  background:
-                    "linear-gradient(to top, rgba(15,30,66,0.96) 0%, rgba(15,30,66,0.65) 55%, rgba(15,30,66,0.15) 100%)"
-                }}
-              />
-
-              {/* Content Overlay directly ON TOP of the Image */}
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  padding: "24px 22px",
-                  zIndex: 2,
-                  color: "white"
-                }}
-              >
-                {/* 5-Star Rating */}
-                <div style={{ display: "flex", gap: "4px", marginBottom: "12px" }}>
-                  {[...Array(r.rating)].map((_, i) => (
-                    <Star key={i} size={16} color="#f59e0b" fill="#f59e0b" />
-                  ))}
-                </div>
-
-                {/* Review Text Quote on top of image */}
-                <p
-                  style={{
-                    margin: "0 0 16px",
-                    color: "#f8fafc",
-                    fontSize: "15px",
-                    lineHeight: "1.6",
-                    fontWeight: "400",
-                    fontStyle: "italic",
-                    textShadow: "0 2px 4px rgba(0,0,0,0.5)"
-                  }}
-                >
-                  &ldquo;{r.text}&rdquo;
-                </p>
-
-                {/* Driver Name & Role Pill Badge */}
+            <div key={r.name} className="card-animate" style={cardStyle}>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "10px" }}>
                 <div
                   style={{
+                    width: "44px",
+                    height: "44px",
+                    borderRadius: "50%",
+                    background: "#0f2957",
+                    color: "white",
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: "10px",
-                    borderTop: "1px solid rgba(255,255,255,0.2)",
-                    paddingTop: "12px"
+                    justifyContent: "center",
+                    fontWeight: "700",
+                    overflow: "hidden",
+                    flexShrink: 0
                   }}
                 >
-                  <h3
-                    style={{
-                      margin: 0,
-                      fontSize: "17px",
-                      color: "white",
-                      fontWeight: "700"
-                    }}
-                  >
-                    👨‍✈️ {r.name}
-                  </h3>
-
-                  <span
-                    style={{
-                      background: "rgba(20, 184, 166, 0.3)",
-                      backdropFilter: "blur(4px)",
-                      color: "#2dd4bf",
-                      border: "1px solid rgba(20, 184, 166, 0.5)",
-                      padding: "4px 10px",
-                      borderRadius: "999px",
-                      fontSize: "12px",
-                      fontWeight: "600",
-                      whiteSpace: "nowrap"
-                    }}
-                  >
-                    {r.role}
-                  </span>
+                  {r.photo ? (
+                    <img
+                      src={r.photo}
+                      alt={r.name}
+                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    />
+                  ) : (
+                    r.name.charAt(0)
+                  )}
+                </div>
+                <div>
+                  <h3 style={{ margin: 0, fontSize: "15px" }}>{r.name}</h3>
+                  <p style={{ margin: 0, color: "#14b8a6", fontSize: "13px" }}>{r.role}</p>
                 </div>
               </div>
+              <div style={{ display: "flex", gap: "2px", marginBottom: "8px" }}>
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} size={14} color="#f59e0b" fill="#f59e0b" />
+                ))}
+              </div>
+              <p style={{ margin: 0, color: "#475569" }}>&ldquo;{r.text}&rdquo;</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* CTA BANNER */}
-      <section style={{ padding: "0 20px 45px" }}>
+      <section
+        style={{
+          background: "rgba(15,41,87,.9)",
+          padding: "50px 20px",
+          marginTop: "30px"
+        }}
+      >
         <div
-          className="card-animate"
           style={{
             maxWidth: "1100px",
             margin: "0 auto",
-            background: "linear-gradient(135deg, rgba(15, 41, 87, 0.92) 0%, rgba(30, 58, 138, 0.92) 100%)",
-            backdropFilter: "blur(16px)",
-            WebkitBackdropFilter: "blur(16px)",
-            borderRadius: "24px",
-            padding: "36px 28px",
             display: "flex",
             flexWrap: "wrap",
             justifyContent: "space-between",
             alignItems: "center",
-            gap: "20px",
-            boxShadow: "0 25px 50px rgba(15,41,87,.28)",
-            border: "1px solid rgba(255, 255, 255, 0.18)"
+            gap: "24px"
           }}
         >
           <div>
-            <h2 style={{ color: "white", margin: "0 0 8px", fontSize: "26px" }}>
+            <h2 style={{ color: "white", margin: "0 0 8px", fontSize: "24px" }}>
               আজই আপনার গাড়ি বুক করুন
             </h2>
-            <p style={{ color: "#cbd5e1", margin: 0, fontSize: "15px" }}>
+            <p style={{ color: "#94a3b8", margin: 0 }}>
               হটলাইনে কল করুন অথবা WhatsApp-এ মেসেজ পাঠান — কয়েক মিনিটেই নিশ্চিত হবে।
             </p>
           </div>
-
-          <div style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
-            <a
-              href="tel:01719228840"
-              style={{ ...buttonStyle, background: "#ef4444", color: "white" }}
-            >
-              <Phone size={18} /> 01719-228840
+          <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
+            <a href="tel:01719228840" style={{ ...buttonStyle, background: "#ef4444", color: "white" }}>
+              <Phone size={18} /> কল করুন
             </a>
             <a
               href={whatsappHref}
@@ -1118,99 +1025,73 @@ const LandingPage = () => {
               rel="noreferrer"
               style={{ ...buttonStyle, background: "#25d366", color: "white" }}
             >
-              <MessageCircle size={18} /> WhatsApp মেসেজ
+              <MessageCircle size={18} /> WhatsApp
             </a>
           </div>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer className="footer-container">
-        <div className="footer-grid-top">
-          {/* Company Intro */}
+      <footer style={{ background: "rgba(15,41,87,.92)", color: "#cbd5e1", padding: "60px 25px 25px" }}>
+        <div
+          style={{
+            maxWidth: "1100px",
+            margin: "0 auto",
+            display: "flex",
+            justifyContent: "space-between",
+            gap: "40px",
+            flexWrap: "wrap"
+          }}
+        >
           <div>
-            <h2 style={{ color: "white", margin: "0 0 8px", fontSize: "19px", fontWeight: "700" }}>
-              মেসার্স দেশ ট্রান্সপোর্ট এজেন্সি
-            </h2>
-            <p style={{ lineHeight: "1.6", fontSize: "13.5px", color: "#cbd5e1", margin: 0 }}>
-              নিরাপদ পরিবহন, আপনার বিশ্বাসের সঙ্গী। আমরা আধুনিক প্রযুক্তির মাধ্যমে সারাদেশে ট্রাক ও পিকআপ সার্ভিস দিয়ে থাকি।
+            <h2 style={{ color: "white" }}>মেসার্স দেশ ট্রান্সপোর্ট এজেন্সি</h2>
+            <p style={{ maxWidth: "350px", lineHeight: "1.7" }}>
+              নিরাপদ পরিবহন, আপনার বিশ্বাসের সঙ্গী। আমরা আধুনিক প্রযুক্তির মাধ্যমে
+              সারাদেশে ট্রাক ও পিকআপ সার্ভিস দিয়ে থাকি।
             </p>
           </div>
 
-          {/* Subgrid for Address & Hotline (Side by Side on Mobile!) */}
-          <div className="footer-subgrid-mobile">
-            {/* Address */}
-            <div>
-              <h3 style={{ color: "white", margin: "0 0 8px", fontSize: "15px", fontWeight: "600" }}>
-                📍 প্রধান কার্যালয়
-              </h3>
-              <p style={{ fontSize: "13px", lineHeight: "1.5", color: "#94a3b8", margin: 0 }}>
-                প্রাণ-আর.এফ.এল. গ্রুপ ৪নং গেইট সংলগ্ন,<br />
-                বাগপাড়া, ঘোড়াশাল,<br />
-                পলাশ, নরসিংদী।
-              </p>
-            </div>
+          <div>
+            <h3 style={{ color: "white" }}>প্রধান কার্যালয়</h3>
+            <p>
+              প্রাণ-আর.এফ.এল. গ্রুপ ৪নং গেইট সংলগ্ন,
+              <br />
+              বাগপাড়া, ঘোড়াশাল,
+              <br />
+              পলাশ, নরসিংদী।
+            </p>
+          </div>
 
-            {/* Hotline */}
-            <div>
-              <h3 style={{ color: "white", margin: "0 0 8px", fontSize: "15px", fontWeight: "600" }}>
-                📞 হটলাইন হেল্পলাইন
-              </h3>
-              <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                <a
-                  href="tel:01719228840"
-                  style={{
-                    color: "#2dd4bf",
-                    fontWeight: "700",
-                    fontSize: "15px",
-                    textDecoration: "none",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "5px"
-                  }}
-                >
-                  01719-228840
-                </a>
-                <a
-                  href="tel:01933503060"
-                  style={{
-                    color: "#2dd4bf",
-                    fontWeight: "700",
-                    fontSize: "15px",
-                    textDecoration: "none",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "5px"
-                  }}
-                >
-                  01933-503060
-                </a>
-              </div>
-            </div>
+          <div>
+            <h3 style={{ color: "white" }}>হটলাইন</h3>
+            <h2 style={{ color: "#14b8a6", display: "flex", alignItems: "center", gap: "8px" }}>
+              <Phone size={20} /> 01719-228840
+            </h2>
+            <h2 style={{ color: "#14b8a6", display: "flex", alignItems: "center", gap: "8px" }}>
+              <Phone size={20} /> 01933-503060
+            </h2>
           </div>
         </div>
 
         <div
           style={{
-            maxWidth: "1100px",
-            margin: "24px auto 0",
-            borderTop: "1px solid rgba(255,255,255,0.12)",
-            paddingTop: "18px",
+            borderTop: "1px solid #1e3a8a",
+            marginTop: "40px",
+            paddingTop: "20px",
             textAlign: "center"
           }}
         >
-          <p style={{ fontSize: "13px", margin: "0 0 6px", color: "#94a3b8" }}>
-            © {new Date().getFullYear()} দেশ ট্রান্সপোর্ট এজেন্সি. সর্বস্বত্ব সংরক্ষিত।
-          </p>
-          <p style={{ fontSize: "13px", margin: "0 0 12px", color: "#cbd5e1" }}>
-            Developed by <span style={{ color: "#14b8a6", fontWeight: "700" }}>Engr: Rijbi Khan</span>
+          <p>© {new Date().getFullYear()} দেশ ট্রান্সপোর্ট এজেন্সি. সর্বস্বত্ব সংরক্ষিত।</p>
+          <p>
+            Developed by{" "}
+            <span style={{ color: "#14b8a6", fontWeight: "bold" }}> Engr: Rijbi Khan</span>
           </p>
 
           <a
             href={
               "https://wa.me/8801309847638?text=" +
               encodeURIComponent(
-                `আসসালামু আলাইকুম।\n\nআমি দেশ ট্রান্সপোর্ট ওয়েবসাইট সম্পর্কে যোগাযোগ করছি।`
+                `আসসালামু আলাইকুম।\n\nআমি দেশ ট্রান্সপোর্ট ওয়েবসাইট সম্পর্কে যোগাযোগ করছি।\n\nআমার একটি প্রশ্ন / সমস্যা আছে।\nদয়া করে সহযোগিতা করবেন।`
               )
             }
             target="_blank"
@@ -1218,18 +1099,15 @@ const LandingPage = () => {
             style={{
               background: "#14b8a6",
               color: "#0f2957",
-              padding: "7px 14px",
-              borderRadius: "8px",
+              padding: "8px 15px",
+              borderRadius: "6px",
               textDecoration: "none",
               fontWeight: "bold",
-              fontSize: "12.5px",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "6px",
+              display: "inline-block",
               transition: "all .3s ease"
             }}
           >
-            <Phone size={14} /> Contact Developer
+            Contact Developer
           </a>
         </div>
       </footer>
