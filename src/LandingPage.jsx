@@ -35,8 +35,19 @@ const LandingPage = () => {
   const navigate = useNavigate();
   const reduceMotion = useReducedMotion();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const videoRef = useRef(null);
   const vehicleScrollRef = useRef(null);
   const reviewScrollRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      if (reduceMotion) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play().catch(() => {});
+      }
+    }
+  }, [reduceMotion]);
 
   const scrollLeft = (ref) => {
     if (ref.current) {
