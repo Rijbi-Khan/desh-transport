@@ -78,14 +78,14 @@ const LandingPage = () => {
   };
 
   const statBadges = [
-    { label: "কভার্ড ভ্যান", value: "৫০+" },
+    { label: "কভার্ড ভ্যান", value: "৫০০+" },
     { label: "সফল ট্রিপ", value: "১০০০+" },
     { label: "সাপোর্ট", value: "২৪/৭" }
   ];
 
   const trustStats = [
     { icon: Clock, value: "২০১৮", label: "থেকে সেবায়" },
-    { icon: Truck, value: "৫০+", label: "গাড়ির বহর" },
+    { icon: Truck, value: "৫০০+", label: "গাড়ির বহর" },
     { icon: Package, value: "১০০০+", label: "সফল ডেলিভারি" },
     { icon: ShieldCheck, value: "২৪/৭", label: "সাপোর্ট টিম" }
   ];
@@ -738,11 +738,13 @@ const LandingPage = () => {
                 key={prop.title}
                 className="card-animate"
                 style={{
-                  background: "white",
+                  background: "rgba(255, 255, 255, 0.88)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
                   padding: "24px 22px",
-                  borderRadius: "18px",
-                  boxShadow: "0 10px 30px rgba(15,41,87,.08)",
-                  border: "1px solid #f1f5f9"
+                  borderRadius: "20px",
+                  boxShadow: "0 15px 35px rgba(15,41,87,.09)",
+                  border: "1px solid rgba(255, 255, 255, 0.9)"
                 }}
               >
                 <div
@@ -871,7 +873,7 @@ const LandingPage = () => {
       </section>
 
       {/* HOW IT WORKS */}
-      <section style={{ background: "white", padding: "40px 20px" }}>
+      <section style={{ background: "transparent", padding: "40px 20px" }}>
         <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
           <h2 style={{ textAlign: "center", color: "#0f2957", fontSize: "28px", margin: "0 0 28px" }}>
             কীভাবে কাজ করে
@@ -885,7 +887,20 @@ const LandingPage = () => {
             }}
           >
             {steps.map((step) => (
-              <div key={step.number} style={{ textAlign: "center", padding: "0 10px" }}>
+              <div
+                key={step.number}
+                className="card-animate"
+                style={{
+                  textAlign: "center",
+                  padding: "26px 20px",
+                  background: "rgba(255, 255, 255, 0.88)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                  borderRadius: "20px",
+                  boxShadow: "0 15px 35px rgba(15,41,87,.08)",
+                  border: "1px solid rgba(255, 255, 255, 0.9)"
+                }}
+              >
                 <div
                   style={{
                     color: "#14b8a6",
@@ -1063,18 +1078,22 @@ const LandingPage = () => {
       {/* CTA BANNER */}
       <section style={{ padding: "0 20px 45px" }}>
         <div
+          className="card-animate"
           style={{
             maxWidth: "1100px",
             margin: "0 auto",
-            background: "linear-gradient(135deg, #0f2957 0%, #1e3a8a 100%)",
-            borderRadius: "20px",
-            padding: "32px 24px",
+            background: "linear-gradient(135deg, rgba(15, 41, 87, 0.92) 0%, rgba(30, 58, 138, 0.92) 100%)",
+            backdropFilter: "blur(16px)",
+            WebkitBackdropFilter: "blur(16px)",
+            borderRadius: "24px",
+            padding: "36px 28px",
             display: "flex",
             flexWrap: "wrap",
             justifyContent: "space-between",
             alignItems: "center",
             gap: "20px",
-            boxShadow: "0 18px 40px rgba(15,41,87,.2)"
+            boxShadow: "0 25px 50px rgba(15,41,87,.28)",
+            border: "1px solid rgba(255, 255, 255, 0.18)"
           }}
         >
           <div>
