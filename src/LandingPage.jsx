@@ -30,6 +30,7 @@ import review1Img from "./assets/review 1.png";
 import review2Img from "./assets/review 2.png";
 import routeVideo from "./assets/route-drone.mp4";
 import CoverageMap from "./CoverageMap";
+import MapWatermark from "./MapWatermark";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -201,10 +202,12 @@ const LandingPage = () => {
         fontFamily: "'Hind Siliguri', 'Segoe UI', system-ui, sans-serif",
         background: "#f8fafc",
         color: "#1e293b",
+        position: "relative",
         overflowX: "hidden",
         width: "100%"
       }}
     >
+      <MapWatermark />
       {/* Embedded CSS for Animations, Swipe Carousels & Mobile Responsiveness */}
       <style>{`
         * { box-sizing: border-box; }
