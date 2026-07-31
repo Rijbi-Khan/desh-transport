@@ -699,13 +699,13 @@ const LandingPage = () => {
         </div>
       </motion.section>
 
-      {/* PROMOTIONAL BANNER - 3D SLIDE IN FROM RIGHT ON SCROLL */}
+      {/* PROMOTIONAL BANNER - DYNAMIC CONTINUOUS SCROLL ANIMATION (UP & DOWN) */}
       <motion.section
         className="banner-container-wrapper"
         initial={{ opacity: 0, x: 90, rotateY: 15, scale: 0.94 }}
         whileInView={{ opacity: 1, x: 0, rotateY: 0, scale: 1 }}
-        viewport={{ once: true, amount: 0.25 }}
-        transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+        viewport={{ once: false, amount: 0.12 }}
+        transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
       >
         <img
           src={bannerImg}
@@ -717,7 +717,7 @@ const LandingPage = () => {
       <div style={{ height: "40px" }} />
 
       {/* TRUST BAR - COMPACT FLOATING GLASS CARD */}
-      <section style={{ padding: "16px 20px 10px", maxWidth: "1020px", margin: "0 auto" }}>
+      <section style={{ padding: "16px 12px 10px", maxWidth: "1180px", margin: "0 auto" }}>
         <div
           style={{
             background: "rgba(255, 255, 255, 0.85)",
@@ -1052,7 +1052,7 @@ const LandingPage = () => {
       </section>
 
       {/* CTA BANNER - SLEEK FLOATING GLASS CARD */}
-      <section style={{ padding: "30px 20px 20px", maxWidth: "1080px", margin: "0 auto" }}>
+      <section style={{ padding: "24px 12px 16px", maxWidth: "1180px", margin: "0 auto" }}>
         <div
           style={{
             background: "linear-gradient(135deg, rgba(15,41,87,0.95) 0%, rgba(30,58,138,0.92) 100%)",
@@ -1094,7 +1094,7 @@ const LandingPage = () => {
       </section>
 
       {/* FOOTER - COMPACT & GLASSMORPHIC */}
-      <footer className="mobile-footer-compact" style={{ padding: "10px 20px 25px", maxWidth: "1080px", margin: "0 auto" }}>
+      <footer className="mobile-footer-compact" style={{ padding: "10px 12px 25px", maxWidth: "1180px", margin: "0 auto" }}>
         <div
           style={{
             background: "rgba(15, 41, 87, 0.92)",
