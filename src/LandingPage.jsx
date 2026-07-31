@@ -17,7 +17,9 @@ import {
   ArrowRight,
   Radio,
   Menu,
-  X
+  X,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 import logoImg from "./desh logo.jpeg";
 import fleetImg from "./assets/fleet-highway.jpg";
@@ -26,23 +28,27 @@ import trailerImg from "./assets/trailer-rain.jpg";
 import driverPortraitImg from "./assets/driver-portrait.jpg";
 import review1Img from "./assets/review-1.jpg";
 import review2Img from "./assets/review-2.jpg";
+import bannerImg from "./assets/banner.jpeg";
 import routeVideo from "./assets/Same_shot_as_above_but_framed.mp4";
 
 const LandingPage = () => {
   const navigate = useNavigate();
   const reduceMotion = useReducedMotion();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const videoRef = useRef(null);
+  const vehicleScrollRef = useRef(null);
+  const reviewScrollRef = useRef(null);
 
-  useEffect(() => {
-    if (videoRef.current) {
-      if (reduceMotion) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play().catch(() => {});
-      }
+  const scrollLeft = (ref) => {
+    if (ref.current) {
+      ref.current.scrollBy({ left: -340, behavior: "smooth" });
     }
-  }, [reduceMotion]);
+  };
+
+  const scrollRight = (ref) => {
+    if (ref.current) {
+      ref.current.scrollBy({ left: 340, behavior: "smooth" });
+    }
+  };
 
   const fadeUpContainer = {
     hidden: {},
@@ -270,13 +276,40 @@ const LandingPage = () => {
           to { width: 68%; }
         }
 
-        @media (max-width: 860px) {
-          .hero-grid, .tracking-grid { grid-template-columns: 1fr !important; }
+        .horizontal-slider {
+          display: flex;
+          overflow-x: auto;
+          scroll-snap-type: x mandatory;
+          gap: 20px;
+          padding: 8px 4px 20px;
+          scrollbar-width: none;
+          -webkit-overflow-scrolling: touch;
+        }
+        .horizontal-slider::-webkit-scrollbar {
+          display: none;
+        }
+        .slider-item-vehicle {
+          flex: 0 0 320px;
+          scroll-snap-align: start;
+        }
+        .slider-item-review {
+          flex: 0 0 320px;
+          scroll-snap-align: start;
         }
 
         @media (max-width: 768px) {
+          .hero-section-wrapper {
+            min-height: 380px !important;
+            margin: 12px 12px 0 !important;
+            border-radius: 20px !important;
+          }
+          .hero-inner-padding {
+            padding: 40px 16px 50px !important;
+          }
           .desktop-nav-buttons { display: none !important; }
           .hamburger-btn { display: flex !important; align-items: center; }
+          .slider-item-vehicle { flex: 0 0 85%; }
+          .slider-item-review { flex: 0 0 85%; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -467,12 +500,13 @@ const LandingPage = () => {
 
       {/* HERO — full-width video banner with the headline overlaid on top */}
       <motion.section
+        className="hero-section-wrapper"
         variants={fadeUpContainer}
         initial="hidden"
         animate="show"
         style={{
           position: "relative",
-          minHeight: "560px",
+          minHeight: "520px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -510,12 +544,13 @@ const LandingPage = () => {
         />
 
         <div
+          className="hero-inner-padding"
           style={{
             position: "relative",
             zIndex: 2,
             maxWidth: "760px",
             width: "100%",
-            padding: "70px 30px 110px",
+            padding: "60px 24px 60px",
             textAlign: "center",
             display: "flex",
             flexDirection: "column",
@@ -545,7 +580,7 @@ const LandingPage = () => {
             variants={fadeUpItem}
             style={{
               color: "white",
-              fontSize: "clamp(28px, 4.5vw, 46px)",
+              fontSize: "clamp(26px, 4.5vw, 46px)",
               lineHeight: "1.25",
               fontWeight: "700",
               margin: 0,
@@ -583,7 +618,7 @@ const LandingPage = () => {
 
           <motion.div
             variants={fadeUpItem}
-            style={{ display: "flex", gap: "16px", flexWrap: "wrap", justifyContent: "center" }}
+            style={{ display: "flex", gap: "14px", flexWrap: "wrap", justifyContent: "center" }}
           >
             <button
               onClick={() => navigate("/trips")}
@@ -607,39 +642,22 @@ const LandingPage = () => {
             </a>
           </motion.div>
         </div>
-
-        {/* floating stat card, overlapping the bottom edge of the video */}
-        <div
-          style={{
-            position: "absolute",
-            left: "50%",
-            bottom: "-26px",
-            transform: "translateX(-50%)",
-            width: "min(700px, calc(100% - 32px))",
-            background: "rgba(255,255,255,.92)",
-            backdropFilter: "blur(10px)",
-            borderRadius: "16px",
-            boxShadow: "0 15px 35px rgba(15,41,87,.25)",
-            padding: "16px 20px",
-            display: "flex",
-            justifyContent: "space-between",
-            gap: "12px",
-            zIndex: 3
-          }}
-        >
-          {statBadges.map((stat) => (
-            <div key={stat.label} style={{ textAlign: "center", flex: 1 }}>
-              <div
-                className="stat-value"
-                style={{ color: "#0f2957", fontSize: "20px", fontWeight: "600" }}
-              >
-                {stat.value}
-              </div>
-              <div style={{ color: "#334155", fontSize: "12px" }}>{stat.label}</div>
-            </div>
-          ))}
-        </div>
       </motion.section>
+
+      {/* PROMOTIONAL BANNER */}
+      <section style={{ padding: "30px 20px 10px", maxWidth: "1160px", margin: "0 auto" }}>
+        <img
+          src={bannerImg}
+          alt="দেশ ট্রান্সপোর্ট ব্যানার"
+          style={{
+            width: "100%",
+            borderRadius: "20px",
+            display: "block",
+            boxShadow: "0 15px 35px rgba(15,41,87,0.15)",
+            objectFit: "cover"
+          }}
+        />
+      </section>
 
       <div style={{ height: "40px" }} />
 
@@ -714,35 +732,82 @@ const LandingPage = () => {
 
 
 
-      {/* VEHICLE / SERVICES */}
-      <section style={{ padding: "70px 20px", maxWidth: "1100px", margin: "0 auto" }}>
-        <h2 style={{ textAlign: "center", color: "#0f2957", fontSize: "30px" }}>
-          আমাদের যানবাহনের ধরণ সমূহ
-        </h2>
-        <p style={{ textAlign: "center", color: "#334155", marginBottom: "45px" }}>
-          Your cargo's safety is our priority with our modern fleet.
-        </p>
+      {/* VEHICLE / SERVICES - SWIPE CAROUSEL */}
+      <section style={{ padding: "50px 20px", maxWidth: "1160px", margin: "0 auto" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "20px", flexWrap: "wrap", gap: "14px" }}>
+          <div>
+            <h2 style={{ color: "#0f2957", fontSize: "28px", margin: "0 0 6px" }}>
+              আমাদের যানবাহনের ধরণ সমূহ
+            </h2>
+            <p style={{ color: "#64748b", margin: 0, fontSize: "14.5px" }}>
+              আপনার মালামালের সুরক্ষায় আমাদের সুসজ্জিত ও আধুনিক যানবাহনের বহর (পাশে সোয়াইপ করুন ➔)
+            </p>
+          </div>
 
+          {/* Slider Arrow Controls */}
+          <div style={{ display: "flex", gap: "8px" }}>
+            <button
+              onClick={() => scrollLeft(vehicleScrollRef)}
+              style={{
+                width: "38px",
+                height: "38px",
+                borderRadius: "50%",
+                border: "1px solid #cbd5e1",
+                background: "white",
+                color: "#0f2957",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
+                transition: "all 0.3s ease"
+              }}
+              aria-label="Scroll Left"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button
+              onClick={() => scrollRight(vehicleScrollRef)}
+              style={{
+                width: "38px",
+                height: "38px",
+                borderRadius: "50%",
+                border: "none",
+                background: "#0f2957",
+                color: "white",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                boxShadow: "0 4px 12px rgba(15,41,87,0.2)",
+                transition: "all 0.3s ease"
+              }}
+              aria-label="Scroll Right"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+        </div>
+
+        {/* Horizontal Slider */}
         <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
-            gap: "25px"
-          }}
+          ref={vehicleScrollRef}
+          className="horizontal-slider"
         >
           {vehicles.map((v) => {
             const Icon = v.icon;
             return (
               <div
                 key={v.name}
-                className="card-animate"
+                className="card-animate slider-item-vehicle"
                 style={{
-                  background: "transparent",
-                  borderRadius: "18px",
-                  boxShadow: "none",
-                  transition: "all .3s ease",
-                  cursor: "pointer",
-                  overflow: "hidden"
+                  background: "rgba(255, 255, 255, 0.88)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                  borderRadius: "20px",
+                  boxShadow: "0 12px 35px rgba(0,0,0,.08)",
+                  overflow: "hidden",
+                  border: "1px solid rgba(255,255,255,0.9)"
                 }}
               >
                 <img
@@ -750,15 +815,15 @@ const LandingPage = () => {
                   alt={v.name}
                   style={{
                     width: "100%",
-                    height: "170px",
+                    height: "185px",
                     objectFit: "cover",
                     display: "block"
                   }}
                 />
-                <div style={{ padding: "28px 35px 35px" }}>
-                  <Icon size={36} color="#0f2957" style={{ marginBottom: "10px" }} />
-                  <h3 style={{ margin: "0 0 8px", color: "#0f2957" }}>{v.name}</h3>
-                  <p style={{ margin: 0, color: "#334155" }}>{v.desc}</p>
+                <div style={{ padding: "24px 22px 28px" }}>
+                  <Icon size={32} color="#0f2957" style={{ marginBottom: "10px" }} />
+                  <h3 style={{ margin: "0 0 8px", color: "#0f2957", fontSize: "18px" }}>{v.name}</h3>
+                  <p style={{ margin: 0, color: "#64748b", fontSize: "14px", lineHeight: "1.6" }}>{v.desc}</p>
                 </div>
               </div>
             );
@@ -767,7 +832,7 @@ const LandingPage = () => {
       </section>
 
       {/* HOW IT WORKS */}
-      <section style={{ background: "transparent", padding: "70px 20px" }}>
+      <section style={{ background: "transparent", padding: "50px 20px" }}>
         <h2 style={{ textAlign: "center", color: "#0f2957", fontSize: "30px", margin: "0 0 45px" }}>
           কীভাবে কাজ করে
         </h2>
@@ -800,32 +865,81 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* DRIVER REVIEWS */}
-      <section style={{ padding: "70px 20px" }}>
-        <h2 style={{ textAlign: "center", color: "#0f2957" }}>আমাদের চালকদের মতামত</h2>
+      {/* DRIVER REVIEWS - SWIPE CAROUSEL */}
+      <section style={{ padding: "50px 20px 60px", maxWidth: "1160px", margin: "0 auto" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "24px", flexWrap: "wrap", gap: "14px" }}>
+          <div>
+            <h2 style={{ color: "#0f2957", fontSize: "28px", margin: "0 0 6px" }}>
+              আমাদের চালকদের মতামত
+            </h2>
+            <p style={{ color: "#64748b", fontSize: "15px", margin: 0 }}>
+              অভিজ্ঞ চালকদের বাস্তব অভিজ্ঞতা ও দেশ ট্রান্সপোর্টের প্রতি তাদের আস্থা (পাশে সোয়াইপ করুন ➔)
+            </p>
+          </div>
 
+          {/* Slider Arrow Controls */}
+          <div style={{ display: "flex", gap: "8px" }}>
+            <button
+              onClick={() => scrollLeft(reviewScrollRef)}
+              style={{
+                width: "38px",
+                height: "38px",
+                borderRadius: "50%",
+                border: "1px solid #cbd5e1",
+                background: "white",
+                color: "#0f2957",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
+                transition: "all 0.3s ease"
+              }}
+              aria-label="Scroll Left"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button
+              onClick={() => scrollRight(reviewScrollRef)}
+              style={{
+                width: "38px",
+                height: "38px",
+                borderRadius: "50%",
+                border: "none",
+                background: "#0f2957",
+                color: "white",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                boxShadow: "0 4px 12px rgba(15,41,87,0.2)",
+                transition: "all 0.3s ease"
+              }}
+              aria-label="Scroll Right"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+        </div>
+
+        {/* Horizontal Slider */}
         <div
-          style={{
-            maxWidth: "1100px",
-            margin: "40px auto",
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
-            gap: "25px"
-          }}
+          ref={reviewScrollRef}
+          className="horizontal-slider"
         >
           {reviews.map((r) => (
             <div
               key={r.name}
-              className="card-animate"
+              className="card-animate slider-item-review"
               style={{
                 position: "relative",
-                borderRadius: "18px",
+                borderRadius: "20px",
                 overflow: "hidden",
-                minHeight: "320px",
+                minHeight: "330px",
                 display: "flex",
                 alignItems: "flex-end",
                 cursor: "pointer",
-                boxShadow: "0 12px 35px rgba(0,0,0,.18)"
+                boxShadow: "0 12px 35px rgba(15,41,87,.18)"
               }}
             >
               <img
