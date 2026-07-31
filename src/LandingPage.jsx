@@ -699,26 +699,38 @@ const LandingPage = () => {
         </div>
       </motion.section>
 
-      {/* PROMOTIONAL BANNER */}
-      <section className="banner-container-wrapper">
+      {/* PROMOTIONAL BANNER - 3D SLIDE IN FROM RIGHT ON SCROLL */}
+      <motion.section
+        className="banner-container-wrapper"
+        initial={{ opacity: 0, x: 90, rotateY: 15, scale: 0.94 }}
+        whileInView={{ opacity: 1, x: 0, rotateY: 0, scale: 1 }}
+        viewport={{ once: true, amount: 0.25 }}
+        transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+      >
         <img
           src={bannerImg}
           alt="দেশ ট্রান্সপোর্ট ব্যানার"
           className="banner-3d-card"
         />
-      </section>
+      </motion.section>
 
       <div style={{ height: "40px" }} />
 
-      {/* TRUST BAR */}
-      <section style={{ background: "rgba(15,41,87,.9)", padding: "30px 20px" }}>
+      {/* TRUST BAR - COMPACT FLOATING GLASS CARD */}
+      <section style={{ padding: "16px 20px 10px", maxWidth: "1020px", margin: "0 auto" }}>
         <div
           style={{
-            maxWidth: "1100px",
-            margin: "0 auto",
+            background: "rgba(255, 255, 255, 0.85)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            borderRadius: "20px",
+            padding: "20px 24px",
+            boxShadow: "0 12px 35px rgba(15, 41, 87, 0.1)",
+            border: "1px solid rgba(255, 255, 255, 0.9)",
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit,minmax(160px,1fr))",
-            gap: "20px"
+            gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+            gap: "18px",
+            alignItems: "center"
           }}
         >
           {trustStats.map((stat) => {
@@ -726,14 +738,27 @@ const LandingPage = () => {
             return (
               <div
                 key={stat.label}
-                style={{ display: "flex", alignItems: "center", gap: "12px" }}
+                style={{ display: "flex", alignItems: "center", gap: "10px" }}
               >
-                <Icon size={26} color="#14b8a6" style={{ flexShrink: 0 }} />
+                <div
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    borderRadius: "10px",
+                    background: "#e1f5ee",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0
+                  }}
+                >
+                  <Icon size={20} color="#0f6e56" />
+                </div>
                 <div>
-                  <div style={{ color: "white", fontSize: "20px", fontWeight: "700" }}>
+                  <div style={{ color: "#0f2957", fontSize: "18px", fontWeight: "700" }}>
                     {stat.value}
                   </div>
-                  <div style={{ color: "#94a3b8", fontSize: "12px" }}>{stat.label}</div>
+                  <div style={{ color: "#64748b", fontSize: "12px", fontWeight: "500" }}>{stat.label}</div>
                 </div>
               </div>
             );
@@ -1026,126 +1051,170 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* CTA BANNER */}
-      <section
-        style={{
-          background: "rgba(15,41,87,.9)",
-          padding: "50px 20px"
-        }}
-      >
+      {/* CTA BANNER - SLEEK FLOATING GLASS CARD */}
+      <section style={{ padding: "30px 20px 20px", maxWidth: "1080px", margin: "0 auto" }}>
         <div
           style={{
-            maxWidth: "1100px",
-            margin: "0 auto",
+            background: "linear-gradient(135deg, rgba(15,41,87,0.95) 0%, rgba(30,58,138,0.92) 100%)",
+            backdropFilter: "blur(16px)",
+            WebkitBackdropFilter: "blur(16px)",
+            borderRadius: "24px",
+            padding: "26px 24px",
             display: "flex",
             flexWrap: "wrap",
             justifyContent: "space-between",
             alignItems: "center",
-            gap: "24px"
+            gap: "16px",
+            boxShadow: "0 20px 45px rgba(15,41,87,0.25)",
+            border: "1px solid rgba(255,255,255,0.18)"
           }}
         >
           <div>
-            <h2 style={{ color: "white", margin: "0 0 8px", fontSize: "24px" }}>
+            <h2 style={{ color: "white", margin: "0 0 6px", fontSize: "22px", fontWeight: "700" }}>
               আজই আপনার গাড়ি বুক করুন
             </h2>
-            <p style={{ color: "#94a3b8", margin: 0 }}>
+            <p style={{ color: "#cbd5e1", margin: 0, fontSize: "14px", lineHeight: "1.5" }}>
               হটলাইনে কল করুন অথবা WhatsApp-এ মেসেজ পাঠান — কয়েক মিনিটেই নিশ্চিত হবে।
             </p>
           </div>
-          <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
-            <a href="tel:01719228840" style={{ ...buttonStyle, background: "#ef4444", color: "white" }}>
-              <Phone size={18} /> কল করুন
+          <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+            <a href="tel:01719228840" style={{ ...buttonStyle, background: "#ef4444", color: "white", padding: "10px 18px", fontSize: "14px" }}>
+              <Phone size={16} /> কল করুন
             </a>
             <a
               href={whatsappHref}
               target="_blank"
               rel="noreferrer"
-              style={{ ...buttonStyle, background: "#25d366", color: "white" }}
+              style={{ ...buttonStyle, background: "#25d366", color: "white", padding: "10px 18px", fontSize: "14px" }}
             >
-              <MessageCircle size={18} /> WhatsApp
+              <MessageCircle size={16} /> WhatsApp
             </a>
           </div>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="mobile-footer-compact" style={{ background: "rgba(15,41,87,.92)", color: "#cbd5e1", padding: "60px 25px 25px" }}>
+      {/* FOOTER - COMPACT & GLASSMORPHIC */}
+      <footer className="mobile-footer-compact" style={{ padding: "10px 20px 25px", maxWidth: "1080px", margin: "0 auto" }}>
         <div
           style={{
-            maxWidth: "1100px",
-            margin: "0 auto",
-            display: "flex",
-            justifyContent: "space-between",
-            gap: "40px",
-            flexWrap: "wrap"
+            background: "rgba(15, 41, 87, 0.92)",
+            backdropFilter: "blur(16px)",
+            WebkitBackdropFilter: "blur(16px)",
+            borderRadius: "24px",
+            padding: "28px 24px 18px",
+            boxShadow: "0 20px 40px rgba(15, 41, 87, 0.2)",
+            border: "1px solid rgba(255, 255, 255, 0.12)",
+            color: "#cbd5e1"
           }}
         >
-          <div>
-            <h2 style={{ color: "white" }}>মেসার্স দেশ ট্রান্সপোর্ট এজেন্সি</h2>
-            <p style={{ maxWidth: "350px", lineHeight: "1.7" }}>
-              নিরাপদ পরিবহন, আপনার বিশ্বাসের সঙ্গী। আমরা আধুনিক প্রযুক্তির মাধ্যমে
-              সারাদেশে ট্রাক ও পিকআপ সার্ভিস দিয়ে থাকি।
-            </p>
-          </div>
-
-          <div>
-            <h3 style={{ color: "white" }}>প্রধান কার্যালয়</h3>
-            <p>
-              প্রাণ-আর.এফ.এল. গ্রুপ ৪নং গেইট সংলগ্ন,
-              <br />
-              বাগপাড়া, ঘোড়াশাল,
-              <br />
-              পলাশ, নরসিংদী।
-            </p>
-          </div>
-
-          <div>
-            <h3 style={{ color: "white" }}>হটলাইন</h3>
-            <h2 style={{ color: "#14b8a6", display: "flex", alignItems: "center", gap: "8px" }}>
-              <Phone size={20} /> 01719-228840
-            </h2>
-            <h2 style={{ color: "#14b8a6", display: "flex", alignItems: "center", gap: "8px" }}>
-              <Phone size={20} /> 01933-503060
-            </h2>
-          </div>
-        </div>
-
-        <div
-          style={{
-            borderTop: "1px solid #1e3a8a",
-            marginTop: "40px",
-            paddingTop: "20px",
-            textAlign: "center"
-          }}
-        >
-          <p>© {new Date().getFullYear()} দেশ ট্রান্সপোর্ট এজেন্সি. সর্বস্বত্ব সংরক্ষিত।</p>
-          <p>
-            Developed by{" "}
-            <span style={{ color: "#14b8a6", fontWeight: "bold" }}> Engr: Rijbi Khan</span>
-          </p>
-
-          <a
-            href={
-              "https://wa.me/8801309847638?text=" +
-              encodeURIComponent(
-                `আসসালামু আলাইকুম।\n\nআমি দেশ ট্রান্সপোর্ট ওয়েবসাইট সম্পর্কে যোগাযোগ করছি।\n\nআমার একটি প্রশ্ন / সমস্যা আছে।\nদয়া করে সহযোগিতা করবেন।`
-              )
-            }
-            target="_blank"
-            rel="noreferrer"
+          <div
             style={{
-              background: "#14b8a6",
-              color: "#0f2957",
-              padding: "8px 15px",
-              borderRadius: "6px",
-              textDecoration: "none",
-              fontWeight: "bold",
-              display: "inline-block",
-              transition: "all .3s ease"
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+              gap: "20px",
+              marginBottom: "20px"
             }}
           >
-            Contact Developer
-          </a>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
+                <img
+                  src={logoImg}
+                  alt="দেশ ট্রান্সপোর্ট"
+                  style={{ width: "34px", height: "34px", borderRadius: "50%", objectFit: "cover" }}
+                />
+                <h3 style={{ color: "white", margin: 0, fontSize: "17px" }}>মেসার্স দেশ ট্রান্সপোর্ট এজেন্সি</h3>
+              </div>
+              <p style={{ margin: 0, fontSize: "13px", lineHeight: "1.6", color: "#94a3b8" }}>
+                নিরাপদ পরিবহন, আপনার বিশ্বাসের সঙ্গী। আমরা আধুনিক প্রযুক্তির মাধ্যমে সারাদেশের সুসজ্জিত যানবাহনের মাধ্যমে কাঙ্ক্ষিত সেবা দিয়ে থাকি।
+              </p>
+            </div>
+
+            <div>
+              <h4 style={{ color: "white", margin: "0 0 8px", fontSize: "15px" }}>প্রধান কার্যালয়</h4>
+              <p style={{ margin: 0, fontSize: "13px", lineHeight: "1.6", color: "#94a3b8" }}>
+                প্রাণ-আর.এফ.এল. গ্রুপ ৪নং গেইট সংলগ্ন,<br />
+                বাগপাড়া, ঘোড়াশাল, পলাশ, নরসিংদী।
+              </p>
+            </div>
+
+            <div>
+              <h4 style={{ color: "white", margin: "0 0 8px", fontSize: "15px" }}>হটলাইন সাপোর্ট</h4>
+              <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                <a
+                  href="tel:01719228840"
+                  style={{
+                    color: "#2dd4bf",
+                    textDecoration: "none",
+                    fontWeight: "600",
+                    fontSize: "14.5px",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "8px"
+                  }}
+                >
+                  <Phone size={15} /> 01719-228840
+                </a>
+                <a
+                  href="tel:01933503060"
+                  style={{
+                    color: "#2dd4bf",
+                    textDecoration: "none",
+                    fontWeight: "600",
+                    fontSize: "14.5px",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "8px"
+                  }}
+                >
+                  <Phone size={15} /> 01933-503060
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div
+            style={{
+              borderTop: "1px solid rgba(255, 255, 255, 0.12)",
+              paddingTop: "14px",
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: "10px",
+              fontSize: "12.5px"
+            }}
+          >
+            <p style={{ margin: 0, color: "#94a3b8" }}>
+              © {new Date().getFullYear()} দেশ ট্রান্সপোর্ট এজেন্সি. সর্বস্বত্ব সংরক্ষিত।
+            </p>
+
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <span style={{ color: "#94a3b8" }}>
+                Developed by <span style={{ color: "#2dd4bf", fontWeight: "700" }}>Engr: Rijbi Khan</span>
+              </span>
+              <a
+                href={
+                  "https://wa.me/8801309847638?text=" +
+                  encodeURIComponent(
+                    `আসসালামু আলাইকুম।\n\nআমি দেশ ট্রান্সপোর্ট ওয়েবসাইট সম্পর্কে যোগাযোগ করছি।`
+                  )
+                }
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  background: "#14b8a6",
+                  color: "#0f2957",
+                  padding: "5px 11px",
+                  borderRadius: "6px",
+                  textDecoration: "none",
+                  fontWeight: "700",
+                  fontSize: "11.5px"
+                }}
+              >
+                Contact Developer
+              </a>
+            </div>
+          </div>
         </div>
       </footer>
     </div>
