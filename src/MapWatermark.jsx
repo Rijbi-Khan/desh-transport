@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
-import { DIVISIONS, HUB, CITIES, routePath } from "./CoverageMap";
+import { DIVISIONS, HUB, CITIES, routePath } from "./mapData";
 
 /*
   Persistent, colourful, low-key-animated Bangladesh map that sits behind
@@ -23,6 +23,22 @@ const DIVISION_COLORS = {
 
 const MapWatermark = () => {
   const reduceMotion = useReducedMotion();
+  const groupRef = useRef(null);
+  // Fallback to the full original canvas until the real bounds are measured
+  const [viewBox, setViewBox] = useState("0 0 435 600");
+
+  useEffect(() => {
+    if (!groupRef.current) return;
+    try {
+      const box = groupRef.current.getBBox();
+      const pad = Math.max(box.width, box.height) * 0.08;
+      setViewBox(
+        `${box.x - pad} ${box.y - pad} ${box.width + pad * 2} ${box.height + pad * 2}`
+      );
+    } catch (e) {
+      // getBBox can fail on some browsers before layout is ready — keep fallback
+    }
+  }, []);
 
   return (
     <div
@@ -37,7 +53,7 @@ const MapWatermark = () => {
       }}
     >
       <svg
-        viewBox="0 0 435 600"
+        viewBox={viewBox}
         preserveAspectRatio="xMidYMid meet"
         style={{
           position: "absolute",
@@ -46,17 +62,19 @@ const MapWatermark = () => {
           height: "100%"
         }}
       >
-        {/* colourful land divisions */}
-        {DIVISIONS.map((div) => (
-          <path
-            key={div.name}
-            d={div.d}
-            fill={DIVISION_COLORS[div.name] || "#9fd3ab"}
-            fillOpacity="0.55"
-            stroke="#ffffff"
-            strokeWidth="1.6"
-          />
-        ))}
+        {/* colourful land divisions (measured for the tight viewBox above) */}
+        <g ref={groupRef}>
+          {DIVISIONS.map((div) => (
+            <path
+              key={div.name}
+              d={div.d}
+              fill={DIVISION_COLORS[div.name] || "#9fd3ab"}
+              fillOpacity="0.55"
+              stroke="#ffffff"
+              strokeWidth="1.6"
+            />
+          ))}
+        </g>
 
         {/* routes radiating from the Narsingdi hub, always visible */}
         {CITIES.map((city) => (
