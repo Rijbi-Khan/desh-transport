@@ -24,6 +24,8 @@ import fleetImg from "./assets/fleet-highway.jpg";
 import openTruckImg from "./assets/open-truck-loading.jpg";
 import trailerImg from "./assets/trailer-rain.jpg";
 import driverPortraitImg from "./assets/driver-portrait.jpg";
+import review1Img from "./assets/review-1.jpg";
+import review2Img from "./assets/review-2.jpg";
 import routeVideo from "./assets/Same_shot_as_above_but_framed.mp4";
 
 const LandingPage = () => {
@@ -139,13 +141,13 @@ const LandingPage = () => {
       name: "আলমগীর হোসেন",
       role: "খোলা ট্রাক চালক",
       text: "ভাড়া নির্ধারিত থাকে এবং সময়মতো পেমেন্ট পাওয়া যায়।",
-      photo: openTruckImg
+      photo: review1Img
     },
     {
       name: "সাজ্জাদ আলী",
       role: "ট্রেইলার চালক",
       text: "বড় কোম্পানির ভালো ট্রিপ পাওয়া সহজ হয়েছে।",
-      photo: trailerImg
+      photo: review2Img
     }
   ];
 
@@ -710,138 +712,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* LIVE TRACKING PREVIEW */}
-      <section style={{ background: "transparent", padding: "70px 20px" }}>
-        <div
-          className="tracking-grid"
-          style={{
-            maxWidth: "1100px",
-            margin: "0 auto",
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "48px",
-            alignItems: "center"
-          }}
-        >
-          <div>
-            <h2 style={{ color: "#0f2957", fontSize: "28px", margin: "0 0 16px" }}>
-              আপনার মালামাল কোথায় আছে, সবসময় জানুন
-            </h2>
-            <p style={{ color: "#334155", lineHeight: "1.8", marginBottom: "28px" }}>
-              প্রতিটি ট্রিপ লাইভ ড্যাশবোর্ডে দেখা যায় — গাড়ি, চালক ও গন্তব্যের বর্তমান
-              অবস্থাসহ। কোনো ফোন কল ছাড়াই আপডেট পান।
-            </p>
-            <button
-              onClick={() => navigate("/trips")}
-              style={{ ...buttonStyle, background: "#0f2957", color: "white" }}
-            >
-              ড্যাশবোর্ড দেখুন <ArrowRight size={18} />
-            </button>
-          </div>
 
-          <div
-            style={{
-              background: "#f1f5f9",
-              borderRadius: "20px",
-              padding: "24px",
-              boxShadow: "0 15px 35px rgba(15,41,87,.1)"
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: "18px"
-              }}
-            >
-              <span
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  color: "#0f6e56",
-                  fontWeight: "700",
-                  fontSize: "13px"
-                }}
-              >
-                <Radio size={14} /> ট্রিপ #DT-2291 চলমান
-              </span>
-              <span style={{ color: "#94a3b8", fontSize: "12px" }}>ইটিএ ৪৫ মিনিট</span>
-            </div>
-
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                fontSize: "13px",
-                color: "#0f2957",
-                fontWeight: "600",
-                marginBottom: "8px"
-              }}
-            >
-              <span>ঘোড়াশাল, নরসিংদী</span>
-              <span>ঢাকা</span>
-            </div>
-
-            <div
-              style={{
-                height: "8px",
-                background: "#e2e8f0",
-                borderRadius: "4px",
-                overflow: "hidden",
-                marginBottom: "20px"
-              }}
-            >
-              <div
-                className="tracking-progress-fill"
-                style={{ height: "100%", background: "#14b8a6", borderRadius: "4px" }}
-              />
-            </div>
-
-            <div style={{ display: "flex", gap: "16px" }}>
-              <div
-                style={{
-                  background: "white",
-                  borderRadius: "12px",
-                  padding: "12px 16px",
-                  flex: 1,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px"
-                }}
-              >
-                <Truck size={20} color="#0f2957" />
-                <div>
-                  <div style={{ fontSize: "12px", color: "#94a3b8" }}>গাড়ি</div>
-                  <div style={{ fontSize: "13px", fontWeight: "600", color: "#0f2957" }}>
-                    কভার্ড ভ্যান
-                  </div>
-                </div>
-              </div>
-              <div
-                style={{
-                  background: "white",
-                  borderRadius: "12px",
-                  padding: "12px 16px",
-                  flex: 1,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px"
-                }}
-              >
-                <MapPin size={20} color="#0f2957" />
-                <div>
-                  <div style={{ fontSize: "12px", color: "#94a3b8" }}>চালক</div>
-                  <div style={{ fontSize: "13px", fontWeight: "600", color: "#0f2957" }}>
-                    রফিকুল ইসলাম
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* VEHICLE / SERVICES */}
       <section style={{ padding: "70px 20px", maxWidth: "1100px", margin: "0 auto" }}>
