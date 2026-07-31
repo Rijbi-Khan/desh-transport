@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import MapWatermark from "./MapWatermark";
 import { useNavigate } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
@@ -15,21 +15,17 @@ import {
   Lock,
   Navigation,
   ArrowRight,
-  Radio,
-  Menu,
-  X
+  Radio
 } from "lucide-react";
 import logoImg from "./desh logo.jpeg";
-import fleetImg from "./assets/fleet-highway.jpg";
-import openTruckImg from "./assets/open-truck-loading.jpg";
-import trailerImg from "./assets/trailer-rain.jpg";
-import driverPortraitImg from "./assets/driver-portrait.jpg";
-import routeVideo from "./assets/route-drone.mp4";
+import fleetImg from "./assets/fleet-highway.png";
+import openTruckImg from "./assets/open-truck-loading.png";
+import trailerImg from "./assets/trailer-rain.png";
+import driverPortraitImg from "./assets/driver-portrait.png";
 
 const LandingPage = () => {
   const navigate = useNavigate();
   const reduceMotion = useReducedMotion();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const fadeUpContainer = {
     hidden: {},
@@ -48,14 +44,14 @@ const LandingPage = () => {
   };
 
   const statBadges = [
-    { label: "কভার্ড ভ্যান", value: "৫০০+" },
+    { label: "কভার্ড ভ্যান", value: "৫০+" },
     { label: "সফল ট্রিপ", value: "১০০০+" },
     { label: "সাপোর্ট", value: "২৪/৭" }
   ];
 
   const trustStats = [
     { icon: Clock, value: "২০১৮", label: "থেকে সেবায়" },
-    { icon: Truck, value: "৫০০+", label: "গাড়ির বহর" },
+    { icon: Truck, value: "৫০+", label: "গাড়ির বহর" },
     { icon: Package, value: "১০০০+", label: "সফল ডেলিভারি" },
     { icon: ShieldCheck, value: "২৪/৭", label: "সাপোর্ট টিম" }
   ];
@@ -259,11 +255,6 @@ const LandingPage = () => {
           .hero-grid, .tracking-grid { grid-template-columns: 1fr !important; }
         }
 
-        @media (max-width: 768px) {
-          .desktop-nav-buttons { display: none !important; }
-          .hamburger-btn { display: flex !important; align-items: center; }
-        }
-
         @media (prefers-reduced-motion: reduce) {
           .route-line { animation: none; background: #14b8a6; }
           .route-line-marker { animation: none; left: 100%; }
@@ -291,16 +282,10 @@ const LandingPage = () => {
         <img
           src={logoImg}
           alt="দেশ ট্রান্সপোর্ট"
-          style={{
-            width: "48px",
-            height: "48px",
-            objectFit: "cover",
-            borderRadius: "50%",
-            border: "2px solid #e2e8f0"
-          }}
+          style={{ height: "48px", objectFit: "contain" }}
         />
 
-        <div className="desktop-nav-buttons" style={{ display: "flex", gap: "15px", alignItems: "center" }}>
+        <div style={{ display: "flex", gap: "15px", alignItems: "center" }}>
           <button
             onClick={() => navigate("/trips")}
             style={{
@@ -354,103 +339,7 @@ const LandingPage = () => {
             <Lock size={16} /> এডমিন
           </button>
         </div>
-
-        {/* Mobile-only hamburger toggle */}
-        <button
-          className="hamburger-btn"
-          onClick={() => setMobileMenuOpen((v) => !v)}
-          aria-label="মেনু খুলুন"
-          style={{
-            display: "none",
-            background: "none",
-            border: "none",
-            color: "#0f2957",
-            cursor: "pointer",
-            padding: "6px"
-          }}
-        >
-          {mobileMenuOpen ? <X size={26} /> : <Menu size={26} />}
-        </button>
       </header>
-
-      {/* Mobile dropdown menu */}
-      {mobileMenuOpen && (
-        <div
-          className="mobile-menu-panel"
-          style={{
-            position: "sticky",
-            top: "70px",
-            zIndex: 99,
-            background: "rgba(255,255,255,.98)",
-            boxShadow: "0 10px 25px rgba(0,0,0,.1)",
-            padding: "16px 20px",
-            display: "flex",
-            flexDirection: "column",
-            gap: "12px"
-          }}
-        >
-          <button
-            onClick={() => {
-              navigate("/trips");
-              setMobileMenuOpen(false);
-            }}
-            style={{
-              background: "none",
-              border: "none",
-              fontWeight: "700",
-              color: "#0f2957",
-              cursor: "pointer",
-              textAlign: "left",
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              padding: "8px 0"
-            }}
-          >
-            <Truck size={18} /> লাইভ ট্রিপস
-          </button>
-          <button
-            onClick={() => {
-              navigate("/login");
-              setMobileMenuOpen(false);
-            }}
-            style={{
-              background: "#14b8a6",
-              color: "white",
-              padding: "12px 16px",
-              borderRadius: "8px",
-              border: "none",
-              fontWeight: "bold",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: "8px"
-            }}
-          >
-            <Truck size={16} /> ড্রাইভার লগইন
-          </button>
-          <button
-            onClick={() => {
-              navigate("/admin-login");
-              setMobileMenuOpen(false);
-            }}
-            style={{
-              background: "#ef4444",
-              color: "white",
-              padding: "12px 16px",
-              borderRadius: "8px",
-              border: "none",
-              fontWeight: "bold",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: "8px"
-            }}
-          >
-            <Lock size={16} /> এডমিন
-          </button>
-        </div>
-      )}
 
       {/* HERO */}
       <motion.section
@@ -511,48 +400,12 @@ const LandingPage = () => {
 
             <motion.div
               variants={fadeUpItem}
-              style={{
-                position: "relative",
-                width: "100%",
-                height: "54px",
-                borderRadius: "10px",
-                overflow: "hidden",
-                margin: "20px 0 24px",
-                boxShadow: "0 8px 20px rgba(15,41,87,0.15)"
-              }}
+              style={{ position: "relative", width: "180px", margin: "22px 0 24px" }}
             >
-              <video
-                src={routeVideo}
-                autoPlay
-                muted
-                loop
-                playsInline
-                poster={fleetImg}
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              />
-              <div
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  background: "rgba(15, 41, 87, 0.45)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "0 12px"
-                }}
-              >
-                <span
-                  style={{
-                    color: "#ffffff",
-                    fontSize: "13.5px",
-                    fontWeight: "700",
-                    textAlign: "center",
-                    textShadow: "0 2px 4px rgba(0,0,0,0.4)"
-                  }}
-                >
-                  দেশ ট্রান্সপোর্ট থাকলে পরিবহন নিয়ে আর কোনো দুশ্চিন্তা নেই!
-                </span>
-              </div>
+              <div className="route-line" />
+              <span className="route-line-marker">
+                <Truck size={18} />
+              </span>
             </motion.div>
 
             <motion.p
