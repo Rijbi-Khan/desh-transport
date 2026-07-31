@@ -200,7 +200,7 @@ const LandingPage = () => {
       style={{
         minHeight: "100vh",
         fontFamily: "'Hind Siliguri', 'Segoe UI', system-ui, sans-serif",
-        background: "#f8fafc",
+        background: "transparent",
         color: "#1e293b",
         position: "relative",
         overflowX: "hidden",
