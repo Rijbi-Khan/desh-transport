@@ -78,14 +78,14 @@ const LandingPage = () => {
   };
 
   const statBadges = [
-    { label: "কভার্ড ভ্যান", value: "৫০+" },
+    { label: "কভার্ড ভ্যান", value: "৫০০+" },
     { label: "সফল ট্রিপ", value: "১০০০+" },
     { label: "সাপোর্ট", value: "২৪/৭" }
   ];
 
   const trustStats = [
     { icon: Clock, value: "২০১৮", label: "থেকে সেবায়" },
-    { icon: Truck, value: "৫০+", label: "গাড়ির বহর" },
+    { icon: Truck, value: "৫০০+", label: "গাড়ির বহর" },
     { icon: Package, value: "১০০০+", label: "সফল ডেলিভারি" },
     { icon: ShieldCheck, value: "২৪/৭", label: "সাপোর্ট টিম" }
   ];
@@ -308,6 +308,32 @@ const LandingPage = () => {
           scroll-snap-align: start;
         }
 
+        .banner-container-wrapper {
+          padding: 30px 20px 10px;
+          max-width: 900px;
+          margin: 0 auto;
+          perspective: 1000px;
+        }
+        .banner-3d-card {
+          width: 100%;
+          max-height: 380px;
+          object-fit: cover;
+          border-radius: 20px;
+          display: block;
+          box-shadow: 0 20px 45px rgba(15, 41, 87, 0.22), 0 0 25px rgba(20, 184, 166, 0.18);
+          transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s ease;
+          animation: float3d 5s ease-in-out infinite;
+          transform-style: preserve-3d;
+        }
+        .banner-3d-card:hover {
+          transform: perspective(1000px) rotateX(3deg) rotateY(-2deg) scale(1.025);
+          box-shadow: 0 30px 60px rgba(15, 41, 87, 0.32), 0 0 35px rgba(20, 184, 166, 0.35);
+        }
+        @keyframes float3d {
+          0%, 100% { transform: translateY(0px) rotateX(0deg); }
+          50% { transform: translateY(-8px) rotateX(1.5deg); }
+        }
+
         @media (max-width: 768px) {
           .hero-section-wrapper {
             min-height: 380px !important;
@@ -316,6 +342,24 @@ const LandingPage = () => {
           }
           .hero-inner-padding {
             padding: 40px 16px 50px !important;
+          }
+          .banner-container-wrapper {
+            padding: 16px 14px 6px !important;
+            max-width: 100% !important;
+          }
+          .banner-3d-card {
+            max-height: 240px !important;
+            border-radius: 14px !important;
+            animation: none !important;
+          }
+          .section-mobile-compact {
+            padding: 30px 16px !important;
+          }
+          .mobile-footer-compact {
+            padding: 35px 16px 20px !important;
+          }
+          .mobile-footer-compact > div:first-child {
+            gap: 20px !important;
           }
           .desktop-nav-buttons { display: none !important; }
           .hamburger-btn { display: flex !important; align-items: center; }
@@ -656,17 +700,11 @@ const LandingPage = () => {
       </motion.section>
 
       {/* PROMOTIONAL BANNER */}
-      <section style={{ padding: "30px 20px 10px", maxWidth: "1160px", margin: "0 auto" }}>
+      <section className="banner-container-wrapper">
         <img
           src={bannerImg}
           alt="দেশ ট্রান্সপোর্ট ব্যানার"
-          style={{
-            width: "100%",
-            borderRadius: "20px",
-            display: "block",
-            boxShadow: "0 15px 35px rgba(15,41,87,0.15)",
-            objectFit: "cover"
-          }}
+          className="banner-3d-card"
         />
       </section>
 
@@ -1031,7 +1069,7 @@ const LandingPage = () => {
       </section>
 
       {/* FOOTER */}
-      <footer style={{ background: "rgba(15,41,87,.92)", color: "#cbd5e1", padding: "60px 25px 25px" }}>
+      <footer className="mobile-footer-compact" style={{ background: "rgba(15,41,87,.92)", color: "#cbd5e1", padding: "60px 25px 25px" }}>
         <div
           style={{
             maxWidth: "1100px",
