@@ -31,7 +31,7 @@ const MapWatermark = () => {
     if (!groupRef.current) return;
     try {
       const box = groupRef.current.getBBox();
-      const pad = Math.max(box.width, box.height) * 0.08;
+      const pad = Math.max(box.width, box.height) * 0.02;
       setViewBox(
         `${box.x - pad} ${box.y - pad} ${box.width + pad * 2} ${box.height + pad * 2}`
       );
@@ -59,7 +59,9 @@ const MapWatermark = () => {
           position: "absolute",
           inset: 0,
           width: "100%",
-          height: "100%"
+          height: "100%",
+          transform: "scale(1.18)",
+          transformOrigin: "center"
         }}
       >
         {/* colourful land divisions (measured for the tight viewBox above) */}
