@@ -25,7 +25,8 @@ import {
 import logoImg from "./desh logo.jpeg";
 import { IMG } from "./assets/images";
 import heroPoster from "./assets/opt/fleet-highway-960.webp";
-import routeVideo from "./assets/Same_shot_as_above_but_framed.mp4";
+import heroVideoDesktop from "./assets/opt/hero-desktop.mp4";
+import heroVideoMobile from "./assets/opt/hero-mobile.mp4";
 
 import Tilt3D from "./components/Tilt3D";
 import { ScrollTilt, ParallaxImage } from "./components/ScrollTilt";
@@ -237,10 +238,10 @@ const LandingPage = () => {
   const [pastHero, setPastHero] = useState(false);
   const [liveTrips, setLiveTrips] = useState(null);
   const videoRef = useRef(null);
-  // 📶 মোবাইল/ডাটা-সেভার: ১MB ভিডিও না নামিয়ে হালকা ছবি (দ্রুত লোড)
-  const [useVideo] = useState(
-    () => typeof window !== "undefined" && window.innerWidth >= 720 && !(navigator.connection && navigator.connection.saveData)
-  );
+  // 🎥 চলন্ত ট্রাকের ভিডিও — মোবাইলে আলাদা হালকা ভার্সন (২১৭KB), পিসিতে ৫১১KB
+  // শুধু ফোনে "Data Saver" চালু থাকলে ভিডিওর বদলে ছবি দেখায়
+  const [useVideo] = useState(() => typeof window !== "undefined" && !(navigator.connection && navigator.connection.saveData));
+  const [heroVideo] = useState(() => (typeof window !== "undefined" && window.innerWidth < 720 ? heroVideoMobile : heroVideoDesktop));
   const heroRef = useRef(null);
 
   // ---------- ভিডিও (reduced motion হলে বন্ধ) ----------
@@ -519,7 +520,7 @@ const LandingPage = () => {
             transition={{ duration: 2.6, ease }}
           >
             {useVideo ? (
-              <video ref={videoRef} src={routeVideo} poster={heroPoster} autoPlay muted loop playsInline preload="auto" aria-hidden="true" />
+              <video ref={videoRef} src={heroVideo} poster={heroPoster} autoPlay muted loop playsInline preload="auto" disablePictureInPicture aria-hidden="true" />
             ) : (
               <img src={heroPoster} alt="" aria-hidden="true" fetchpriority="high" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             )}
