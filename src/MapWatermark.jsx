@@ -8,27 +8,28 @@ import { DIVISIONS, HUB, CITIES, routePath } from "./mapData";
   continuously from the Narsingdi hub out to the major coverage cities.
   Purely decorative: pointer-events disabled, aria-hidden.
 
-  🗺️ 3D আপগ্রেড:
-  - ম্যাপটা 3D তে কাত করা, নিচে "পুরুত্ব" (extrude) স্তর দিয়ে ভাসমান দেখায়
-  - স্ক্রল করলে ধীরে ঘোরে ও সরে, মাউস নাড়ালে হালকা হেলে যায়
-  - হাব থেকে প্রতিটি শহরে আলো-জ্বলা রুট, রুট ধরে ছোট ট্রাক চলে
-  - শহরগুলোর নাম ও পালস মার্কার
+  🗺️ বাস্তবসম্মত 3D সংস্করণ:
+  - ম্যাপটা হালকা 3D তে কাত করা, নিচে পাতলা পুরুত্ব ও ছায়া
+  - স্ক্রল করলে ধীরে ঘোরে, মাউস নাড়ালে সামান্য হেলে যায়
+  - সংযত রং (লজিস্টিক্স ম্যাপের মতো), পাতলা রুট লাইন, রুট ধরে ছোট আলো-বিন্দু চলে
+  - শহরের নাম ছোট ধূসর লেখায়
 */
 
 // A distinct, muted-but-colourful tone per division so it reads like a
 // real administrative map rather than a flat silhouette.
+// (সংযত, বাস্তবসম্মত টোন — কার্টুনের মতো উজ্জ্বল রং নয়)
 const DIVISION_COLORS = {
-  Dhaka: "#f4c66b",
-  Chittagong: "#5fb894",
-  Sylhet: "#a3d977",
-  Khulna: "#7ec8d8",
-  Barishal: "#7fd0a4",
-  Rajshahi: "#f0a860",
-  Rangpur: "#93cf9a"
+  Dhaka: "#cfdbe6",
+  Chittagong: "#d6e2db",
+  Sylhet: "#dbe4d6",
+  Khulna: "#d3dfe8",
+  Barishal: "#d9e3e0",
+  Rajshahi: "#e1ddd3",
+  Rangpur: "#dde3d8"
 };
 
 // নিচের পুরুত্বের স্তর কতগুলো
-const EXTRUDE_LAYERS = 6;
+const EXTRUDE_LAYERS = 3;
 
 const MapWatermark = () => {
   const reduceMotion = useReducedMotion();
@@ -51,8 +52,8 @@ const MapWatermark = () => {
 
   // ---------- স্ক্রল অনুযায়ী 3D ঘোরা ----------
   const { scrollYProgress } = useScroll();
-  const rotZ = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [-8, 10]);
-  const rotX = useTransform(scrollYProgress, [0, 0.5, 1], reduceMotion ? [30, 30, 30] : [34, 22, 34]);
+  const rotZ = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [-4, 6]);
+  const rotX = useTransform(scrollYProgress, [0, 0.5, 1], reduceMotion ? [24, 24, 24] : [26, 18, 26]);
   const shiftY = useTransform(scrollYProgress, [0, 1], reduceMotion ? ["0%", "0%"] : ["-2%", "6%"]);
 
   // ---------- মাউস অনুযায়ী হালকা হেলানো ----------
@@ -82,7 +83,7 @@ const MapWatermark = () => {
         zIndex: -1,
         overflow: "hidden",
         pointerEvents: "none",
-        background: "radial-gradient(1200px 800px at 50% 40%, #f7fbfa 0%, #eef4f6 60%, #e6eef3 100%)",
+        background: "#f3f6f9",
         perspective: "1400px"
       }}
     >
@@ -112,9 +113,8 @@ const MapWatermark = () => {
         >
           <defs>
             <linearGradient id="mw-route" x1="0" x2="1">
-              <stop offset="0%" stopColor="#ef4444" />
-              <stop offset="50%" stopColor="#14b8a6" />
-              <stop offset="100%" stopColor="#6366f1" />
+              <stop offset="0%" stopColor="#0f2957" stopOpacity="0.7" />
+              <stop offset="100%" stopColor="#0f766e" stopOpacity="0.7" />
             </linearGradient>
             <filter id="mw-soft" x="-20%" y="-20%" width="140%" height="140%">
               <feGaussianBlur stdDeviation="6" />
@@ -122,7 +122,7 @@ const MapWatermark = () => {
           </defs>
 
           {/* মাটিতে পড়া ছায়া */}
-          <g transform="translate(6 22)" filter="url(#mw-soft)" opacity="0.22">
+          <g transform="translate(4 14)" filter="url(#mw-soft)" opacity="0.12">
             {DIVISIONS.map((div) => (
               <path key={`sh-${div.name}`} d={div.d} fill="#0f2957" />
             ))}
@@ -132,7 +132,7 @@ const MapWatermark = () => {
           {Array.from({ length: EXTRUDE_LAYERS }).map((_, i) => (
             <g key={`ex-${i}`} transform={`translate(0 ${(EXTRUDE_LAYERS - i) * 1.4})`}>
               {DIVISIONS.map((div) => (
-                <path key={div.name} d={div.d} fill="#0f2957" fillOpacity={0.1 + i * 0.02} />
+                <path key={div.name} d={div.d} fill="#64748b" fillOpacity={0.12 + i * 0.03} />
               ))}
             </g>
           ))}
@@ -144,9 +144,9 @@ const MapWatermark = () => {
                 key={div.name}
                 d={div.d}
                 fill={DIVISION_COLORS[div.name] || "#9fd3ab"}
-                fillOpacity="0.62"
+                fillOpacity="0.9"
                 stroke="#ffffff"
-                strokeWidth="1.6"
+                strokeWidth="1.2"
                 strokeLinejoin="round"
               />
             ))}
@@ -159,9 +159,9 @@ const MapWatermark = () => {
                 className={reduceMotion ? undefined : "mw-route-glow"}
                 d={routePath(city)}
                 fill="none"
-                stroke="#14b8a6"
-                strokeOpacity="0.35"
-                strokeWidth="6"
+                stroke="#0f766e"
+                strokeOpacity="0.12"
+                strokeWidth="4"
                 strokeLinecap="round"
                 filter="url(#mw-soft)"
               />
@@ -170,47 +170,38 @@ const MapWatermark = () => {
                 d={routePath(city)}
                 fill="none"
                 stroke="url(#mw-route)"
-                strokeWidth="2"
+                strokeWidth="1.2"
                 strokeLinecap="round"
-                strokeDasharray="6 4"
+                strokeDasharray="4 4"
               />
             </g>
           ))}
 
-          {/* রুট ধরে চলমান ছোট ট্রাক */}
+          {/* রুট ধরে চলমান ছোট আলো-বিন্দু (চলমান গাড়ির প্রতীক) */}
           {!reduceMotion &&
             CITIES.map((city, i) => (
-              <g key={`bg-truck-${city.id}`}>
-                <g>
-                  <rect x="-6" y="-3.5" width="8" height="7" rx="1.2" fill="#0f2957" />
-                  <rect x="2" y="-2.5" width="4.5" height="6" rx="1.2" fill="#14b8a6" />
-                  <circle cx="-3.5" cy="4" r="1.4" fill="#0b1b36" />
-                  <circle cx="3.5" cy="4" r="1.4" fill="#0b1b36" />
-                  <animateMotion dur={`${5 + i * 0.6}s`} begin={`${i * 0.7}s`} repeatCount="indefinite" rotate="auto" path={routePath(city)} />
-                </g>
-                <circle r="2.4" fill="#fbbf24">
-                  <animateMotion dur={`${3.5 + i * 0.4}s`} begin={`${i * 0.5 + 1.5}s`} repeatCount="indefinite" path={routePath(city)} />
-                </circle>
-              </g>
+              <circle key={`bg-dot-${city.id}`} r="2.2" fill="#0f766e">
+                <animateMotion dur={`${5 + i * 0.6}s`} begin={`${i * 0.7}s`} repeatCount="indefinite" path={routePath(city)} />
+              </circle>
             ))}
 
           {/* শহরের মার্কার + নাম */}
           {CITIES.map((city, i) => (
             <g key={`city-${city.id}`} transform={`translate(${city.x} ${city.y})`}>
               {!reduceMotion && (
-                <circle r="4" fill="none" stroke="#14b8a6" strokeWidth="1.5">
-                  <animate attributeName="r" values="4;14" dur="2.6s" begin={`${i * 0.4}s`} repeatCount="indefinite" />
+                <circle r="3" fill="none" stroke="#0f766e" strokeWidth="1">
+                  <animate attributeName="r" values="3;10" dur="3.2s" begin={`${i * 0.4}s`} repeatCount="indefinite" />
                   <animate attributeName="opacity" values="0.7;0" dur="2.6s" begin={`${i * 0.4}s`} repeatCount="indefinite" />
                 </circle>
               )}
-              <circle r="4" fill="#ffffff" stroke="#0f2957" strokeWidth="2" />
+              <circle r="3" fill="#ffffff" stroke="#0f2957" strokeWidth="1.5" />
               <text
-                y="-9"
+                y="-7"
                 textAnchor="middle"
-                fontSize="10"
-                fontWeight="700"
-                fill="#0f2957"
-                fillOpacity="0.75"
+                fontSize="8.5"
+                fontWeight="600"
+                fill="#475569"
+                fillOpacity="0.9"
                 stroke="#ffffff"
                 strokeWidth="3"
                 paintOrder="stroke"
@@ -224,23 +215,21 @@ const MapWatermark = () => {
           {/* radar pings spreading out from the hub */}
           {!reduceMotion &&
             [0, 1, 2].map((i) => (
-              <circle key={`bg-ping-${i}`} cx={HUB.x} cy={HUB.y} r="6" fill="none" stroke="#ef4444" strokeWidth="2">
-                <animate attributeName="r" values="6;46" dur="3s" begin={`${i * 1}s`} repeatCount="indefinite" />
-                <animate attributeName="opacity" values="0.6;0" dur="3s" begin={`${i * 1}s`} repeatCount="indefinite" />
+              <circle key={`bg-ping-${i}`} cx={HUB.x} cy={HUB.y} r="5" fill="none" stroke="#dc2626" strokeWidth="1">
+                <animate attributeName="r" values="5;30" dur="3s" begin={`${i * 1}s`} repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.35;0" dur="3s" begin={`${i * 1}s`} repeatCount="indefinite" />
               </circle>
             ))}
 
-          {/* hub marker (উঁচু পিন) */}
+          {/* hub marker */}
           <g transform={`translate(${HUB.x} ${HUB.y})`}>
-            <ellipse cx="0" cy="2" rx="7" ry="2.5" fill="#0f2957" opacity="0.25" />
-            <path d="M0 0 C-7 -10 -7 -20 0 -22 C7 -20 7 -10 0 0 Z" fill="#ef4444" stroke="#ffffff" strokeWidth="1.5" />
-            <circle cx="0" cy="-15" r="3" fill="#ffffff" />
+            <circle r="4.5" fill="#dc2626" stroke="#ffffff" strokeWidth="1.5" />
             <text
-              y="-28"
+              y="-9"
               textAnchor="middle"
-              fontSize="10"
+              fontSize="9"
               fontWeight="700"
-              fill="#b91c1c"
+              fill="#7f1d1d"
               stroke="#ffffff"
               strokeWidth="3"
               paintOrder="stroke"
