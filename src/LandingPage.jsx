@@ -19,7 +19,8 @@ import {
   Users,
   CalendarClock,
   Scale,
-  CheckCircle2
+  CheckCircle2,
+  Lock
 } from "lucide-react";
 import logoImg from "./desh logo.jpeg";
 import fleetImg from "./assets/fleet-highway.jpg";
@@ -465,6 +466,14 @@ const LandingPage = () => {
             <button className="dt-btn dt-btn-sm dt-btn-primary lp-hide-sm" onClick={() => navigate("/login")}>
               <Users size={16} /> ড্রাইভার লগইন
             </button>
+            {/* 🔐 এডমিন প্যানেলে যাওয়ার বাটন (হালকা স্টাইলে, যাতে গ্রাহকের নজর না কাড়ে) */}
+            <button
+              className={`dt-btn dt-btn-sm lp-hide-sm ${scrolled ? "dt-btn-outline" : "dt-btn-ghost"}`}
+              onClick={() => navigate("/admin-login")}
+              aria-label="এডমিন প্যানেল"
+            >
+              <Lock size={15} /> এডমিন
+            </button>
             <button className="lp-burger" onClick={() => setMobileMenuOpen((v) => !v)} aria-label="মেনু খুলুন" aria-expanded={mobileMenuOpen}>
               {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
@@ -486,6 +495,9 @@ const LandingPage = () => {
               </button>
               <button className="dt-btn dt-btn-outline dt-btn-block" onClick={() => navigate("/trips")}>
                 <Truck size={18} /> লাইভ ট্রিপস
+              </button>
+              <button className="dt-btn dt-btn-outline dt-btn-block" onClick={() => navigate("/admin-login")}>
+                <Lock size={18} /> এডমিন প্যানেল
               </button>
             </div>
           </motion.div>
