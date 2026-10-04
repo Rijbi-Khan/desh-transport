@@ -1,31 +1,45 @@
-import React from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import React, { useRef, useState } from "react";
+import { motion, useReducedMotion, useInView } from "framer-motion";
 
 const ease = [0.22, 1, 0.36, 1];
 
-// 🎬 ছবির পর্দা-সরানো রিভিল: নিচ থেকে পর্দা উঠে যায়, ছবি বড় থেকে স্বাভাবিক হয়
-export const CurtainImage = ({ src, alt, className, style, delay = 0, imgStyle }) => {
+// 🎬 ছবির পর্দা-সরানো রিভিল
+// ⚠️ আগে ছবির উপরেই clip-path ছিল — মোবাইল ব্রাউজার সেটাকে "অদৃশ্য" ধরে ছবি লোডই করত না।
+// এখন ছবি সবসময় স্বাভাবিকভাবে লোড হয়; উপরে আলাদা একটা "পর্দা" স্তর সরে যায়।
+// image = { src, srcSet, sizes } (assets/images.js থেকে) অথবা src + alt
+export const CurtainImage = ({ image, src, alt, className, style, delay = 0, imgStyle, eager = false }) => {
   const reduce = useReducedMotion();
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "0px 0px -10% 0px" });
+  const [loaded, setLoaded] = useState(false);
+  const show = reduce || inView;
+  const data = image || { src };
+
   return (
-    <motion.div
-      className={className}
-      style={{ overflow: "hidden", ...style }}
-      initial={reduce ? false : { clipPath: "inset(100% 0% 0% 0%)" }}
-      whileInView={{ clipPath: "inset(0% 0% 0% 0%)" }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 1.1, ease, delay }}
-    >
+    <div ref={ref} className={className} style={{ position: "relative", overflow: "hidden", background: "#e2e8f0", ...style }}>
       <motion.img
-        src={src}
+        src={data.src}
+        srcSet={data.srcSet}
+        sizes={data.sizes}
         alt={alt}
-        loading="lazy"
-        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", ...imgStyle }}
-        initial={reduce ? false : { scale: 1.25 }}
-        whileInView={{ scale: 1 }}
-        viewport={{ once: true, margin: "-60px" }}
+        loading={eager ? "eager" : "lazy"}
+        decoding="async"
+        onLoad={() => setLoaded(true)}
+        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", opacity: loaded ? 1 : 0, transition: "opacity .5s", ...imgStyle }}
+        initial={false}
+        animate={{ scale: show && !reduce ? 1 : reduce ? 1 : 1.2 }}
         transition={{ duration: 1.6, ease, delay }}
       />
-    </motion.div>
+      {!reduce && (
+        <motion.div
+          aria-hidden="true"
+          style={{ position: "absolute", inset: 0, background: "#0b1424", transformOrigin: "top", pointerEvents: "none" }}
+          initial={{ scaleY: 1 }}
+          animate={{ scaleY: show ? 0 : 1 }}
+          transition={{ duration: 1, ease, delay }}
+        />
+      )}
+    </div>
   );
 };
 

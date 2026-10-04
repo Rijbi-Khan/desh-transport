@@ -21,7 +21,7 @@ export const ScrollTilt = ({ children, strength = 1, className, style }) => {
 };
 
 // 🖼️ ছবি স্ক্রলের সাথে ধীরে জুম ও সরে (প্যারালাক্স) — বাস্তব ক্যামেরা মুভমেন্টের মতো
-export const ParallaxImage = ({ src, alt, className, style, amount = 40, zoom = 0.12 }) => {
+export const ParallaxImage = ({ src, image, alt, className, style, amount = 40, zoom = 0.12 }) => {
   const ref = useRef(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
@@ -30,7 +30,7 @@ export const ParallaxImage = ({ src, alt, className, style, amount = 40, zoom = 
 
   return (
     <div ref={ref} className={className} style={{ overflow: "hidden", ...style }}>
-      <motion.img src={src} alt={alt} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", y, scale }} />
+      <motion.img src={image ? image.src : src} srcSet={image?.srcSet} sizes={image?.sizes} alt={alt} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", y, scale }} />
     </div>
   );
 };

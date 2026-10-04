@@ -23,13 +23,8 @@ import {
   Lock
 } from "lucide-react";
 import logoImg from "./desh logo.jpeg";
-import fleetImg from "./assets/fleet-highway.jpg";
-import openTruckImg from "./assets/open-truck-loading.jpg";
-import trailerImg from "./assets/trailer-rain.jpg";
-import driverPortraitImg from "./assets/driver-portrait.jpg";
-import review1Img from "./assets/review-1.jpg";
-import review2Img from "./assets/review-2.jpg";
-import bannerImg from "./assets/banner.jpeg";
+import { IMG } from "./assets/images";
+import heroPoster from "./assets/opt/fleet-highway-960.webp";
 import routeVideo from "./assets/Same_shot_as_above_but_framed.mp4";
 
 import Tilt3D from "./components/Tilt3D";
@@ -91,19 +86,19 @@ const vehicles = [
     name: "কভার্ড ভ্যান",
     desc: "বৃষ্টি বা রোদ থেকে মালামাল সুরক্ষিত রাখতে ৫ থেকে ১৫ টনের কভার্ড ভ্যান।",
     body: "ঢাকা বডি",
-    image: fleetImg
+    image: IMG.fleet
   },
   {
     name: "খোলা ট্রাক",
     desc: "রড, সিমেন্ট, শিল্প পণ্য ও ভারী মালামাল পরিবহনের জন্য উপযুক্ত।",
     body: "খোলা বডি",
-    image: openTruckImg
+    image: IMG.open
   },
   {
     name: "ট্রেইলার ও লরি",
     desc: "বড় মেশিনারি ও ভারী কার্গো পরিবহনের জন্য বিশেষ গাড়ি।",
     body: "ফ্ল্যাটবেড / হেভি ডিউটি",
-    image: trailerImg
+    image: IMG.trailer
   }
 ];
 
@@ -130,19 +125,19 @@ const reviews = [
     name: "মো: রফিকুল ইসলাম",
     role: "কভার্ড ভ্যান চালক",
     text: "আগে ট্রিপের জন্য অপেক্ষা করতে হতো। এখন দেশ ট্রান্সপোর্ট থেকে নিয়মিত ট্রিপ পাচ্ছি।",
-    photo: driverPortraitImg
+    photo: IMG.driverCard
   },
   {
     name: "আলমগীর হোসেন",
     role: "খোলা ট্রাক চালক",
     text: "ভাড়া নির্ধারিত থাকে এবং সময়মতো পেমেন্ট পাওয়া যায়।",
-    photo: review1Img
+    photo: IMG.review1
   },
   {
     name: "সাজ্জাদ আলী",
     role: "ট্রেইলার চালক",
     text: "বড় কোম্পানির ভালো ট্রিপ পাওয়া সহজ হয়েছে।",
-    photo: review2Img
+    photo: IMG.review2
   }
 ];
 
@@ -242,6 +237,10 @@ const LandingPage = () => {
   const [pastHero, setPastHero] = useState(false);
   const [liveTrips, setLiveTrips] = useState(null);
   const videoRef = useRef(null);
+  // 📶 মোবাইল/ডাটা-সেভার: ১MB ভিডিও না নামিয়ে হালকা ছবি (দ্রুত লোড)
+  const [useVideo] = useState(
+    () => typeof window !== "undefined" && window.innerWidth >= 720 && !(navigator.connection && navigator.connection.saveData)
+  );
   const heroRef = useRef(null);
 
   // ---------- ভিডিও (reduced motion হলে বন্ধ) ----------
@@ -334,7 +333,7 @@ const LandingPage = () => {
         .lp-promise { display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px; align-items: center; }
         @media (max-width: 920px) { .lp-promise { grid-template-columns: 1fr; gap: 32px; } }
         .lp-banner { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); background: #0b1b36; }
-        .lp-banner img { width: 100%; height: auto; }
+        .lp-banner { aspect-ratio: 3 / 2; }
         .lp-value { display: flex; gap: 16px; padding: 18px 0; }
         .lp-value + .lp-value { border-top: 1px solid var(--line); }
         .lp-value-icon { width: 44px; height: 44px; border-radius: var(--radius); display: grid; place-items: center; color: var(--brand); background: rgba(15,118,110,.08); flex-shrink: 0; }
@@ -519,7 +518,11 @@ const LandingPage = () => {
             animate={{ scale: 1, filter: "brightness(1)" }}
             transition={{ duration: 2.6, ease }}
           >
-            <video ref={videoRef} src={routeVideo} poster={fleetImg} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" />
+            {useVideo ? (
+              <video ref={videoRef} src={routeVideo} poster={heroPoster} autoPlay muted loop playsInline preload="auto" aria-hidden="true" />
+            ) : (
+              <img src={heroPoster} alt="" aria-hidden="true" fetchpriority="high" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            )}
           </motion.div>
         </motion.div>
         <div className="lp-hero-shade" />
@@ -624,7 +627,7 @@ const LandingPage = () => {
         <div className="dt-container lp-promise">
           <ScrollTilt>
             <Tilt3D max={3}>
-              <CurtainImage className="lp-banner" src={bannerImg} alt="দেশ ট্রান্সপোর্ট ব্যানার — ট্রিপ নিয়ে দুশ্চিন্তা? দেশ ট্রান্সপোর্ট থাকলে আর না" imgStyle={{ height: "auto" }} />
+              <CurtainImage className="lp-banner" image={IMG.banner} alt="দেশ ট্রান্সপোর্ট ব্যানার — ট্রিপ নিয়ে দুশ্চিন্তা? দেশ ট্রান্সপোর্ট থাকলে আর না" />
             </Tilt3D>
           </ScrollTilt>
           <div>
@@ -663,7 +666,7 @@ const LandingPage = () => {
               <ScrollTilt key={v.name} strength={1 - i * 0.15}>
                 <Tilt3D max={3}>
                   <article className="lp-fleet">
-                    <CurtainImage className="lp-fleet-img" src={v.image} alt={v.name} delay={i * 0.12} />
+                    <CurtainImage className="lp-fleet-img" image={v.image} alt={v.name} delay={i * 0.12} />
                     <div className="lp-fleet-body">
                       <h3>{v.name}</h3>
                       <p>{v.desc}</p>
@@ -762,7 +765,7 @@ const LandingPage = () => {
         <div className="dt-container lp-join">
           <ScrollTilt>
             <Tilt3D max={3}>
-              <ParallaxImage className="lp-join-photo" src={driverPortraitImg} alt="দেশ ট্রান্সপোর্টের একজন চালক" amount={24} />
+              <ParallaxImage className="lp-join-photo" image={IMG.driver} alt="দেশ ট্রান্সপোর্টের একজন চালক" amount={24} />
             </Tilt3D>
           </ScrollTilt>
           <div>
@@ -807,7 +810,7 @@ const LandingPage = () => {
             {reviews.map((r, i) => (
               <ScrollTilt key={r.name} strength={1 - i * 0.15}>
                 <figure className="lp-review" style={{ margin: 0 }}>
-                  <CurtainImage className="lp-review-photo" src={r.photo} alt={r.name} delay={i * 0.12} imgStyle={{ objectPosition: "center 25%" }} />
+                  <CurtainImage className="lp-review-photo" image={r.photo} alt={r.name} delay={i * 0.12} imgStyle={{ objectPosition: "center 25%" }} />
                   <div className="lp-review-body">
                     <div style={{ display: "flex", gap: 2, color: "#f59e0b" }} aria-label="৫ এর মধ্যে ৫">
                       {[0, 1, 2, 3, 4].map((s) => (
