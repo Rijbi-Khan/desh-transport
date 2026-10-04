@@ -34,6 +34,9 @@ import routeVideo from "./assets/Same_shot_as_above_but_framed.mp4";
 
 import Tilt3D from "./components/Tilt3D";
 import { ScrollTilt, ParallaxImage } from "./components/ScrollTilt";
+import { CurtainImage, WordReveal, FlipIn } from "./components/Cinematic";
+import LiveRouteCard from "./components/LiveRouteCard";
+import SmoothScroll from "./components/SmoothScroll";
 import Counter, { bn } from "./components/Counter";
 import Logo from "./components/Logo";
 import { publicApi } from "./config";
@@ -224,7 +227,7 @@ const SectionHead = ({ eyebrow, title, lead, center = true, dark = false }) => (
     <span className="dt-eyebrow" style={dark ? { color: "var(--teal-300)" } : undefined}>
       {eyebrow}
     </span>
-    <h2 className="dt-h2" style={dark ? { color: "#fff" } : undefined}>{title}</h2>
+    <WordReveal as="h2" className="dt-h2" style={dark ? { color: "#fff" } : undefined} text={title} />
     {lead && <p className="dt-lead" style={dark ? { color: "rgba(255,255,255,.72)" } : undefined}>{lead}</p>}
   </Reveal>
 );
@@ -278,6 +281,7 @@ const LandingPage = () => {
 
   return (
     <div className="lp-root">
+      <SmoothScroll />
       <MapWatermark />
       {/* ম্যাপ ওয়াটারমার্ক হালকা করার জন্য উপরে একটা স্বচ্ছ স্তর */}
       <div aria-hidden="true" style={{ position: "fixed", inset: 0, zIndex: -1, background: "rgba(243,246,249,.7)", pointerEvents: "none" }} />
@@ -307,6 +311,8 @@ const LandingPage = () => {
         .lp-hero-video video { width: 100%; height: 100%; object-fit: cover; }
         .lp-hero-shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(8,15,30,.92) 0%, rgba(8,15,30,.78) 45%, rgba(8,15,30,.35) 100%), linear-gradient(0deg, rgba(8,15,30,.6) 0%, transparent 40%); }
         @media (max-width: 760px) { .lp-hero-shade { background: linear-gradient(180deg, rgba(8,15,30,.7), rgba(8,15,30,.88)); } }
+        .lp-hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
+        @media (max-width: 960px) { .lp-hero-grid { grid-template-columns: 1fr; gap: 40px; } }
         .lp-hero-copy { max-width: 640px; }
         .lp-h1 { font-size: clamp(32px, 4.6vw, 52px); line-height: 1.2; font-weight: 700; margin: 14px 0 18px; letter-spacing: -.01em; }
         .lp-hero-p { color: rgba(255,255,255,.82); font-size: var(--fs-lg); line-height: 1.7; margin: 0 0 30px; max-width: 560px; }
@@ -507,11 +513,18 @@ const LandingPage = () => {
       {/* ================= HERO ================= */}
       <header id="top" className="lp-hero" ref={heroRef}>
         <motion.div className="lp-hero-video" style={{ scale: videoScale }}>
-          <video ref={videoRef} src={routeVideo} poster={fleetImg} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" />
+          <motion.div
+            style={{ width: "100%", height: "100%" }}
+            initial={reduceMotion ? false : { scale: 1.28, filter: "brightness(.4)" }}
+            animate={{ scale: 1, filter: "brightness(1)" }}
+            transition={{ duration: 2.6, ease }}
+          >
+            <video ref={videoRef} src={routeVideo} poster={fleetImg} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" />
+          </motion.div>
         </motion.div>
         <div className="lp-hero-shade" />
 
-        <div className="dt-container">
+        <div className="dt-container lp-hero-grid">
           <motion.div className="lp-hero-copy" style={{ y: heroTextY }}>
             <motion.span
               className="dt-eyebrow"
@@ -568,6 +581,9 @@ const LandingPage = () => {
               <span><CheckCircle2 size={16} color="var(--teal-300)" /> সারা দেশে সার্ভিস</span>
             </motion.div>
           </motion.div>
+
+          {/* 🛰️ লাইভ রুট প্যানেল (3D) */}
+          <LiveRouteCard trip={liveTrips && liveTrips[0]} />
         </div>
         {!reduceMotion && (
           <a href="#services" className="lp-scroll-cue" aria-label="নিচে স্ক্রল করুন">
@@ -579,7 +595,7 @@ const LandingPage = () => {
       {/* ================= TRUST STATS ================= */}
       <section className="lp-stats">
         <div className="dt-container">
-          <Reveal>
+          <Reveal y={50}>
             <div className="lp-stats-grid">
               {trustStats.map((s) => (
                 <div key={s.label} className="lp-stat">
@@ -608,9 +624,7 @@ const LandingPage = () => {
         <div className="dt-container lp-promise">
           <ScrollTilt>
             <Tilt3D max={3}>
-              <div className="lp-banner">
-                <img src={bannerImg} alt="দেশ ট্রান্সপোর্ট ব্যানার — ট্রিপ নিয়ে দুশ্চিন্তা? দেশ ট্রান্সপোর্ট থাকলে আর না" loading="lazy" />
-              </div>
+              <CurtainImage className="lp-banner" src={bannerImg} alt="দেশ ট্রান্সপোর্ট ব্যানার — ট্রিপ নিয়ে দুশ্চিন্তা? দেশ ট্রান্সপোর্ট থাকলে আর না" imgStyle={{ height: "auto" }} />
             </Tilt3D>
           </ScrollTilt>
           <div>
@@ -649,7 +663,7 @@ const LandingPage = () => {
               <ScrollTilt key={v.name} strength={1 - i * 0.15}>
                 <Tilt3D max={3}>
                   <article className="lp-fleet">
-                    <ParallaxImage className="lp-fleet-img" src={v.image} alt={v.name} amount={18} />
+                    <CurtainImage className="lp-fleet-img" src={v.image} alt={v.name} delay={i * 0.12} />
                     <div className="lp-fleet-body">
                       <h3>{v.name}</h3>
                       <p>{v.desc}</p>
@@ -684,7 +698,7 @@ const LandingPage = () => {
 
             {liveTrips &&
               liveTrips.slice(0, 3).map((t, i) => (
-                <Reveal key={t._id} delay={i * 0.08}>
+                <FlipIn key={t._id} from={i % 2 === 0 ? "left" : "right"} delay={i * 0.12}>
                   <div className="lp-trip">
                     <div style={{ display: "flex", justifyContent: "space-between", gap: 8, flexWrap: "wrap" }}>
                       <span className="dt-badge dt-badge-teal">
@@ -710,7 +724,7 @@ const LandingPage = () => {
                       </button>
                     </div>
                   </div>
-                </Reveal>
+                </FlipIn>
               ))}
           </div>
 
@@ -793,7 +807,7 @@ const LandingPage = () => {
             {reviews.map((r, i) => (
               <ScrollTilt key={r.name} strength={1 - i * 0.15}>
                 <figure className="lp-review" style={{ margin: 0 }}>
-                  <ParallaxImage className="lp-review-photo" src={r.photo} alt={r.name} amount={14} zoom={0.08} />
+                  <CurtainImage className="lp-review-photo" src={r.photo} alt={r.name} delay={i * 0.12} imgStyle={{ objectPosition: "center 25%" }} />
                   <div className="lp-review-body">
                     <div style={{ display: "flex", gap: 2, color: "#f59e0b" }} aria-label="৫ এর মধ্যে ৫">
                       {[0, 1, 2, 3, 4].map((s) => (

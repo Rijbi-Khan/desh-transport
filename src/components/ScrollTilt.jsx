@@ -8,10 +8,10 @@ export const ScrollTilt = ({ children, strength = 1, className, style }) => {
   const ref = useRef(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const s = reduce ? 0 : strength;
+  const s = reduce ? 0 : strength * 1.6;
   const rotateX = useSpring(useTransform(scrollYProgress, [0, 0.45, 1], [14 * s, 0, -8 * s]), { stiffness: 120, damping: 24 });
   const y = useSpring(useTransform(scrollYProgress, [0, 0.45], [40 * s, 0]), { stiffness: 120, damping: 24 });
-  const opacity = useTransform(scrollYProgress, [0, 0.18], reduce ? [1, 1] : [0.2, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 0.2], reduce ? [1, 1] : [0, 1]);
 
   return (
     <div ref={ref} className={className} style={{ perspective: 1200, ...style }}>
